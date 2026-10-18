@@ -1230,6 +1230,16 @@ function procesarChromaKeyGIF() {
 }
 
 btnIniciar.addEventListener('click', verificarAccesoSuperusuario);
+
+
+// --- REGISTRO DEL SERVICE WORKER PARA FUNCIONAR OFFLINE E INSTALAR COMO PWA ---
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js')
+            .then(reg => console.log('Service Worker registrado correctamente:', reg.scope))
+            .catch(err => console.error('Error al registrar Service Worker:', err));
+    });
+}
 </script>
 </body>
 </html>
