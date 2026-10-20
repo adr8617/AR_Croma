@@ -202,8 +202,30 @@ html, body {
 #panel-sensibilidad label { font-size: 12px; white-space: nowrap; }
 #panel-sensibilidad input[type=range] { width: 110px; accent-color: #00ff00; }
 
-#video-camara { position: absolute; top: 0; left: 0; width: 100vw; height: 100vh; object-fit: cover; z-index: 1; background-color: #000; }
-#canvas-camara-ia { position: absolute; top: 0; left: 0; width: 100vw; height: 100vh; object-fit: cover; z-index: 2; display: none; }
+#video-camara { 
+    position: absolute; 
+    top: 0; 
+    left: 0; 
+    width: 100vw; 
+    height: 100vh; 
+    object-fit: cover; 
+    z-index: 1; 
+    background-color: #000; 
+    transform-origin: center center;
+    transition: transform 0.05s ease-out;
+}
+#canvas-camara-ia { 
+    position: absolute; 
+    top: 0; 
+    left: 0; 
+    width: 100vw; 
+    height: 100vh; 
+    object-fit: cover; 
+    z-index: 2; 
+    display: none; 
+    transform-origin: center center;
+    transition: transform 0.05s ease-out;
+}
 #video-multimedia, #imagen-fuente-oculta { display: none; }
 
 #capa-efecto-container { position: absolute; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 10; pointer-events: none; }
@@ -337,11 +359,15 @@ html, body {
 </div>
 
 <script>
-const SUPER_USUARIOS = ["adr8617@gmail.com", "la.burbuj@gmail.com", "lulicastilloa@gmail.com" ];
+const SUPER_USUARIOS = ["adr8617@gmail.com", "la.burbuj@gmail.com"];
 let esSuperUsuario = false;
 let audioContextGlobal = null;
 
-// Función para forzar pantalla completa inmersiva y ocultar la barra de navegación de Android
+// Variables para control de Zoom Híbrido de Cámara Principal
+let trackCamaraActual = null;
+let zoomCamaraSoportadoNativo = false;
+let minZoomCamara = 1, maxZoomCamara = 1, zoomCamaraActual = 1;
+
 function activarPantallaCompletaInmersiva() {
     const elem = document.documentElement;
     if (!document.fullscreenElement && !document.webkitFullscreenElement) {
@@ -353,7 +379,6 @@ function activarPantallaCompletaInmersiva() {
     }
 }
 
-// Forzar el encendido del sistema de audio de Chrome al tocar la pantalla
 function forzarDesbloqueoAudio() {
     activarPantallaCompletaInmersiva();
     if (!audioContextGlobal) {
@@ -674,13 +699,27 @@ function calcularDistanciaTactil(t1, t2) {
     return Math.sqrt(dx * dx + dy * dy);
 }
 
+/* LÓGICA DE ZOOM HÍBRIDO AUTOMÁTICO CÁMARA PRINCIPAL */
+function aplicarZoomCamaraPrincipal(factor) {
+    let nuevoZoom = zoomCamaraActual * factor;
+
+    if (zoomCamaraSoportadoNativo && trackCamaraActual) {
+        nuevoZoom = Math.min(Math.max(minZoomCamara, nuevoZoom), maxZoomCamara);
+        zoomCamaraActual = nuevoZoom;
+        trackCamaraActual.applyConstraints({
+            advanced: [{ zoom: zoomCamaraActual }]
+        }).catch(e => console.warn("Fallback a Zoom CSS:", e));
+    } else {
+        nuevoZoom = Math.min(Math.max(1.0, nuevoZoom), 3.5);
+        zoomCamaraActual = nuevoZoom;
+        videoCamara.style.transform = `scale(${zoomCamaraActual})`;
+        canvasCamaraIA.style.transform = `scale(${zoomCamaraActual})`;
+    }
+}
+
 canvas.addEventListener('touchstart', (e) => {
     forzarDesbloqueoAudio();
     if (e.touches.length === 2) {
-        if (!esSuperUsuario) {
-            mostrarAviso("función zoom deshabilitada en versiones de prueba");
-            return;
-        }
         distanciaInicialPellizco = calcularDistanciaTactil(e.touches[0], e.touches[1]);
         arrastrando = false;
         e.preventDefault();
@@ -694,17 +733,22 @@ canvas.addEventListener('touchstart', (e) => {
 
 canvas.addEventListener('touchmove', (e) => {
     if (e.touches.length === 2) {
-        if (!esSuperUsuario) {
-            mostrarAviso("función zoom deshabilitada en versiones de prueba");
-            return;
-        }
         const distanciaActual = calcularDistanciaTactil(e.touches[0], e.touches[1]);
         if (distanciaInicialPellizco > 0) {
             let factor = distanciaActual / distanciaInicialPellizco;
-            let nuevaEscala = escalaActual * factor;
-            if (nuevaEscala >= 0.3 && nuevaEscala <= 3.5) {
-                escalaActual = nuevaEscala;
-                aplicarTransformacion();
+
+            if (activeLayer) {
+                if (!esSuperUsuario) {
+                    mostrarAviso("función zoom deshabilitada en versiones de prueba");
+                    return;
+                }
+                let nuevaEscala = escalaActual * factor;
+                if (nuevaEscala >= 0.3 && nuevaEscala <= 3.5) {
+                    escalaActual = nuevaEscala;
+                    aplicarTransformacion();
+                }
+            } else {
+                aplicarZoomCamaraPrincipal(factor);
             }
             distanciaInicialPellizco = distanciaActual;
         }
@@ -1112,6 +1156,24 @@ async function iniciarCamara(deviceIdEspecifico = null) {
         const stream = await navigator.mediaDevices.getUserMedia({ video: restriccionesVideo, audio: true });
         videoCamara.srcObject = stream;
         videoCamara.play();
+
+        trackCamaraActual = stream.getVideoTracks()[0];
+        if (trackCamaraActual && typeof trackCamaraActual.getCapabilities === 'function') {
+            const capabilities = trackCamaraActual.getCapabilities();
+            if ('zoom' in capabilities) {
+                zoomCamaraSoportadoNativo = true;
+                minZoomCamara = capabilities.zoom.min || 1;
+                maxZoomCamara = capabilities.zoom.max || 1;
+                zoomCamaraActual = capabilities.zoom.step ? capabilities.zoom.min : 1;
+            } else {
+                zoomCamaraSoportadoNativo = false;
+                zoomCamaraActual = 1.0;
+            }
+        } else {
+            zoomCamaraSoportadoNativo = false;
+            zoomCamaraActual = 1.0;
+        }
+
     } catch (err) {
         const streamFallback = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
         videoCamara.srcObject = streamFallback;
@@ -1231,8 +1293,7 @@ function procesarChromaKeyGIF() {
 
 btnIniciar.addEventListener('click', verificarAccesoSuperusuario);
 
-
-// --- REGISTRO DEL SERVICE WORKER PARA FUNCIONAR OFFLINE E INSTALAR COMO PWA ---
+// --- REGISTRO DEL SERVICE WORKER PARA PERMITIR INSTALACIÓN PWA Y USO OFFLINE ---
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
         navigator.serviceWorker.register('./sw.js')
