@@ -64,25 +64,26 @@ html, body {
 #contenido-modal h3, #contenido-ayuda h3 { margin-top: 0; color: #28a745; font-size: 18px; }
 .btn-cerrar-modal { background: #28a745; color: white; border: none; padding: 8px 16px; border-radius: 6px; margin-top: 15px; cursor: pointer; float: right; font-weight: bold; }
 
+/* Panel de controles con tamaño fijo en px e inmune a deformaciones */
 #panel-controles { 
     position: absolute; 
     top: 15px; 
     left: 10px; 
-    right: 55px; 
-    max-width: calc(100vw - 70px); 
     z-index: 15000; 
     display: flex; 
-    gap: 4px; 
+    gap: 6px; 
     align-items: center; 
-    flex-wrap: wrap; 
+    flex-wrap: nowrap; 
     transition: opacity 0.3s ease; 
 }
 
 .btn-flotante { 
-    width: 30px; 
-    height: 30px; 
+    width: 36px; 
+    height: 36px; 
+    min-width: 36px;
+    min-height: 36px;
     border-radius: 50%; 
-    background-color: rgba(0, 0, 0, 0.5); 
+    background-color: rgba(0, 0, 0, 0.6); 
     border: 1.5px solid #fff; 
     cursor: pointer; 
     display: flex; 
@@ -90,15 +91,15 @@ html, body {
     align-items: center; 
     box-shadow: 0 2px 5px rgba(0,0,0,0.5); 
     position: relative; 
-    flex-shrink: 0;
+    flex-shrink: 0; 
     transition: background-color 0.2s; 
 }
-.btn-flotante:active { background-color: rgba(0, 0, 0, 0.7); }
+.btn-flotante:active { background-color: rgba(0, 0, 0, 0.8); }
 
-#btn-menu-circular::after { content: "⚙️"; font-size: 13px; }
-#btn-mover-efecto::after { content: "✋"; font-size: 13px; }
+#btn-menu-circular::after { content: "⚙️"; font-size: 14px; }
+#btn-mover-efecto::after { content: "✋"; font-size: 14px; }
 #btn-mover-efecto.activo { background-color: #28a745; border-color: #fff; }
-#btn-cambiar-camara::after { content: "🔄"; font-size: 13px; }
+#btn-cambiar-camara::after { content: "🔄"; font-size: 14px; }
 
 #btn-camara-ia { 
     background: linear-gradient(135deg, #00ff00 0%, #0000ff 50%, #111111 100%); 
@@ -112,18 +113,20 @@ html, body {
     box-shadow: 0 0 10px #00ff00;
     border-color: #00ff00;
 }
-#btn-camara-ia::after { content: "📷"; font-size: 12px; }
+#btn-camara-ia::after { content: "📷"; font-size: 13px; }
 
-#btn-toggle-interfaz::after { content: "👁️"; font-size: 13px; }
-#btn-toggle-interfaz.oculto::after { content: "🙈"; font-size: 13px; }
-#btn-ayuda::after { content: "❓"; font-size: 13px; }
-#btn-terminos::after { content: "📄"; font-size: 13px; }
+#btn-toggle-interfaz::after { content: "👁️"; font-size: 14px; }
+#btn-toggle-interfaz.oculto::after { content: "🙈"; font-size: 14px; }
+#btn-ayuda::after { content: "❓"; font-size: 14px; }
+#btn-terminos::after { content: "📄"; font-size: 14px; }
 
 #btn-grabar { 
-    width: 30px; 
-    height: 30px; 
+    width: 36px; 
+    height: 36px; 
+    min-width: 36px;
+    min-height: 36px;
     border-radius: 50%; 
-    background-color: rgba(255, 0, 0, 0.5); 
+    background-color: rgba(255, 0, 0, 0.6); 
     border: 1.5px solid #fff; 
     cursor: pointer; 
     display: flex; 
@@ -134,15 +137,15 @@ html, body {
     flex-shrink: 0;
     transition: all 0.3s ease; 
 }
-#btn-grabar::after { content: "🔴"; font-size: 11px; }
+#btn-grabar::after { content: "🔴"; font-size: 12px; }
 #btn-grabar.grabando { background-color: rgba(255, 0, 0, 0.9); border-radius: 6px; animation: parpadeo 1s infinite; }
-#btn-grabar.grabando::after { content: "⏹️"; font-size: 10px; }
+#btn-grabar.grabando::after { content: "⏹️"; font-size: 11px; }
 @keyframes parpadeo { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
 
-#tooltip-texto { position: absolute; left: 40px; top: 50%; transform: translateY(-50%); background: rgba(0, 0, 0, 0.85); color: #fff; padding: 6px 12px; border-radius: 6px; font-size: 12px; white-space: nowrap; pointer-events: none; opacity: 0; visibility: hidden; transition: opacity 0.2s; box-shadow: 0 2px 5px rgba(0,0,0,0.3); }
+#tooltip-texto { position: absolute; left: 45px; top: 50%; transform: translateY(-50%); background: rgba(0, 0, 0, 0.85); color: #fff; padding: 6px 12px; border-radius: 6px; font-size: 12px; white-space: nowrap; pointer-events: none; opacity: 0; visibility: hidden; transition: opacity 0.2s; box-shadow: 0 2px 5px rgba(0,0,0,0.3); }
 #btn-menu-circular:hover #tooltip-texto, #btn-menu-circular.activo-tactil #tooltip-texto { opacity: 1; visibility: visible; }
 
-#selector-video-wrapper { display: none; position: absolute; left: 40px; top: 0; background: rgba(0, 0, 0, 0.9); padding: 10px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.5); flex-direction: column; gap: 8px; min-width: 210px; z-index: 15001; }
+#selector-video-wrapper { display: none; position: absolute; left: 45px; top: 0; background: rgba(0, 0, 0, 0.9); padding: 10px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.5); flex-direction: column; gap: 8px; min-width: 210px; z-index: 15001; }
 #selector-video { padding: 8px; font-size: 14px; border-radius: 6px; border: 1px solid #444; background: #222; color: #fff; cursor: pointer; }
 #input-archivo-oculto { display: none; }
 
@@ -157,8 +160,10 @@ html, body {
     position: absolute; 
     top: 15px; 
     right: 12px; 
-    width: 28px; 
-    height: 28px; 
+    width: 32px; 
+    height: 32px; 
+    min-width: 32px;
+    min-height: 32px;
     border-radius: 50%; 
     background-color: #00ff00; 
     cursor: pointer; 
@@ -171,7 +176,7 @@ html, body {
 #menu-colores { 
     display: none; 
     position: absolute; 
-    top: 50px; 
+    top: 55px; 
     right: 12px; 
     background: rgba(0,0,0,0.9); 
     padding: 8px; 
@@ -180,7 +185,7 @@ html, body {
     flex-direction: column; 
     gap: 10px; 
 }
-.opcion-color { width: 24px; height: 24px; border-radius: 50%; cursor: pointer; border: 2px solid transparent; }
+.opcion-color { width: 26px; height: 26px; border-radius: 50%; cursor: pointer; border: 2px solid transparent; }
 
 #panel-sensibilidad {
     position: fixed;
@@ -363,7 +368,7 @@ const SUPER_USUARIOS = ["adr8617@gmail.com", "la.burbuj@gmail.com"];
 let esSuperUsuario = false;
 let audioContextGlobal = null;
 
-// Variables para control de Zoom Híbrido de Cámara Principal
+// Control de Zoom Híbrido Automático
 let trackCamaraActual = null;
 let zoomCamaraSoportadoNativo = false;
 let minZoomCamara = 1, maxZoomCamara = 1, zoomCamaraActual = 1;
@@ -699,7 +704,7 @@ function calcularDistanciaTactil(t1, t2) {
     return Math.sqrt(dx * dx + dy * dy);
 }
 
-/* LÓGICA DE ZOOM HÍBRIDO AUTOMÁTICO CÁMARA PRINCIPAL */
+/* ZOOM HÍBRIDO AUTOMÁTICO DE CÁMARA PRINCIPAL */
 function aplicarZoomCamaraPrincipal(factor) {
     let nuevoZoom = zoomCamaraActual * factor;
 
@@ -1293,7 +1298,7 @@ function procesarChromaKeyGIF() {
 
 btnIniciar.addEventListener('click', verificarAccesoSuperusuario);
 
-// --- REGISTRO DEL SERVICE WORKER PARA PERMITIR INSTALACIÓN PWA Y USO OFFLINE ---
+// REGISTRO DEL SERVICE WORKER PARA PERMITIR INSTALACIÓN PWA Y USO OFFLINE
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
         navigator.serviceWorker.register('./sw.js')
