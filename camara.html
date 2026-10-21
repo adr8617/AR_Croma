@@ -53,8 +53,8 @@ html, body {
     left: 0; 
     width: 100vw; 
     height: 100vh; 
-    background-color: #ff00ff; 
-    z-index: 99999; 
+    background-color: #6c757d; 
+    z-index: 999999; 
     display: flex; 
     flex-direction: column; 
     justify-content: center; 
@@ -64,21 +64,26 @@ html, body {
     gap: 15px; 
     pointer-events: auto;
 }
+
 #btn-iniciar { 
     background-color: #28a745; 
     color: white; 
     font-weight: bold; 
-    font-size: 18px; 
-    padding: 14px 28px; 
-    border-radius: 12px; 
-    border: none; 
-    box-shadow: 0 4px 10px rgba(0,0,0,0.5); 
+    font-size: 16px; 
+    padding: 16px 30px; 
+    border-radius: 10px; 
+    text-align: center; 
+    width: 280px; 
     cursor: pointer; 
-    z-index: 100000;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.6); 
+    user-select: none; 
+    -webkit-user-select: none;
+    z-index: 1000000;
     pointer-events: auto;
     touch-action: manipulation;
 }
-.input-login { padding: 10px; font-size: 14px; border-radius: 6px; border: 1px solid #444; background: #222; color: #fff; width: 260px; text-align: center; z-index: 100000; }
+
+.input-login { padding: 12px; font-size: 16px; border-radius: 8px; border: 1px solid #555; background: #222; color: #fff; width: 280px; text-align: center; outline: none; z-index: 1000000; }
 #mensaje-error { color: #ffff00; text-align: center; max-width: 80%; font-size: 14px; font-weight: bold; }
 
 #modal-2fa { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.9); z-index: 20000; display: none; justify-content: center; align-items: center; padding: 20px; box-sizing: border-box; }
@@ -326,9 +331,12 @@ html, body {
 <body>
 <div id="pantalla-inicio">
     <h2 style="color: white; margin-bottom: 5px;">Chroma Cam FX</h2>
-    <p style="color: #ffe6ff; font-size: 13px; margin-top: 0;">Chroma Studio FX - Versión Magenta</p>
+    <p style="color: #e2e3e5; font-size: 13px; margin-top: 0;">Chroma Studio FX - Versión Gris</p>
     <input type="email" id="input-email-usuario" class="input-login" placeholder="correo@gmail.com" value="adr8617@gmail.com">
-    <button id="btn-iniciar">TOCA AQUÍ PARA INICIAR</button>
+    
+    <!-- Botón convertido en DIV con prioridad táctil absoluta -->
+    <div id="btn-iniciar">TOCA AQUÍ PARA INICIAR</div>
+    
     <p id="mensaje-error"></p>
 </div>
 
@@ -1380,9 +1388,18 @@ function procesarChromaKeyGIF() {
     }
 }
 
-// Enlace dual de eventos por seguridad táctil móvil
-btnIniciar.addEventListener('pointerdown', verificarAccesoSuperusuario);
-btnIniciar.addEventListener('click', verificarAccesoSuperusuario);
+// Enlace dual de eventos combinados con touchend y click directo para evitar bloqueo móvil
+btnIniciar.addEventListener('click', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    verificarAccesoSuperusuario();
+});
+
+btnIniciar.addEventListener('touchend', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    verificarAccesoSuperusuario();
+}, { passive: false });
 
 // REGISTRO DEL SERVICE WORKER PARA PERMITIR INSTALACIÓN PWA Y USO OFFLINE
 if ('serviceWorker' in navigator) {
