@@ -148,26 +148,28 @@ html, body {
 #tooltip-texto { position: absolute; left: 40px; top: 50%; transform: translateY(-50%); background: rgba(0, 0, 0, 0.85); color: #fff; padding: 6px 12px; border-radius: 6px; font-size: 12px; white-space: nowrap; pointer-events: none; opacity: 0; visibility: hidden; transition: opacity 0.2s; box-shadow: 0 2px 5px rgba(0,0,0,0.3); }
 #btn-menu-circular:hover #tooltip-texto, #btn-menu-circular.activo-tactil #tooltip-texto { opacity: 1; visibility: visible; }
 
-/* MENÚ DESPLEGABLE CORREGIDO: Posicionado más abajo para que no se corte arriba */
+/* MENÚ DESPLEGABLE FLOTANTE CENTRADO Y SEGURO */
 #selector-video-wrapper { 
     display: none; 
-    position: absolute; 
-    left: 0; 
-    top: 42px; /* Posicionado debajo de la barra de botones */
-    background: rgba(0, 0, 0, 0.95); 
-    padding: 12px; 
-    border-radius: 8px; 
-    box-shadow: 0 6px 15px rgba(0,0,0,0.7); 
+    position: fixed; 
+    top: 55px; 
+    left: 15px; 
+    right: 15px; 
+    max-width: 350px;
+    margin: 0 auto;
+    background: rgba(15, 15, 15, 0.96); 
+    padding: 16px; 
+    border-radius: 12px; 
+    box-shadow: 0 8px 25px rgba(0,0,0,0.8); 
     flex-direction: column; 
-    gap: 8px; 
-    min-width: 230px; 
-    z-index: 25000; 
-    border: 1px solid #444;
+    gap: 12px; 
+    z-index: 30000; 
+    border: 1.5px solid #444;
 }
-#selector-video { padding: 8px; font-size: 13px; border-radius: 6px; border: 1px solid #444; background: #222; color: #fff; cursor: pointer; }
+#selector-video { padding: 10px; font-size: 14px; border-radius: 6px; border: 1px solid #555; background: #222; color: #fff; cursor: pointer; width: 100%; }
 #input-archivo-oculto { display: none; }
 
-.btn-accion-menu { color: white; border: none; padding: 7px 10px; border-radius: 4px; font-size: 12px; cursor: pointer; text-align: center; font-weight: bold; }
+.btn-accion-menu { color: white; border: none; padding: 10px; border-radius: 6px; font-size: 13px; cursor: pointer; text-align: center; font-weight: bold; width: 100%; }
 #btn-descargar-demo { background: #007bff; }
 #btn-agregar-archivo { background: #1b4d3e; }
 #btn-borrar-item { background: #6c2222; }
@@ -813,8 +815,8 @@ function addChromaLayerExtra(sourceUrl, tipo) {
     layerDiv.className = 'chroma-layer-extra selected';
     layerDiv.id = 'layer-' + layerCounter;
 
-    layerDiv.style.left = '30%';
-    layerDiv.style.top = '30%';
+    layerDiv.style.left = '25%';
+    layerDiv.style.top = '25%';
 
     layerDiv.dataset.scale = "1.0";
     layerDiv.dataset.baseWidth = "220";
@@ -1248,7 +1250,6 @@ btnCambiarCamara.addEventListener('click', async () => {
         indiceCamaraActual++;
         await iniciarCamara();
     }
-    // NOTA: Se removió la recarga automática del efecto al cambiar de cámara para evitar duplicar capas por error.
 });
 
 async function lanzarApp() {
