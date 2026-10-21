@@ -148,7 +148,7 @@ html, body {
 #tooltip-texto { position: absolute; left: 40px; top: 50%; transform: translateY(-50%); background: rgba(0, 0, 0, 0.85); color: #fff; padding: 6px 12px; border-radius: 6px; font-size: 12px; white-space: nowrap; pointer-events: none; opacity: 0; visibility: hidden; transition: opacity 0.2s; box-shadow: 0 2px 5px rgba(0,0,0,0.3); }
 #btn-menu-circular:hover #tooltip-texto, #btn-menu-circular.activo-tactil #tooltip-texto { opacity: 1; visibility: visible; }
 
-/* MENÚ MODAL CENTRADO: Visible por completo en medio de la pantalla al tocar el engranaje */
+/* MENÚ MODAL CENTRADO PERFECTAMENTE */
 #selector-video-wrapper { 
     display: none; 
     position: fixed; 
@@ -257,16 +257,18 @@ html, body {
 
 #canvas-overlay { width: 100vw; height: 100vh; max-width: 100%; max-height: 100%; object-fit: contain; pointer-events: auto; touch-action: none; cursor: default; }
 
+/* CAPAS INDEPENDIENTES AISLADAS PARA EVITAR RESCALADOS GLOBALES */
 .chroma-layer-extra {
     position: absolute;
-    top: 25%;
-    left: 25%;
+    top: 20vh;
+    left: 20vw;
     z-index: 11;
     cursor: move;
     user-select: none;
     touch-action: none;
     pointer-events: auto;
     border: 2px transparent dashed;
+    width: 200px; /* Tamaño inicial independiente y seguro */
 }
 .chroma-layer-extra.selected { border-color: #00ff00; }
 .chroma-layer-extra canvas, .chroma-layer-extra video { display: block; width: 100%; height: auto; }
@@ -352,7 +354,7 @@ html, body {
         <div id="btn-grabar" title="Grabar Video"></div>
     </div>
 
-    <!-- Menú modal flotante centrado en pantalla para máxima visibilidad y comodidad -->
+    <!-- Menú modal flotante centrado -->
     <div id="selector-video-wrapper">
         <h4 style="color: #00ff00; margin: 0 0 5px 0; text-align: center; font-size: 15px;">📁 Selector de Efectos</h4>
         <select id="selector-video"></select>
@@ -820,11 +822,13 @@ function addChromaLayerExtra(sourceUrl, tipo) {
     layerDiv.className = 'chroma-layer-extra selected';
     layerDiv.id = 'layer-' + layerCounter;
 
-    layerDiv.style.left = '25%';
-    layerDiv.style.top = '25%';
+    // Posición inicial fija escalonada para que no nazcan exactamente una encima de otra
+    let offsetPos = (layerCounter % 5) * 25;
+    layerDiv.style.left = (15 + offsetPos) + 'px';
+    layerDiv.style.top = (100 + offsetPos) + 'px';
 
     layerDiv.dataset.scale = "1.0";
-    layerDiv.dataset.baseWidth = "220";
+    layerDiv.dataset.baseWidth = "200";
 
     const canvasExtra = document.createElement('canvas');
     const ctxExtra = canvasExtra.getContext('2d', { willReadFrequently: true });
@@ -879,7 +883,7 @@ function addChromaLayerExtra(sourceUrl, tipo) {
 
         img.onload = function() {
             let naturalW = img.width || 300;
-            let anchoIdeal = Math.min(Math.max(naturalW * 0.35, 160), 300);
+            let anchoIdeal = Math.min(Math.max(naturalW * 0.35, 150), 280);
             layerDiv.dataset.baseWidth = anchoIdeal;
             layerDiv.style.width = anchoIdeal + 'px';
             layerDiv.reprocessChroma();
@@ -931,7 +935,7 @@ function addChromaLayerExtra(sourceUrl, tipo) {
         }
         vExtra.addEventListener('loadeddata', () => {
             let naturalW = vExtra.videoWidth || 300;
-            let anchoIdeal = Math.min(Math.max(naturalW * 0.35, 180), 320);
+            let anchoIdeal = Math.min(Math.max(naturalW * 0.35, 160), 300);
             layerDiv.dataset.baseWidth = anchoIdeal;
             layerDiv.style.width = anchoIdeal + 'px';
             processVideoFrame();
