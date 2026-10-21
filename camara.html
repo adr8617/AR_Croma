@@ -1242,16 +1242,22 @@ async function lanzarApp() {
     }
 }
 
-// Vinculación dual limpia y directa al elemento de inicio
-btnIniciar.addEventListener('click', (e) => {
-    e.stopPropagation();
-    verificarAccesoSuperusuario();
-});
+// Vinculación segura de inicio con disparador universal y manejo de excepciones
+function ejecutarBotonInicio(e) {
+    console.log("Botón presionado correctamente");
+    try {
+        verificarAccesoSuperusuario();
+    } catch (err) {
+        console.error("Error al iniciar:", err);
+        mensajeError.innerText = "Error al iniciar: " + err.message;
+    }
+}
 
+btnIniciar.addEventListener('click', ejecutarBotonInicio);
 btnIniciar.addEventListener('touchend', (e) => {
-    e.stopPropagation();
-    verificarAccesoSuperusuario();
-}, { passive: true });
+    e.preventDefault();
+    ejecutarBotonInicio(e);
+}, { passive: false });
 
 // REGISTRO DEL SERVICE WORKER
 if ('serviceWorker' in navigator) {
