@@ -1,126 +1,26 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Chroma Cam FX</title>
-<link rel="manifest" href="manifest.json">
-
-<!-- Librerías de Segmentación por IA (Google MediaPipe) -->
-<script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/@mediapipe/selfie_segmentation/selfie_segmentation.js" crossorigin="anonymous"></script>
-
-<style>
-* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-html, body { margin: 0; padding: 0; background-color: #000; width: 100vw; height: 100vh; overflow: hidden; font-family: sans-serif; }
-
-#pantalla-inicio { 
-    position: fixed; 
-    top: 0; 
-    left: 0; 
-    width: 100vw; 
-    height: 100vh; 
-    background-color: #000; 
-    z-index: 9999999; 
-    display: flex; 
-    flex-direction: column; 
-    justify-content: center; 
-    align-items: center; 
-    padding: 20px; 
-    gap: 15px; 
-}
-
-.input-login { 
-    padding: 14px; 
-    font-size: 16px; 
-    border-radius: 8px; 
-    border: 1px solid #777; 
-    background: #222; 
-    color: #fff; 
-    width: 280px; 
-    text-align: center; 
-    outline: none;
-}
-
-/* Botón verde con etiqueta semántica nativa interactiva */
-button#btn-iniciar { 
-    background-color: #28a745 !important; 
-    color: white !important; 
-    font-weight: bold !important; 
-    font-size: 16px !important; 
-    padding: 18px 30px !important; 
-    border-radius: 10px !important; 
-    border: 2px solid #fff !important; 
-    cursor: pointer !important; 
-    width: 280px !important;
-    text-align: center !important;
-    display: block !important;
-    z-index: 2147483647 !important;
-    pointer-events: auto !important;
-}
-
-#mensaje-error { color: #ff4444; text-align: center; max-width: 80%; font-size: 14px; }
-
-#contenedor-principal { position: absolute; top: 0; left: 0; width: 100vw; height: 100vh; background: #000; display: none; }
-#video-camara { position: absolute; top: 0; left: 0; width: 100vw; height: 100vh; object-fit: cover; z-index: 1; }
-#canvas-camara-ia { position: absolute; top: 0; left: 0; width: 100vw; height: 100vh; object-fit: cover; z-index: 2; display: none; }
-
-#panel-controles { position: absolute; top: 12px; left: 8px; right: 48px; z-index: 15000; display: flex; gap: 4px; align-items: center; }
-.btn-flotante { width: 32px; height: 32px; border-radius: 50%; background-color: rgba(0,0,0,0.6); border: 1.5px solid #fff; cursor: pointer; display: flex; justify-content: center; align-items: center; }
-#btn-cambiar-camara::after { content: "🔄"; font-size: 13px; }
-#btn-grabar { background-color: rgba(255,0,0,0.6); }
-#btn-grabar::after { content: "🔴"; font-size: 11px; }
-</style>
-</head>
-<body>
-
-<div id="pantalla-inicio">
-    <h2 style="color: white; margin-bottom: 5px;">Chroma Cam FX</h2>
-    <p style="color: #aaa; font-size: 13px; margin-top: 0;">Panel de Acceso</p>
-    <input type="email" id="input-email-usuario" class="input-login" value="adr8617@gmail.com">
-    <button id="btn-iniciar" type="button">TOCA AQUÍ PARA INICIAR</button>
-    <p id="mensaje-error"></p>
-</div>
-
-<div id="contenedor-principal">
-    <div id="panel-controles">
-        <div id="btn-cambiar-camara" class="btn-flotante"></div>
-        <div id="btn-grabar" class="btn-flotante"></div>
-    </div>
-    <video id="video-camara" autoplay playsinline muted></video>
-    <canvas id="canvas-camara-ia"></canvas>
+<!-- Reemplaza temporalmente tu pantalla de inicio por esto -->
+<div id="pantalla-inicio" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-color: red; z-index: 9999999; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 20px;">
+    <h1 style="color: white;">PRUEBA DE AISLAMIENTO</h1>
+    <button id="btn-prueba-aislada" style="padding: 20px 40px; font-size: 20px; background: yellow; color: black; font-weight: bold; border: none; cursor: pointer;">
+        TÓCAME (PRUEBA)
+    </button>
+    <p id="texto-resultado" style="color: white; font-size: 18px; font-weight: bold;"></p>
 </div>
 
 <script>
-const btnIniciar = document.getElementById('btn-iniciar');
+const btnPrueba = document.getElementById('btn-prueba-aislada');
+const textoResultado = document.getElementById('texto-resultado');
 const pantallaInicio = document.getElementById('pantalla-inicio');
-const contenedorPrincipal = document.getElementById('contenedor-principal');
-const videoCamara = document.getElementById('video-camara');
-const mensajeError = document.getElementById('mensaje-error');
 
-async function iniciarAplicacion() {
-    mensajeError.innerText = "Accediendo a la cámara...";
-    try {
-        // Petición directa y limpia de cámara sin restricciones complejas
-        const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "user" }, audio: true });
-        videoCamara.srcObject = stream;
-        await videoCamara.play();
+// 1. Prueba pura con el evento más básico posible de JavaScript
+btnPrueba.addEventListener('click', () => {
+    textoResultado.innerText = "¡ÉXITO! El evento click funcionó.";
+    pantallaInicio.style.backgroundColor = "green"; // Cambia el fondo a verde si reacciona
+});
 
-        // Ocultar pantalla de inicio y mostrar la app
-        pantallaInicio.style.display = 'none';
-        contenedorPrincipal.style.display = 'block';
-    } catch (err) {
-        console.error("Error de cámara:", err);
-        mensajeError.innerText = "Error: Permiso de cámara denegado o no disponible (" + err.message + ")";
-    }
-}
-
-// Disparador ultra seguro unificado para dispositivos móviles y PC
-btnIniciar.onclick = function(e) {
-    e.preventDefault();
-    alert("¡Botón presionado con éxito! Iniciando cámara...");
-    iniciarAplicacion();
-};
+// 2. Prueba adicional por si el móvil usa eventos táctiles puros
+btnPrueba.addEventListener('touchstart', () => {
+    textoResultado.innerText = "¡ÉXITO! El evento touchstart funcionó.";
+    pantallaInicio.style.backgroundColor = "blue"; // Cambia el fondo a azul si reacciona
+}, { passive: true });
 </script>
-</body>
-</html>
