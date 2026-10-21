@@ -47,9 +47,43 @@ html, body {
     align-items: center; 
 }
 
-#pantalla-inicio { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-color: rgba(0,0,0,0.98); z-index: 9999; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 20px; box-sizing: border-box; gap: 15px; }
-#btn-iniciar { background-color: #28a745; color: white; font-weight: bold; font-size: 18px; padding: 12px 25px; border-radius: 12px; border: none; box-shadow: 0 4px 10px rgba(0,0,0,0.5); cursor: pointer; }
-.input-login { padding: 10px; font-size: 14px; border-radius: 6px; border: 1px solid #444; background: #222; color: #fff; width: 260px; text-align: center; }
+#pantalla-inicio { 
+    position: fixed; 
+    top: 0; 
+    left: 0; 
+    width: 100vw; 
+    height: 100vh; 
+    /* background-color: rgba(0,0,0,0.98); Fondo negro anterior comentado */
+    background-color: #dc3545 !important; /* Nuevo fondo rojo de diagnóstico */
+    z-index: 9999; 
+    display: flex; 
+    flex-direction: column; 
+    justify-content: center; 
+    align-items: center; 
+    padding: 20px; 
+    box-sizing: border-box; 
+    gap: 15px; 
+}
+
+#btn-iniciar { 
+    background-color: #28a745; 
+    color: white; 
+    font-weight: bold; 
+    font-size: 18px; 
+    padding: 14px 25px; 
+    border-radius: 12px; 
+    box-shadow: 0 4px 10px rgba(0,0,0,0.5); 
+    cursor: pointer; 
+    text-align: center;
+    width: 280px;
+    touch-action: manipulation;
+    user-select: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.input-login { padding: 10px; font-size: 14px; border-radius: 6px; border: 1px solid #444; background: #222; color: #fff; width: 260px; text-align: center; outline: none; }
 #mensaje-error { color: #ff4444; text-align: center; max-width: 80%; font-size: 14px; }
 
 #modal-2fa { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.9); z-index: 20000; display: none; justify-content: center; align-items: center; padding: 20px; box-sizing: border-box; }
@@ -268,7 +302,7 @@ html, body {
     touch-action: none;
     pointer-events: auto;
     border: 2px transparent dashed;
-    width: 200px; /* Tamaño inicial fijo por defecto */
+    width: 200px;
 }
 .chroma-layer-extra.selected { border-color: #00ff00; }
 .chroma-layer-extra canvas, .chroma-layer-extra video { display: block; width: 100%; height: auto; }
@@ -297,9 +331,9 @@ html, body {
 <body>
 <div id="pantalla-inicio">
     <h2 style="color: white; margin-bottom: 5px;">Chroma Cam FX</h2>
-    <p style="color: #aaa; font-size: 13px; margin-top: 0;">Chroma Studio FX</p>
+    <p style="color: #ffeb3b; font-size: 13px; margin-top: 0;">Versión de Diagnóstico Rojo</p>
     <input type="email" id="input-email-usuario" class="input-login" placeholder="correo@gmail.com" value="adr8617@gmail.com">
-    <button id="btn-iniciar">TOCA AQUÍ PARA INICIAR</button>
+    <div id="btn-iniciar">TOCA AQUÍ PARA INICIAR</div>
     <p id="mensaje-error"></p>
 </div>
 
@@ -730,7 +764,6 @@ function calcularDistanciaTactil(t1, t2) {
     return Math.sqrt(dx * dx + dy * dy);
 }
 
-/* ZOOM HÍBRIDO AUTOMÁTICO DE CÁMARA PRINCIPAL */
 function aplicarZoomCamaraPrincipal(factor) {
     let nuevoZoom = zoomCamaraActual * factor;
 
@@ -822,14 +855,13 @@ function addChromaLayerExtra(sourceUrl, tipo) {
     layerDiv.className = 'chroma-layer-extra selected';
     layerDiv.id = 'layer-' + layerCounter;
 
-    // Posición inicial escalonada para que no nazcan una exactamente encima de otra
     let offsetPos = (layerCounter % 5) * 30;
     layerDiv.style.left = (15 + offsetPos) + 'px';
     layerDiv.style.top = (100 + offsetPos) + 'px';
 
     layerDiv.dataset.scale = "1.0";
     layerDiv.dataset.baseWidth = "200";
-    layerDiv.style.width = "200px"; // Ancho inicial fijo predeterminado
+    layerDiv.style.width = "200px";
 
     const canvasExtra = document.createElement('canvas');
     const ctxExtra = canvasExtra.getContext('2d', { willReadFrequently: true });
@@ -1033,7 +1065,7 @@ function makeInteractableLayer(element) {
     }
 }
 
-// Grabación
+// GRABACIÓN ACTUALIZADA CON TAMAÑO Y POSICIÓN DINÁMICA EN TIEMPO REAL
 btnGrabar.addEventListener('click', () => {
     forzarDesbloqueoAudio();
     if (!estaGrabando) { 
@@ -1056,9 +1088,12 @@ btnGrabar.addEventListener('click', () => {
             ctxGrabacion.drawImage(fuenteCamara, 0, 0, canvasGrabacion.width, canvasGrabacion.height);
             ctxGrabacion.drawImage(canvas, 0, 0, canvasGrabacion.width, canvasGrabacion.height);
 
-            document.querySelectorAll('.chroma-layer-extra canvas').forEach(c => {
-                const layer = c.parentElement;
-                ctxGrabacion.drawImage(c, layer.offsetLeft, layer.offsetTop, layer.offsetWidth, layer.offsetHeight);
+            // CORRECCIÓN: Lee el ancho y alto real actual del elemento para capturar cambios de escala en vivo
+            document.querySelectorAll('.chroma-layer-extra').forEach(layer => {
+                const c = layer.querySelector('canvas');
+                if (c) {
+                    ctxGrabacion.drawImage(c, layer.offsetLeft, layer.offsetTop, layer.offsetWidth, layer.offsetHeight);
+                }
             });
 
             requestAnimationFrame(dibujarFrameParaGrabacion);
@@ -1346,9 +1381,18 @@ function procesarChromaKeyGIF() {
     }
 }
 
-btnIniciar.addEventListener('click', verificarAccesoSuperusuario);
+btnIniciar.addEventListener('pointerdown', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    verificarAccesoSuperusuario();
+});
 
-// REGISTRO DEL SERVICE WORKER PARA PERMITIR INSTALACIÓN PWA Y USO OFFLINE
+btnIniciar.addEventListener('click', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    verificarAccesoSuperusuario();
+});
+
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
         navigator.serviceWorker.register('./sw.js')
