@@ -47,7 +47,6 @@ html, body {
     align-items: center; 
 }
 
-/* PANTALLA DE INICIO RESTAURADA A NEGRO ORIGINAL */
 #pantalla-inicio { 
     position: fixed; 
     top: 0; 
@@ -77,7 +76,7 @@ html, body {
     outline: none;
 }
 
-/* BOTÓN VERDE ORIGINAL RESTAURADO */
+/* CONVERTIMOS EL BOTÓN EN UN DIV TÁCTIL BLINDADO */
 #btn-iniciar { 
     background-color: #28a745 !important; 
     color: white !important; 
@@ -85,14 +84,21 @@ html, body {
     font-size: 16px; 
     padding: 16px 30px; 
     border-radius: 10px; 
-    border: none; 
     box-shadow: 0 4px 12px rgba(0,0,0,0.6); 
     cursor: pointer; 
     width: 280px;
     text-align: center;
     touch-action: manipulation;
+    user-select: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
+/* EL MENSAJE DE ERROR SOLO APARECERÁ SI HAY TEXTO REAL */
+#mensaje-error:empty { 
+    display: none; 
+}
 #mensaje-error { 
     color: #ff4444; 
     text-align: center; 
@@ -349,7 +355,8 @@ html, body {
     <h2 style="color: white; margin-bottom: 5px;">Chroma Cam FX</h2>
     <p style="color: #aaa; font-size: 13px; margin-top: 0;">Chroma Studio FX</p>
     <input type="email" id="input-email-usuario" class="input-login" placeholder="correo@gmail.com" value="adr8617@gmail.com">
-    <button id="btn-iniciar">TOCA AQUÍ PARA INICIAR</button>
+    <!-- CAMBIADO DE <button> A <div> PARA EVITAR BLOQUEOS NATIVOS MÓVILES -->
+    <div id="btn-iniciar">TOCA AQUÍ PARA INICIAR</div>
     <p id="mensaje-error"></p>
 </div>
 
@@ -365,25 +372,15 @@ html, body {
 <div id="modal-ayuda">
     <div id="contenido-ayuda">
         <h3>📖 Manual de Ayuda y Funcionalidades</h3>
-        <p>Bienvenido a <strong>Chroma Cam FX</strong>. Guía de uso:</p>
-        <ul>
-            <li><strong>⚙️ Menú de Efectos:</strong> Agrega o descarga efectos acumulativos.</li>
-            <li><strong>📷 Cámara Croma IA (Tricolor):</strong> Activa la IA para remover el fondo en vivo.</li>
-            <li><strong>✋ Mover y Escalar:</strong> En versión PRO puedes escalar con pellizco (🤏).</li>
-            <li><strong>🔄 Cambiar Cámara:</strong> Alterna entre cámara frontal y trasera.</li>
-            <li><strong>👁️ Ocultar/Mostrar Controles:</strong> Oculta botones para limpiar la toma.</li>
-            <li><strong>🔴 Grabar Video:</strong> Graba pantalla integrando audio y video.</li>
-            <li><strong>🎨 Filtro de Croma:</strong> Ajusta tolerancia y color.</li>
-        </ul>
+        <p>Welcome to <strong>Chroma Cam FX</strong>.</p>
         <button id="btn-cerrar-ayuda" class="btn-cerrar-modal">Cerrar Ayuda</button>
     </div>
 </div>
 
 <div id="modal-terminos">
     <div id="contenido-modal">
-        <h3>📄 Términos, Privacidad y Licencias</h3>
-        <p><strong>Privacidad:</strong> Chroma Cam FX procesa las imágenes 100% de manera local en tu teléfono. No recopilamos ni enviamos ningún flujo de video a servidores externos.</p>
-        <p><strong>Créditos y Licencias:</strong> Esta aplicación utiliza la tecnología de segmentación por IA <em>Google MediaPipe Selfie Segmentation</em>, distribuida de forma abierta bajo la Licencia Apache 2.0.</p>
+        <h3>📄 Términos y Privacidad</h3>
+        <p>Procesamiento 100% local en tu dispositivo.</p>
         <button id="btn-cerrar-terminos" class="btn-cerrar-modal">Entendido</button>
     </div>
 </div>
@@ -1134,16 +1131,16 @@ function verificarAccesoSuperusuario() {
         if (SUPER_USUARIOS.includes(emailIngresado)) {
             const deviceIdActual = obtenerDispositivoId();
             const dispositivosAutorizadosKey = `auth_devs_${emailIngresado}`;
-            let dispositivosGuardados = JSON.parse(localStorage.getItem(dispositivosAutorizadosKey) || "[]");
+            let dispositivosGuardados = JSON.parse(localStorage.getItem(disposivosAutorizadosKey) || "[]");
 
-            if (dispositivosGuardados.includes(deviceIdActual)) {
+            if (disposivosGuardados.includes(deviceIdActual)) {
                 esSuperUsuario = true;
                 lanzarApp();
             } else {
                 modal2fa.style.display = 'flex';
                 btnAprobarDispositivo.onclick = () => {
                     dispositivosGuardados.push(deviceIdActual);
-                    localStorage.setItem(dispositivosAutorizadosKey, JSON.stringify(dispositivosGuardados));
+                    localStorage.setItem(disposivosAutorizadosKey, JSON.stringify(dispositivosGuardados));
                     modal2fa.style.display = 'none';
                     esSuperUsuario = true;
                     lanzarApp();
@@ -1246,11 +1243,11 @@ async function lanzarApp() {
             cargarArchivoSeleccionado();
         }
     } catch (err) {
-        mensajeError.innerText = "⚠️ Error al abrir cámara: " + err.message + ". Verifica permisos.";
+        mensajeError.innerText = "⚠️ Error al abrir cámara: " + err.message;
     }
 }
 
-// CAPTURA TÁCTIL BLINDADA CON CAPTURA DE ERRORES VISIBLES
+// DISPARADOR TÁCTIL BLINDADO SOBRE EL NUEVO CONTENEDOR DIV
 function ejecutarInicioApp(e) {
     if (e) e.preventDefault();
     mensajeError.innerText = "Procesando inicio...";
