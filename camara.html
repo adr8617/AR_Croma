@@ -91,7 +91,16 @@ html, body {
     touch-action: manipulation;
 }
 
-#mensaje-error { color: #ff4444; text-align: center; max-width: 80%; font-size: 14px; }
+#mensaje-error { 
+    color: #ff4444; 
+    text-align: center; 
+    max-width: 90%; 
+    font-size: 14px; 
+    background: rgba(0,0,0,0.85); 
+    padding: 10px; 
+    border-radius: 6px; 
+    border: 1px solid #444;
+}
 
 #modal-2fa { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.9); z-index: 200000; display: none; justify-content: center; align-items: center; padding: 20px; box-sizing: border-box; }
 #contenido-2fa { background: #1c1c1c; color: #fff; padding: 25px; border-radius: 12px; max-width: 400px; width: 100%; text-align: center; box-shadow: 0 5px 20px rgba(0,0,0,0.7); border: 1px solid #ff4444; }
@@ -442,7 +451,6 @@ function activarPantallaCompletaInmersiva() {
     }
 }
 
-// El audio se activa de forma segura DESPUÉS de entrar a la app mediante la primera interacción general
 function forzarDesbloqueoAudio() {
     if (!audioContextGlobal) {
         audioContextGlobal = new (window.AudioContext || window.webkitAudioContext)();
@@ -636,7 +644,7 @@ btnMenuCircular.addEventListener('click', (e) => {
 });
 
 document.addEventListener('click', (e) => {
-    forzarDesbloqueoAudio(); // Desbloquea audio limpiamente en cualquier primer toque dentro de la app
+    forzarDesbloqueoAudio();
     if (!selectorVideoWrapper.contains(e.target) && e.target !== btnMenuCircular) {
         selectorVideoWrapper.style.display = 'none';
         btnMenuCircular.classList.remove('activo-tactil');
@@ -1210,7 +1218,7 @@ async function detectarDispositivosCamara() {
 }
 
 btnCambiarCamara.addEventListener('click', async () => {
-    await detectarDispositivosCamara();
+    await detectarDispositinputValue = await detectarDispositivosCamara();
     if (listaCamaras.length > 1) {
         indiceCamaraActual = (indiceCamaraActual + 1) % listaCamaras.length;
         await iniciarCamara(listaCamaras[indiceCamaraActual].deviceId);
@@ -1236,13 +1244,21 @@ async function lanzarApp() {
             cargarArchivoSeleccionado();
         }
     } catch (err) {
-        mensajeError.innerText = "Error: No se pudo acceder a la cámara o permisos denegados. Verifica los permisos del navegador.";
+        mensajeError.innerText = "Error crítico: " + err.message;
     }
 }
 
-// Botón de inicio limpio y libre de bloqueos de audio pesados
-btnIniciar.addEventListener('click', () => {
-    verificarAccesoSuperusuario();
+// CHIVATO VISUAL EN EL BOTÓN: Esto nos dirá en la pantalla del móvil exactamente qué ocurre al tocarlo
+btnIniciar.addEventListener('click', (e) => {
+    e.preventDefault();
+    mensajeError.innerText = "1. ¡Click detectado en el botón!";
+    
+    try {
+        verificarAccesoSuperusuario();
+        mensajeError.innerText = "2. Verificación ejecutada con éxito.";
+    } catch (err) {
+        mensajeError.innerText = "Error en función: " + err.message;
+    }
 });
 
 // REGISTRO DEL SERVICE WORKER
@@ -1250,7 +1266,6 @@ if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
         navigator.serviceWorker.register('./sw.js')
             .then(reg => {
-                console.log('Service Worker registrado:', reg.scope);
                 reg.update();
             })
             .catch(err => console.error('Error Service Worker:', err));
