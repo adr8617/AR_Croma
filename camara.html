@@ -47,14 +47,14 @@ html, body {
     align-items: center; 
 }
 
-/* PANTALLA DE INICIO EN AZUL VIVO PARA PRUEBA DE CARGA */
+/* PANTALLA DE INICIO (ROJO VIVO DE DIAGNÓSTICO) */
 #pantalla-inicio { 
     position: fixed; 
     top: 0; 
     left: 0; 
     width: 100vw; 
     height: 100vh; 
-    background-color: #0056b3 !important; 
+    background-color: #dc3545 !important; 
     z-index: 999999; 
     display: flex; 
     flex-direction: column; 
@@ -78,11 +78,11 @@ html, body {
 }
 
 #btn-iniciar { 
-    background-color: #28a745; 
-    color: white; 
+    background-color: #ffeb3b; 
+    color: #000; 
     font-weight: bold; 
-    font-size: 16px; 
-    padding: 16px 30px; 
+    font-size: 18px; 
+    padding: 18px 30px; 
     border-radius: 10px; 
     border: none; 
     box-shadow: 0 4px 12px rgba(0,0,0,0.6); 
@@ -93,14 +93,14 @@ html, body {
 }
 
 #mensaje-error { 
-    color: #ffeb3b; 
+    color: #fff; 
     text-align: center; 
     max-width: 90%; 
     font-size: 14px; 
     background: rgba(0,0,0,0.85); 
     padding: 10px; 
     border-radius: 6px; 
-    border: 1px solid #ffeb3b;
+    border: 1px solid #fff;
 }
 
 #modal-2fa { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.9); z-index: 200000; display: none; justify-content: center; align-items: center; padding: 20px; box-sizing: border-box; }
@@ -345,8 +345,8 @@ html, body {
 </head>
 <body>
 <div id="pantalla-inicio">
-    <h2 style="color: white; margin-bottom: 5px;">Chroma Cam FX (Versión Azul Diagnóstico)</h2>
-    <p style="color: #ffeb3b; font-size: 13px; margin-top: 0;">Si ves esto azul, la actualización cargó con éxito</p>
+    <h2 style="color: white; margin-bottom: 5px;">Chroma Cam FX (Versión Roja Diagnóstico)</h2>
+    <p style="color: #ffeb3b; font-size: 13px; margin-top: 0;">Si ves este fondo rojo, la actualización ya cargó con éxito</p>
     <input type="email" id="input-email-usuario" class="input-login" placeholder="correo@gmail.com" value="adr8617@gmail.com">
     <button id="btn-iniciar">TOCA AQUÍ PARA INICIAR</button>
     <p id="mensaje-error"></p>
@@ -745,7 +745,6 @@ function calcularDistanciaTactil(t1, t2) {
     return Math.sqrt(dx * dx + dy * dy);
 }
 
-/* ZOOM HÍBRIDO AUTOMÁTICO DE CÁMARA PRINCIPAL */
 let zoomCamaraActual = 1;
 function aplicarZoomCamaraPrincipal(factor) {
     let nuevoZoom = zoomCamaraActual * factor;
@@ -1246,10 +1245,10 @@ async function lanzarApp() {
     }
 }
 
-// DISPARADOR MAESTRO HÍBRIDO CON CHIVATO VISUAL
+// CAPTURA TÁCTIL FORZADA Y DIRECTA (touchend + click)
 function ejecutarInicioApp(e) {
     if (e) e.preventDefault();
-    mensajeError.innerText = "1. ¡Toque detectado en el botón azul!";
+    mensajeError.innerText = "1. ¡Toque detectado en el botón!";
     
     try {
         verificarAccesoSuperusuario();
@@ -1259,8 +1258,13 @@ function ejecutarInicioApp(e) {
     }
 }
 
-btnIniciar.addEventListener('pointerdown', ejecutarInicioApp);
-btnIniciar.addEventListener('click', ejecutarInicioApp);
+btnIniciar.addEventListener('touchend', (e) => {
+    ejecutarInicioApp(e);
+}, { passive: false });
+
+btnIniciar.addEventListener('click', (e) => {
+    ejecutarInicioApp(e);
+});
 
 // REGISTRO DEL SERVICE WORKER
 if ('serviceWorker' in navigator) {
