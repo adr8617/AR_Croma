@@ -1218,7 +1218,7 @@ async function detectarDispositivosCamara() {
 }
 
 btnCambiarCamara.addEventListener('click', async () => {
-    await detectarDispositinputValue = await detectarDispositivosCamara();
+    await detectarDispositivosCamara();
     if (listaCamaras.length > 1) {
         indiceCamaraActual = (indiceCamaraActual + 1) % listaCamaras.length;
         await iniciarCamara(listaCamaras[indiceCamaraActual].deviceId);
@@ -1248,18 +1248,22 @@ async function lanzarApp() {
     }
 }
 
-// CHIVATO VISUAL EN EL BOTÓN: Esto nos dirá en la pantalla del móvil exactamente qué ocurre al tocarlo
-btnIniciar.addEventListener('click', (e) => {
-    e.preventDefault();
-    mensajeError.innerText = "1. ¡Click detectado en el botón!";
+// DISPARADOR MAESTRO HÍBRIDO (Antes del clic: pointerdown y touchstart para forzar respuesta inmediata)
+function ejecutarInicioApp(e) {
+    if (e) e.preventDefault();
+    mensajeError.innerText = "1. ¡Toque detectado en el botón!";
     
     try {
         verificarAccesoSuperusuario();
         mensajeError.innerText = "2. Verificación ejecutada con éxito.";
     } catch (err) {
-        mensajeError.innerText = "Error en función: " + err.message;
+        mensajeError.innerText = "Error al iniciar: " + err.message;
     }
-});
+}
+
+// Atrapamos la pulsación en la fase más temprana posible en móviles
+btnIniciar.addEventListener('pointerdown', ejecutarInicioApp);
+btnIniciar.addEventListener('click', ejecutarInicioApp);
 
 // REGISTRO DEL SERVICE WORKER
 if ('serviceWorker' in navigator) {
