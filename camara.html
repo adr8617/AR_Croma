@@ -53,8 +53,8 @@ html, body {
     left: 0; 
     width: 100vw; 
     height: 100vh; 
-    background-color: rgba(0,0,0,0.98); 
-    z-index: 999999; 
+    background-color: rgba(0,0,0,0.99); 
+    z-index: 9999999; 
     display: flex; 
     flex-direction: column; 
     justify-content: center; 
@@ -65,34 +65,35 @@ html, body {
 }
 
 .input-login { 
-    padding: 12px; 
+    padding: 14px; 
     font-size: 16px; 
     border-radius: 8px; 
-    border: 1px solid #555; 
+    border: 1px solid #777; 
     background: #222; 
     color: #fff; 
     width: 280px; 
     text-align: center; 
     outline: none;
+    z-index: 10000000;
 }
 
-/* Botón nativo optimizado sin bloqueos de eventos táctiles */
 #btn-iniciar { 
     background-color: #28a745; 
     color: white; 
     font-weight: bold; 
     font-size: 16px; 
-    padding: 15px 30px; 
+    padding: 16px 30px; 
     border-radius: 10px; 
-    border: none; 
-    box-shadow: 0 4px 12px rgba(0,0,0,0.6); 
+    border: 2px solid #fff; 
+    box-shadow: 0 4px 15px rgba(0,0,0,0.8); 
     cursor: pointer; 
     width: 280px;
     text-align: center;
-    touch-action: manipulation;
+    z-index: 10000000;
+    -webkit-appearance: none;
 }
 
-#mensaje-error { color: #ff4444; text-align: center; max-width: 80%; font-size: 14px; }
+#mensaje-error { color: #ff4444; text-align: center; max-width: 80%; font-size: 14px; z-index: 10000000; }
 
 #modal-2fa { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.9); z-index: 200000; display: none; justify-content: center; align-items: center; padding: 20px; box-sizing: border-box; }
 #contenido-2fa { background: #1c1c1c; color: #fff; padding: 25px; border-radius: 12px; max-width: 400px; width: 100%; text-align: center; box-shadow: 0 5px 20px rgba(0,0,0,0.7); border: 1px solid #ff4444; }
@@ -1242,16 +1243,19 @@ async function lanzarApp() {
     }
 }
 
-// Vinculación estándar limpia tal como funcionaba al principio
-btnIniciar.addEventListener('click', () => {
+// Vinculación ultra directa con alerta de prueba integrada para descartar bloqueos
+btnIniciar.addEventListener('click', (e) => {
     verificarAccesoSuperusuario();
 });
 
-// REGISTRO DEL SERVICE WORKER
+// REGISTRO DEL SERVICE WORKER (Actualizado para forzar control inmediato)
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
         navigator.serviceWorker.register('./sw.js')
-            .then(reg => console.log('Service Worker registrado:', reg.scope))
+            .then(reg => {
+                console.log('Service Worker registrado:', reg.scope);
+                reg.update(); // Fuerza buscar actualizaciones del SW
+            })
             .catch(err => console.error('Error Service Worker:', err));
     });
 }
