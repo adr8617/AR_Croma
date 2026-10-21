@@ -14,7 +14,6 @@
 * {
     box-sizing: border-box;
     -webkit-tap-highlight-color: transparent;
-    touch-action: manipulation;
 }
 
 html, body { 
@@ -63,9 +62,8 @@ html, body {
     padding: 20px; 
     box-sizing: border-box; 
     gap: 15px; 
-    touch-action: none;
 }
-#btn-iniciar { background-color: #28a745; color: white; font-weight: bold; font-size: 18px; padding: 12px 25px; border-radius: 12px; border: none; box-shadow: 0 4px 10px rgba(0,0,0,0.5); cursor: pointer; }
+#btn-iniciar { background-color: #28a745; color: white; font-weight: bold; font-size: 18px; padding: 14px 28px; border-radius: 12px; border: none; box-shadow: 0 4px 10px rgba(0,0,0,0.5); cursor: pointer; }
 .input-login { padding: 10px; font-size: 14px; border-radius: 6px; border: 1px solid #444; background: #222; color: #fff; width: 260px; text-align: center; }
 #mensaje-error { color: #ff4444; text-align: center; max-width: 80%; font-size: 14px; }
 
@@ -426,17 +424,7 @@ function forzarDesbloqueoAudio() {
     if (audioContextGlobal.state === 'suspended') {
         audioContextGlobal.resume();
     }
-    document.querySelectorAll('video').forEach(v => {
-        if (v.id !== 'video-camara') {
-            v.muted = false;
-            v.volume = 1.0;
-            v.play().catch(() => {});
-        }
-    });
 }
-
-document.addEventListener('touchstart', forzarDesbloqueoAudio, { passive: true });
-document.addEventListener('click', forzarDesbloqueoAudio, { passive: true });
 
 function obtenerDispositivoId() {
     let devId = localStorage.getItem('estudio_ar_device_id');
@@ -1116,14 +1104,14 @@ function verificarAccesoSuperusuario() {
         const dispositivosAutorizadosKey = `auth_devs_${emailIngresado}`;
         let dispositivosGuardados = JSON.parse(localStorage.getItem(disposivosAutorizadosKey) || "[]");
 
-        if (disposivosGuardados.includes(deviceIdActual)) {
+        if (dispositivosGuardados.includes(deviceIdActual)) {
             esSuperUsuario = true;
             lanzarApp();
         } else {
             modal2fa.style.display = 'flex';
             btnAprobarDispositivo.onclick = () => {
-                disposivosGuardados.push(deviceIdActual);
-                localStorage.setItem(dispositivosAutorizadosKey, JSON.stringify(dispositivosGuardados));
+                dispositivosGuardados.push(deviceIdActual);
+                localStorage.setItem(disposivosAutorizadosKey, JSON.stringify(dispositivosGuardados));
                 modal2fa.style.display = 'none';
                 esSuperUsuario = true;
                 lanzarApp();
@@ -1156,7 +1144,7 @@ async function iniciarCamara(deviceIdEspecifico = null) {
     try {
         const stream = await navigator.mediaDevices.getUserMedia({ video: restriccionesVideo, audio: true });
         videoCamara.srcObject = stream;
-        videoCamara.play();
+        await videoCamara.play();
 
         trackCamaraActual = stream.getVideoTracks()[0];
         if (trackCamaraActual && typeof trackCamaraActual.getCapabilities === 'function') {
@@ -1176,16 +1164,23 @@ async function iniciarCamara(deviceIdEspecifico = null) {
         }
 
     } catch (err) {
-        const streamFallback = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
-        videoCamara.srcObject = streamFallback;
-        videoCamara.play();
+        try {
+            const streamFallback = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+            videoCamara.srcObject = streamFallback;
+            await videoCamara.play();
+        } catch (e) {
+            console.error("Error crítico de cámara:", e);
+            throw e;
+        }
     }
 }
 
 async function detectarDispositivosCamara() {
     try {
-        const dispositivos = await navigator.mediaDevices.enumerateDevices();
-        listaCamaras = dispositivos.filter(d => d.kind === 'videoinput');
+        if (navigator.mediaDevices && navigator.mediaDevices.enumerateDevices) {
+            const dispositivos = await navigator.mediaDevices.enumerateDevices();
+            listaCamaras = dispositivos.filter(d => d.kind === 'videoinput');
+        }
     } catch (e) { console.error("Error al listar cámaras:", e); }
 }
 
@@ -1206,30 +1201,32 @@ async function lanzarApp() {
         await detectarDispositivosCamara();
         await iniciarCamara();
         
-        videoCamara.onloadedmetadata = () => {
-            pantallaInicio.style.display = 'none';
-            panelControles.style.display = 'flex';
-            
-            activarPantallaCompletaInmersiva();
+        pantallaInicio.style.display = 'none';
+        panelControles.style.display = 'flex';
+        
+        activarPantallaCompletaInmersiva();
 
-            actualizarSelect();
-            if (esSuperUsuario) {
-                cargarArchivoSeleccionado();
-            }
-        };
+        actualizarSelect();
+        if (esSuperUsuario) {
+            cargarArchivoSeleccionado();
+        }
     } catch (err) {
-        mensajeError.innerText = "Error: No se pudo acceder a la cámara o permisos denegados.";
+        mensajeError.innerText = "Error: No se pudo acceder a la cámara o permisos denegados. Verifica los permisos del navegador.";
     }
 }
 
-btnIniciar.addEventListener('click', verificarAccesoSuperusuario);
+// Vinculación directa y limpia del botón de inicio
+btnIniciar.addEventListener('click', (e) => {
+    e.preventDefault();
+    verificarAccesoSuperusuario();
+});
 
-// REGISTRO DEL SERVICE WORKER PARA PERMITIR INSTALACIÓN PWA Y USO OFFLINE
+// REGISTRO DEL SERVICE WORKER
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
         navigator.serviceWorker.register('./sw.js')
-            .then(reg => console.log('Service Worker registrado correctamente:', reg.scope))
-            .catch(err => console.error('Error al registrar Service Worker:', err));
+            .then(reg => console.log('Service Worker registrado:', reg.scope))
+            .catch(err => console.error('Error Service Worker:', err));
     });
 }
 </script>
