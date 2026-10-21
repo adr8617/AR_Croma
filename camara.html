@@ -64,7 +64,7 @@ html, body {
 #contenido-modal h3, #contenido-ayuda h3 { margin-top: 0; color: #28a745; font-size: 18px; }
 .btn-cerrar-modal { background: #28a745; color: white; border: none; padding: 8px 16px; border-radius: 6px; margin-top: 15px; cursor: pointer; float: right; font-weight: bold; }
 
-/* Panel de controles con tamaño fijo en px e inmune a deformaciones */
+/* Panel de controles con tamaño estrictamente fijo en píxeles para evitar deformaciones */
 #panel-controles { 
     position: absolute; 
     top: 15px; 
@@ -368,7 +368,6 @@ const SUPER_USUARIOS = ["adr8617@gmail.com", "la.burbuj@gmail.com"];
 let esSuperUsuario = false;
 let audioContextGlobal = null;
 
-// Control de Zoom Híbrido Automático
 let trackCamaraActual = null;
 let zoomCamaraSoportadoNativo = false;
 let minZoomCamara = 1, maxZoomCamara = 1, zoomCamaraActual = 1;
@@ -747,10 +746,11 @@ canvas.addEventListener('touchmove', (e) => {
                     mostrarAviso("función zoom deshabilitada en versiones de prueba");
                     return;
                 }
-                let nuevaEscala = escalaActual * factor;
+                let nuevaEscala = parseFloat(activeLayer.dataset.scale) * factor;
                 if (nuevaEscala >= 0.3 && nuevaEscala <= 3.5) {
-                    escalaActual = nuevaEscala;
-                    aplicarTransformacion();
+                    activeLayer.dataset.scale = nuevaEscala;
+                    const baseW = parseFloat(activeLayer.dataset.baseWidth);
+                    activeLayer.style.width = (baseW * nuevaEscala) + 'px';
                 }
             } else {
                 aplicarZoomCamaraPrincipal(factor);
@@ -794,6 +794,10 @@ function addChromaLayerExtra(sourceUrl, tipo) {
     const layerDiv = document.createElement('div');
     layerDiv.className = 'chroma-layer-extra selected';
     layerDiv.id = 'layer-' + layerCounter;
+
+    // Posición inicial centrada o ligeramente aleatoria para no encimarse
+    layerDiv.style.left = (20 + (layerCounter * 15) % 40) + '%';
+    layerDiv.style.top = (20 + (layerCounter * 15) % 40) + '%';
 
     layerDiv.dataset.scale = "1.0";
     layerDiv.dataset.baseWidth = "260";
@@ -970,8 +974,28 @@ function makeInteractableLayer(element) {
         } else if (isDraggingLayer) {
             const clientX = e.touches ? e.touches[0].clientX : e.clientX;
             const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-            element.style.left = (initialLeft + (clientX - startXLayer)) + 'px';
-            element.style.top = (initialTop + (clientY - startYLayer)) + 'px';
+            
+            let nuevaLeft = initialLeft + (clientX - startXLayer);
+            let nuevaTop = initialTop + (clientY - startYLayer);
+
+            // RESTRICCIÓN DE BARRERA (Deja al menos el 5% visible en pantalla)
+            const elemWidth = element.offsetWidth;
+            const elemHeight = element.offsetHeight;
+            const minVisibleW = elemWidth * 0.05;
+            const minVisibleH = elemHeight * 0.05;
+
+            const maxLeft = window.innerWidth - minVisibleW;
+            const minLeft = -elemWidth + minVisibleW;
+            const maxTop = window.innerHeight - minVisibleH;
+            const minTop = -elemHeight + minVisibleH;
+
+            if (nuevaLeft > maxLeft) nuevaLeft = maxLeft;
+            if (nuevaLeft < minLeft) nuevaLeft = minLeft;
+            if (nuevaTop > maxTop) nuevaTop = maxTop;
+            if (nuevaTop < minTop) nuevaTop = minTop;
+
+            element.style.left = nuevaLeft + 'px';
+            element.style.top = nuevaTop + 'px';
         }
     }
 
