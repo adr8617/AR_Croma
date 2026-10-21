@@ -64,7 +64,7 @@ html, body {
 #contenido-modal h3, #contenido-ayuda h3 { margin-top: 0; color: #28a745; font-size: 18px; }
 .btn-cerrar-modal { background: #28a745; color: white; border: none; padding: 8px 16px; border-radius: 6px; margin-top: 15px; cursor: pointer; float: right; font-weight: bold; }
 
-/* PANEL DE CONTROLES RIGIDO: Sin saltos de línea y con espacio delimitado */
+/* PANEL DE CONTROLES RIGIDO */
 #panel-controles { 
     position: absolute; 
     top: 12px; 
@@ -148,8 +148,23 @@ html, body {
 #tooltip-texto { position: absolute; left: 40px; top: 50%; transform: translateY(-50%); background: rgba(0, 0, 0, 0.85); color: #fff; padding: 6px 12px; border-radius: 6px; font-size: 12px; white-space: nowrap; pointer-events: none; opacity: 0; visibility: hidden; transition: opacity 0.2s; box-shadow: 0 2px 5px rgba(0,0,0,0.3); }
 #btn-menu-circular:hover #tooltip-texto, #btn-menu-circular.activo-tactil #tooltip-texto { opacity: 1; visibility: visible; }
 
-#selector-video-wrapper { display: none; position: absolute; left: 40px; top: 0; background: rgba(0, 0, 0, 0.9); padding: 10px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.5); flex-direction: column; gap: 8px; min-width: 210px; z-index: 15001; }
-#selector-video { padding: 8px; font-size: 14px; border-radius: 6px; border: 1px solid #444; background: #222; color: #fff; cursor: pointer; }
+/* MENÚ DESPLEGABLE CORREGIDO: Posicionado más abajo para que no se corte arriba */
+#selector-video-wrapper { 
+    display: none; 
+    position: absolute; 
+    left: 0; 
+    top: 42px; /* Posicionado debajo de la barra de botones */
+    background: rgba(0, 0, 0, 0.95); 
+    padding: 12px; 
+    border-radius: 8px; 
+    box-shadow: 0 6px 15px rgba(0,0,0,0.7); 
+    flex-direction: column; 
+    gap: 8px; 
+    min-width: 230px; 
+    z-index: 25000; 
+    border: 1px solid #444;
+}
+#selector-video { padding: 8px; font-size: 13px; border-radius: 6px; border: 1px solid #444; background: #222; color: #fff; cursor: pointer; }
 #input-archivo-oculto { display: none; }
 
 .btn-accion-menu { color: white; border: none; padding: 7px 10px; border-radius: 4px; font-size: 12px; cursor: pointer; text-align: center; font-weight: bold; }
@@ -798,12 +813,11 @@ function addChromaLayerExtra(sourceUrl, tipo) {
     layerDiv.className = 'chroma-layer-extra selected';
     layerDiv.id = 'layer-' + layerCounter;
 
-    // Posición inicial fija y centrada en pantalla para evitar colapsos
     layerDiv.style.left = '30%';
     layerDiv.style.top = '30%';
 
     layerDiv.dataset.scale = "1.0";
-    layerDiv.dataset.baseWidth = "220"; // Ancho base estándar estable
+    layerDiv.dataset.baseWidth = "220";
 
     const canvasExtra = document.createElement('canvas');
     const ctxExtra = canvasExtra.getContext('2d', { willReadFrequently: true });
@@ -857,7 +871,6 @@ function addChromaLayerExtra(sourceUrl, tipo) {
         };
 
         img.onload = function() {
-            // Asigna un tamaño proporcional basado en su resolución real o un ancho seguro de 220px
             let naturalW = img.width || 300;
             let anchoIdeal = Math.min(Math.max(naturalW * 0.35, 160), 300);
             layerDiv.dataset.baseWidth = anchoIdeal;
@@ -1235,6 +1248,7 @@ btnCambiarCamara.addEventListener('click', async () => {
         indiceCamaraActual++;
         await iniciarCamara();
     }
+    // NOTA: Se removió la recarga automática del efecto al cambiar de cámara para evitar duplicar capas por error.
 });
 
 async function lanzarApp() {
