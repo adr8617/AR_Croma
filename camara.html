@@ -14,6 +14,7 @@
 * {
     box-sizing: border-box;
     -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
 }
 
 html, body { 
@@ -47,7 +48,23 @@ html, body {
     align-items: center; 
 }
 
-#pantalla-inicio { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-color: rgba(0,0,0,0.98); z-index: 9999; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 20px; box-sizing: border-box; gap: 15px; }
+#pantalla-inicio { 
+    position: fixed; 
+    top: 0; 
+    left: 0; 
+    width: 100vw; 
+    height: 100vh; 
+    background-color: rgba(0,0,0,0.98); 
+    z-index: 9999; 
+    display: flex; 
+    flex-direction: column; 
+    justify-content: center; 
+    align-items: center; 
+    padding: 20px; 
+    box-sizing: border-box; 
+    gap: 15px; 
+    touch-action: none;
+}
 #btn-iniciar { background-color: #28a745; color: white; font-weight: bold; font-size: 18px; padding: 12px 25px; border-radius: 12px; border: none; box-shadow: 0 4px 10px rgba(0,0,0,0.5); cursor: pointer; }
 .input-login { padding: 10px; font-size: 14px; border-radius: 6px; border: 1px solid #444; background: #222; color: #fff; width: 260px; text-align: center; }
 #mensaje-error { color: #ff4444; text-align: center; max-width: 80%; font-size: 14px; }
@@ -266,7 +283,7 @@ html, body {
     touch-action: none;
     pointer-events: auto;
     border: 2px transparent dashed;
-    width: 220px; /* Tamaño inicial fijo por defecto */
+    width: 220px;
 }
 .chroma-layer-extra.selected { border-color: #00ff00; }
 .chroma-layer-extra canvas, .chroma-layer-extra video { display: block; width: 100%; height: auto; }
@@ -722,7 +739,7 @@ function aplicarZoomCamaraPrincipal(factor) {
     }
 }
 
-// Control de gestos globales sobre el fondo (cuando no se toca una capa específica)
+// Control de gestos globales sobre el fondo
 let distanciaInicialPellizcoGlobal = 0;
 document.addEventListener('touchstart', (e) => {
     forzarDesbloqueoAudio();
@@ -773,11 +790,10 @@ function addChromaLayerExtra(sourceUrl, tipo) {
     layerDiv.className = 'chroma-layer-extra selected';
     layerDiv.id = 'layer-' + layerCounter;
 
-    // Posición inicial escalonada para que nunca nazcan amontonadas
     let offsetPos = (layerCounter % 5) * 30;
     layerDiv.style.left = (20 + offsetPos) + 'px';
     layerDiv.style.top = (100 + offsetPos) + 'px';
-    layerDiv.style.width = '220px'; // Ancho inicial predeterminado independiente
+    layerDiv.style.width = '220px';
 
     const canvasExtra = document.createElement('canvas');
     const ctxExtra = canvasExtra.getContext('2d', { willReadFrequently: true });
@@ -1100,13 +1116,13 @@ function verificarAccesoSuperusuario() {
         const dispositivosAutorizadosKey = `auth_devs_${emailIngresado}`;
         let dispositivosGuardados = JSON.parse(localStorage.getItem(disposivosAutorizadosKey) || "[]");
 
-        if (dispositivosGuardados.includes(deviceIdActual)) {
+        if (disposivosGuardados.includes(deviceIdActual)) {
             esSuperUsuario = true;
             lanzarApp();
         } else {
             modal2fa.style.display = 'flex';
             btnAprobarDispositivo.onclick = () => {
-                dispositivosGuardados.push(deviceIdActual);
+                disposivosGuardados.push(deviceIdActual);
                 localStorage.setItem(dispositivosAutorizadosKey, JSON.stringify(dispositivosGuardados));
                 modal2fa.style.display = 'none';
                 esSuperUsuario = true;
