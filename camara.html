@@ -47,13 +47,14 @@ html, body {
     align-items: center; 
 }
 
+/* PANTALLA DE INICIO EN VERDE BRILLANTE PARA CONFIRMAR CARGA */
 #pantalla-inicio { 
     position: fixed; 
     top: 0; 
     left: 0; 
     width: 100vw; 
     height: 100vh; 
-    background-color: #000000 !important; 
+    background-color: #008751 !important; 
     z-index: 999999; 
     display: flex; 
     flex-direction: column; 
@@ -76,10 +77,10 @@ html, body {
     outline: none;
 }
 
-/* CONVERTIMOS EL BOTÓN EN UN DIV TÁCTIL BLINDADO */
+/* BOTÓN TÁCTIL BLINDADO */
 #btn-iniciar { 
-    background-color: #28a745 !important; 
-    color: white !important; 
+    background-color: #ffeb3b !important; 
+    color: #000 !important; 
     font-weight: bold; 
     font-size: 16px; 
     padding: 16px 30px; 
@@ -95,19 +96,19 @@ html, body {
     align-items: center;
 }
 
-/* EL MENSAJE DE ERROR SOLO APARECERÁ SI HAY TEXTO REAL */
+/* EL MENSAJE DE ERROR SOLO APARECE SI TIENE CONTENIDO REAL */
 #mensaje-error:empty { 
     display: none; 
 }
 #mensaje-error { 
-    color: #ff4444; 
+    color: #fff; 
     text-align: center; 
     max-width: 90%; 
     font-size: 14px; 
     background: rgba(0,0,0,0.85); 
     padding: 10px; 
     border-radius: 6px; 
-    border: 1px solid #ff4444;
+    border: 1px solid #fff;
 }
 
 #modal-2fa { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.9); z-index: 200000; display: none; justify-content: center; align-items: center; padding: 20px; box-sizing: border-box; }
@@ -353,9 +354,9 @@ html, body {
 <body>
 <div id="pantalla-inicio">
     <h2 style="color: white; margin-bottom: 5px;">Chroma Cam FX</h2>
-    <p style="color: #aaa; font-size: 13px; margin-top: 0;">Chroma Studio FX</p>
+    <p style="color: #ffeb3b; font-size: 13px; margin-top: 0;">Versión de Diagnóstico Verde</p>
     <input type="email" id="input-email-usuario" class="input-login" placeholder="correo@gmail.com" value="adr8617@gmail.com">
-    <!-- CAMBIADO DE <button> A <div> PARA EVITAR BLOQUEOS NATIVOS MÓVILES -->
+    <!-- DIV TÁCTIL BLINDADO -->
     <div id="btn-iniciar">TOCA AQUÍ PARA INICIAR</div>
     <p id="mensaje-error"></p>
 </div>
@@ -1131,16 +1132,16 @@ function verificarAccesoSuperusuario() {
         if (SUPER_USUARIOS.includes(emailIngresado)) {
             const deviceIdActual = obtenerDispositivoId();
             const dispositivosAutorizadosKey = `auth_devs_${emailIngresado}`;
-            let dispositivosGuardados = JSON.parse(localStorage.getItem(disposivosAutorizadosKey) || "[]");
+            let dispositivosGuardados = JSON.parse(localStorage.getItem(dispositivosAutorizadosKey) || "[]");
 
-            if (disposivosGuardados.includes(deviceIdActual)) {
+            if (dispositivosGuardados.includes(deviceIdActual)) {
                 esSuperUsuario = true;
                 lanzarApp();
             } else {
                 modal2fa.style.display = 'flex';
                 btnAprobarDispositivo.onclick = () => {
                     dispositivosGuardados.push(deviceIdActual);
-                    localStorage.setItem(disposivosAutorizadosKey, JSON.stringify(dispositivosGuardados));
+                    localStorage.setItem(dispositivosAutorizadosKey, JSON.stringify(dispositivosGuardados));
                     modal2fa.style.display = 'none';
                     esSuperUsuario = true;
                     lanzarApp();
@@ -1199,7 +1200,7 @@ async function iniciarCamara(deviceIdEspecifico = null) {
         try {
             const streamFallback = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
             videoCamara.srcObject = streamFallback;
-            await videoCamara.play();
+            await streamFallback.play();
         } catch (e) {
             console.error("Error crítico de cámara:", e);
             throw e;
@@ -1247,7 +1248,7 @@ async function lanzarApp() {
     }
 }
 
-// DISPARADOR TÁCTIL BLINDADO SOBRE EL NUEVO CONTENEDOR DIV
+// DISPARADOR TÁCTIL BLINDADO SOBRE EL CONTENEDOR DIV
 function ejecutarInicioApp(e) {
     if (e) e.preventDefault();
     mensajeError.innerText = "Procesando inicio...";
