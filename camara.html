@@ -47,14 +47,14 @@ html, body {
     align-items: center; 
 }
 
-/* PANTALLA DE INICIO (ROJO VIVO DE DIAGNÓSTICO) */
+/* PANTALLA DE INICIO RESTAURADA A NEGRO ORIGINAL */
 #pantalla-inicio { 
     position: fixed; 
     top: 0; 
     left: 0; 
     width: 100vw; 
     height: 100vh; 
-    background-color: #dc3545 !important; 
+    background-color: #000000 !important; 
     z-index: 999999; 
     display: flex; 
     flex-direction: column; 
@@ -77,12 +77,13 @@ html, body {
     outline: none;
 }
 
+/* BOTÓN VERDE ORIGINAL RESTAURADO */
 #btn-iniciar { 
-    background-color: #ffeb3b; 
-    color: #000; 
+    background-color: #28a745 !important; 
+    color: white !important; 
     font-weight: bold; 
-    font-size: 18px; 
-    padding: 18px 30px; 
+    font-size: 16px; 
+    padding: 16px 30px; 
     border-radius: 10px; 
     border: none; 
     box-shadow: 0 4px 12px rgba(0,0,0,0.6); 
@@ -93,14 +94,14 @@ html, body {
 }
 
 #mensaje-error { 
-    color: #fff; 
+    color: #ff4444; 
     text-align: center; 
     max-width: 90%; 
     font-size: 14px; 
     background: rgba(0,0,0,0.85); 
     padding: 10px; 
     border-radius: 6px; 
-    border: 1px solid #fff;
+    border: 1px solid #ff4444;
 }
 
 #modal-2fa { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.9); z-index: 200000; display: none; justify-content: center; align-items: center; padding: 20px; box-sizing: border-box; }
@@ -345,8 +346,8 @@ html, body {
 </head>
 <body>
 <div id="pantalla-inicio">
-    <h2 style="color: white; margin-bottom: 5px;">Chroma Cam FX (Versión Roja Diagnóstico)</h2>
-    <p style="color: #ffeb3b; font-size: 13px; margin-top: 0;">Si ves este fondo rojo, la actualización ya cargó con éxito</p>
+    <h2 style="color: white; margin-bottom: 5px;">Chroma Cam FX</h2>
+    <p style="color: #aaa; font-size: 13px; margin-top: 0;">Chroma Studio FX</p>
     <input type="email" id="input-email-usuario" class="input-login" placeholder="correo@gmail.com" value="adr8617@gmail.com">
     <button id="btn-iniciar">TOCA AQUÍ PARA INICIAR</button>
     <p id="mensaje-error"></p>
@@ -1128,33 +1129,37 @@ function cargarArchivoSeleccionado() {
 selectorVideo.addEventListener('change', cargarArchivoSeleccionado);
 
 function verificarAccesoSuperusuario() {
-    const emailIngresado = inputEmailUsuario.value.trim().toLowerCase();
-    if (SUPER_USUARIOS.includes(emailIngresado)) {
-        const deviceIdActual = obtenerDispositivoId();
-        const dispositivosAutorizadosKey = `auth_devs_${emailIngresado}`;
-        let dispositivosGuardados = JSON.parse(localStorage.getItem(dispositivosAutorizadosKey) || "[]");
+    try {
+        const emailIngresado = inputEmailUsuario.value.trim().toLowerCase();
+        if (SUPER_USUARIOS.includes(emailIngresado)) {
+            const deviceIdActual = obtenerDispositivoId();
+            const dispositivosAutorizadosKey = `auth_devs_${emailIngresado}`;
+            let dispositivosGuardados = JSON.parse(localStorage.getItem(dispositivosAutorizadosKey) || "[]");
 
-        if (dispositivosGuardados.includes(deviceIdActual)) {
-            esSuperUsuario = true;
-            lanzarApp();
-        } else {
-            modal2fa.style.display = 'flex';
-            btnAprobarDispositivo.onclick = () => {
-                dispositivosGuardados.push(deviceIdActual);
-                localStorage.setItem(dispositivosAutorizadosKey, JSON.stringify(dispositivosGuardados));
-                modal2fa.style.display = 'none';
+            if (dispositivosGuardados.includes(deviceIdActual)) {
                 esSuperUsuario = true;
                 lanzarApp();
-            };
-            btnRechazarDispositivo.onclick = () => {
-                modal2fa.style.display = 'none';
-                esSuperUsuario = false;
-                lanzarApp();
-            };
+            } else {
+                modal2fa.style.display = 'flex';
+                btnAprobarDispositivo.onclick = () => {
+                    dispositivosGuardados.push(deviceIdActual);
+                    localStorage.setItem(dispositivosAutorizadosKey, JSON.stringify(dispositivosGuardados));
+                    modal2fa.style.display = 'none';
+                    esSuperUsuario = true;
+                    lanzarApp();
+                };
+                btnRechazarDispositivo.onclick = () => {
+                    modal2fa.style.display = 'none';
+                    esSuperUsuario = false;
+                    lanzarApp();
+                };
+            }
+        } else {
+            esSuperUsuario = false;
+            lanzarApp();
         }
-    } else {
-        esSuperUsuario = false;
-        lanzarApp();
+    } catch (err) {
+        mensajeError.innerText = "Error en superusuario: " + err.message;
     }
 }
 
@@ -1241,20 +1246,19 @@ async function lanzarApp() {
             cargarArchivoSeleccionado();
         }
     } catch (err) {
-        mensajeError.innerText = "Error crítico: " + err.message;
+        mensajeError.innerText = "⚠️ Error al abrir cámara: " + err.message + ". Verifica permisos.";
     }
 }
 
-// CAPTURA TÁCTIL FORZADA Y DIRECTA (touchend + click)
+// CAPTURA TÁCTIL BLINDADA CON CAPTURA DE ERRORES VISIBLES
 function ejecutarInicioApp(e) {
     if (e) e.preventDefault();
-    mensajeError.innerText = "1. ¡Toque detectado en el botón!";
+    mensajeError.innerText = "Procesando inicio...";
     
     try {
         verificarAccesoSuperusuario();
-        mensajeError.innerText = "2. Verificación ejecutada con éxito.";
     } catch (err) {
-        mensajeError.innerText = "Error al iniciar: " + err.message;
+        mensajeError.innerText = "⚠️ Error crítico: " + err.message;
     }
 }
 
