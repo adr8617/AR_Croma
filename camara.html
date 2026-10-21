@@ -69,16 +69,16 @@ html, body {
     position: absolute; 
     top: 12px; 
     left: 8px; 
-    right: 48px; /* Espacio reservado estrictamente para el botón de color */
+    right: 48px; 
     z-index: 15000; 
     display: flex; 
-    gap: 4px; /* Espaciado compacto y seguro entre iconos */
+    gap: 4px; 
     align-items: center; 
-    flex-wrap: nowrap; /* IMPIDE que los botones bajen de línea o se encimen */
-    overflow-x: auto; /* Si la pantalla es muy chica, permite desplazamiento sutil en vez de romper el diseño */
-    scrollbar-width: none; /* Oculta barra de scroll en Firefox */
+    flex-wrap: nowrap; 
+    overflow-x: auto; 
+    scrollbar-width: none; 
 }
-#panel-controles::-webkit-scrollbar { display: none; /* Oculta barra de scroll en Chrome/Safari */ }
+#panel-controles::-webkit-scrollbar { display: none; }
 
 .btn-flotante { 
     width: 32px; 
@@ -94,7 +94,7 @@ html, body {
     align-items: center; 
     box-shadow: 0 2px 5px rgba(0,0,0,0.5); 
     position: relative; 
-    flex-shrink: 0; /* Impide que el navegador reduzca el tamaño del botón */
+    flex-shrink: 0; 
     transition: background-color 0.2s; 
 }
 .btn-flotante:active { background-color: rgba(0, 0, 0, 0.8); }
@@ -242,8 +242,8 @@ html, body {
 
 .chroma-layer-extra {
     position: absolute;
-    top: 20%;
-    left: 15%;
+    top: 25%;
+    left: 25%;
     z-index: 11;
     cursor: move;
     user-select: none;
@@ -798,11 +798,12 @@ function addChromaLayerExtra(sourceUrl, tipo) {
     layerDiv.className = 'chroma-layer-extra selected';
     layerDiv.id = 'layer-' + layerCounter;
 
-    layerDiv.style.left = (20 + (layerCounter * 15) % 40) + '%';
-    layerDiv.style.top = (20 + (layerCounter * 15) % 40) + '%';
+    // Posición inicial fija y centrada en pantalla para evitar colapsos
+    layerDiv.style.left = '30%';
+    layerDiv.style.top = '30%';
 
     layerDiv.dataset.scale = "1.0";
-    layerDiv.dataset.baseWidth = "260";
+    layerDiv.dataset.baseWidth = "220"; // Ancho base estándar estable
 
     const canvasExtra = document.createElement('canvas');
     const ctxExtra = canvasExtra.getContext('2d', { willReadFrequently: true });
@@ -856,7 +857,11 @@ function addChromaLayerExtra(sourceUrl, tipo) {
         };
 
         img.onload = function() {
-            layerDiv.style.width = layerDiv.dataset.baseWidth + 'px';
+            // Asigna un tamaño proporcional basado en su resolución real o un ancho seguro de 220px
+            let naturalW = img.width || 300;
+            let anchoIdeal = Math.min(Math.max(naturalW * 0.35, 160), 300);
+            layerDiv.dataset.baseWidth = anchoIdeal;
+            layerDiv.style.width = anchoIdeal + 'px';
             layerDiv.reprocessChroma();
         };
 
@@ -905,7 +910,10 @@ function addChromaLayerExtra(sourceUrl, tipo) {
             requestAnimationFrame(processVideoFrame);
         }
         vExtra.addEventListener('loadeddata', () => {
-            layerDiv.style.width = layerDiv.dataset.baseWidth + 'px';
+            let naturalW = vExtra.videoWidth || 300;
+            let anchoIdeal = Math.min(Math.max(naturalW * 0.35, 180), 320);
+            layerDiv.dataset.baseWidth = anchoIdeal;
+            layerDiv.style.width = anchoIdeal + 'px';
             processVideoFrame();
         });
 
@@ -968,7 +976,7 @@ function makeInteractableLayer(element) {
             e.preventDefault();
             const currentDistance = calcularDistanciaTactil(e.touches[0], e.touches[1]);
             const scaleFactor = currentDistance / initialPinchDistance;
-            let newScale = Math.min(Math.max(0.4, initialScale * scaleFactor), 4.0);
+            let newScale = Math.min(Math.max(0.3, initialScale * scaleFactor), 4.0);
             
             element.dataset.scale = newScale;
             const baseWidth = parseFloat(element.dataset.baseWidth);
