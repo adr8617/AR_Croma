@@ -255,20 +255,18 @@ html, body {
 
 #capa-efecto-container { position: absolute; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 10; pointer-events: none; }
 
-#canvas-overlay { width: 100vw; height: 100vh; max-width: 100%; max-height: 100%; object-fit: contain; pointer-events: auto; touch-action: none; cursor: default; }
-
-/* CAPAS TOTALMENTE AISLADAS Y PROTEGIDAS CONTRA RESCALADOS GLOBALES */
+/* CADA CAPA ES AUTÓNOMA E INDEPENDIENTE */
 .chroma-layer-extra {
     position: absolute;
     top: 25vh;
-    left: 20vw;
+    left: 15vw;
     z-index: 11;
     cursor: move;
     user-select: none;
     touch-action: none;
     pointer-events: auto;
     border: 2px transparent dashed;
-    width: 200px; /* Tamaño inicial fijo por defecto */
+    width: 220px; /* Tamaño inicial fijo por defecto */
 }
 .chroma-layer-extra.selected { border-color: #00ff00; }
 .chroma-layer-extra canvas, .chroma-layer-extra video { display: block; width: 100%; height: auto; }
@@ -380,12 +378,7 @@ html, body {
     <video id="video-camara" autoplay playsinline muted></video>
     <canvas id="canvas-camara-ia"></canvas>
     
-    <video id="video-multimedia" loop playsinline crossorigin="anonymous"></video>
-    <img id="imagen-fuente-oculta" crossorigin="anonymous">
-    
-    <div id="capa-efecto-container">
-        <canvas id="canvas-overlay"></canvas>
-    </div>
+    <div id="capa-efecto-container"></div>
 </div>
 
 <script>
@@ -454,11 +447,6 @@ let listaMultimedia = obtenerBaseDatos();
 const videoCamara = document.getElementById('video-camara');
 const canvasCamaraIA = document.getElementById('canvas-camara-ia');
 const ctxCamaraIA = canvasCamaraIA.getContext('2d');
-
-const videoMultimedia = document.getElementById('video-multimedia');
-const imagenFuenteOculta = document.getElementById('imagen-fuente-oculta');
-const canvas = document.getElementById('canvas-overlay');
-const ctx = canvas.getContext('2d', { willReadFrequently: true });
 const capaEfectoContainer = document.getElementById('capa-efecto-container');
 
 const btnIniciar = document.getElementById('btn-iniciar');
@@ -502,16 +490,7 @@ let colorFiltro = 'verde';
 let modoCamaraIA = false;
 let selfieSegmentation = null;
 
-let procesando = false;
-let tipoActual = 'video';
-let animacionGifId = null;
-
 let modoMoverActivo = false;
-let posX = 0, posY = 0, escalaActual = 1;
-let arrastrando = false;
-let startX = 0, startY = 0;
-let distanciaInicialPellizco = 0;
-
 let layerCounter = 0;
 let activeLayer = null;
 
@@ -546,7 +525,6 @@ function onResultadosIA(results) {
 
     ctxCamaraIA.save();
     ctxCamaraIA.clearRect(0, 0, canvasCamaraIA.width, canvasCamaraIA.height);
-
     ctxCamaraIA.drawImage(results.segmentationMask, 0, 0, canvasCamaraIA.width, canvasCamaraIA.height);
 
     ctxCamaraIA.globalCompositeOperation = 'source-out';
@@ -720,10 +698,6 @@ btnMoverEfecto.addEventListener('click', (e) => {
     btnMoverEfecto.classList.toggle('activo', modoMoverActivo);
 });
 
-function aplicarTransformacion() {
-    canvas.style.transform = `translate(${posX}px, ${posY}px) scale(${escalaActual})`;
-}
-
 function calcularDistanciaTactil(t1, t2) {
     const dx = t1.clientX - t2.clientX;
     const dy = t1.clientY - t2.clientY;
@@ -731,9 +705,9 @@ function calcularDistanciaTactil(t1, t2) {
 }
 
 /* ZOOM HÍBRIDO AUTOMÁTICO DE CÁMARA PRINCIPAL */
+let zoomCamaraActual = 1;
 function aplicarZoomCamaraPrincipal(factor) {
     let nuevoZoom = zoomCamaraActual * factor;
-
     if (zoomCamaraSoportadoNativo && trackCamaraActual) {
         nuevoZoom = Math.min(Math.max(minZoomCamara, nuevoZoom), maxZoomCamara);
         zoomCamaraActual = nuevoZoom;
@@ -748,60 +722,36 @@ function aplicarZoomCamaraPrincipal(factor) {
     }
 }
 
-canvas.addEventListener('touchstart', (e) => {
+// Control de gestos globales sobre el fondo (cuando no se toca una capa específica)
+let distanciaInicialPellizcoGlobal = 0;
+document.addEventListener('touchstart', (e) => {
     forzarDesbloqueoAudio();
-    if (e.touches.length === 2) {
-        distanciaInicialPellizco = calcularDistanciaTactil(e.touches[0], e.touches[1]);
-        arrastrando = false;
-        e.preventDefault();
-    } else if (e.touches.length === 1 && modoMoverActivo && esSuperUsuario) {
-        arrastrando = true;
-        startX = e.touches[0].clientX - posX;
-        startY = e.touches[0].clientY - posY;
+    if (e.touches.length === 2 && !activeLayer) {
+        distanciaInicialPellizcoGlobal = calcularDistanciaTactil(e.touches[0], e.touches[1]);
         e.preventDefault();
     }
 }, { passive: false });
 
-canvas.addEventListener('touchmove', (e) => {
-    if (e.touches.length === 2) {
+document.addEventListener('touchmove', (e) => {
+    if (e.touches.length === 2 && !activeLayer) {
         const distanciaActual = calcularDistanciaTactil(e.touches[0], e.touches[1]);
-        if (distanciaInicialPellizco > 0) {
-            let factor = distanciaActual / distanciaInicialPellizco;
-
-            if (activeLayer) {
-                if (!esSuperUsuario) {
-                    mostrarAviso("función zoom deshabilitada en versiones de prueba");
-                    return;
-                }
-                let nuevaEscala = parseFloat(activeLayer.dataset.scale) * factor;
-                if (nuevaEscala >= 0.3 && nuevaEscala <= 3.5) {
-                    activeLayer.dataset.scale = nuevaEscala;
-                    const baseW = parseFloat(activeLayer.dataset.baseWidth);
-                    activeLayer.style.width = (baseW * nuevaEscala) + 'px';
-                }
-            } else {
-                aplicarZoomCamaraPrincipal(factor);
-            }
-            distanciaInicialPellizco = distanciaActual;
+        if (distanciaInicialPellizcoGlobal > 0) {
+            let factor = distanciaActual / distanciaInicialPellizcoGlobal;
+            aplicarZoomCamaraPrincipal(factor);
+            distanciaInicialPellizcoGlobal = distanciaActual;
         }
         e.preventDefault();
-    } else if (e.touches.length === 1 && arrastrando && modoMoverActivo && esSuperUsuario) {
-        posX = e.touches[0].clientX - startX;
-        posY = e.touches[0].clientY - startY;
-        aplicarTransformacion();
-        e.preventDefault();
     }
 }, { passive: false });
 
-canvas.addEventListener('touchend', (e) => {
-    if (e.touches.length < 2) distanciaInicialPellizco = 0;
-    if (e.touches.length === 0) arrastrando = false;
+document.addEventListener('touchend', (e) => {
+    if (e.touches.length < 2) distanciaInicialPellizcoGlobal = 0;
 });
 
 toleranceRange.addEventListener('input', function() {
-    if (activeLayer && activeLayer.reprocessChroma) {
-        activeLayer.reprocessChroma();
-    }
+    document.querySelectorAll('.chroma-layer-extra').forEach(l => {
+        if (l.reprocessChroma) l.reprocessChroma();
+    });
 });
 
 function deselectAllLayers() {
@@ -815,6 +765,7 @@ function selectLayer(layer) {
     activeLayer = layer;
 }
 
+/* SISTEMA DE CAPAS INDEPENDIENTES Y AUTÓNOMAS */
 function addChromaLayerExtra(sourceUrl, tipo) {
     forzarDesbloqueoAudio();
     layerCounter++;
@@ -822,14 +773,11 @@ function addChromaLayerExtra(sourceUrl, tipo) {
     layerDiv.className = 'chroma-layer-extra selected';
     layerDiv.id = 'layer-' + layerCounter;
 
-    // Posición inicial escalonada para que no nazcan una exactamente encima de otra
+    // Posición inicial escalonada para que nunca nazcan amontonadas
     let offsetPos = (layerCounter % 5) * 30;
-    layerDiv.style.left = (15 + offsetPos) + 'px';
+    layerDiv.style.left = (20 + offsetPos) + 'px';
     layerDiv.style.top = (100 + offsetPos) + 'px';
-
-    layerDiv.dataset.scale = "1.0";
-    layerDiv.dataset.baseWidth = "200";
-    layerDiv.style.width = "200px"; // Ancho inicial fijo predeterminado
+    layerDiv.style.width = '220px'; // Ancho inicial predeterminado independiente
 
     const canvasExtra = document.createElement('canvas');
     const ctxExtra = canvasExtra.getContext('2d', { willReadFrequently: true });
@@ -841,7 +789,6 @@ function addChromaLayerExtra(sourceUrl, tipo) {
     closeBtn.innerText = '✕';
     closeBtn.onclick = function(e) {
         e.stopPropagation();
-
         if (videoElementRef) {
             videoElementRef.pause();
             videoElementRef.muted = true;
@@ -849,7 +796,6 @@ function addChromaLayerExtra(sourceUrl, tipo) {
             videoElementRef.removeAttribute('src');
             videoElementRef.load();
         }
-
         layerDiv.remove();
         if (activeLayer === layerDiv) activeLayer = null;
     };
@@ -898,7 +844,6 @@ function addChromaLayerExtra(sourceUrl, tipo) {
         vExtra.playsInline = true;
 
         videoElementRef = vExtra;
-
         vExtra.play().catch(() => {
             vExtra.muted = true;
             vExtra.play();
@@ -947,7 +892,7 @@ function makeInteractableLayer(element) {
     let isDraggingLayer = false;
     let startXLayer, startYLayer, initialLeft, initialTop;
     let initialPinchDistance = null;
-    let initialScale = 1;
+    let initialWidth = 220;
 
     element.addEventListener('click', function(e) {
         e.stopPropagation();
@@ -967,7 +912,8 @@ function makeInteractableLayer(element) {
             }
             isDraggingLayer = false;
             initialPinchDistance = calcularDistanciaTactil(e.touches[0], e.touches[1]);
-            initialScale = parseFloat(element.dataset.scale);
+            initialWidth = element.offsetWidth;
+            e.stopPropagation();
         } else {
             isDraggingLayer = true;
             const clientX = e.touches ? e.touches[0].clientX : e.clientX;
@@ -976,6 +922,7 @@ function makeInteractableLayer(element) {
             startYLayer = clientY;
             initialLeft = element.offsetLeft;
             initialTop = element.offsetTop;
+            e.stopPropagation();
         }
 
         document.addEventListener('touchmove', handleMove, {passive: false});
@@ -993,32 +940,15 @@ function makeInteractableLayer(element) {
             e.preventDefault();
             const currentDistance = calcularDistanciaTactil(e.touches[0], e.touches[1]);
             const scaleFactor = currentDistance / initialPinchDistance;
-            let newScale = Math.min(Math.max(0.3, initialScale * scaleFactor), 4.0);
-            
-            element.dataset.scale = newScale;
-            const baseWidth = parseFloat(element.dataset.baseWidth);
-            element.style.width = (baseWidth * newScale) + 'px';
+            let newWidth = Math.min(Math.max(80, initialWidth * scaleFactor), 800);
+            element.style.width = newWidth + 'px';
         } else if (isDraggingLayer) {
+            e.preventDefault();
             const clientX = e.touches ? e.touches[0].clientX : e.clientX;
             const clientY = e.touches ? e.touches[0].clientY : e.clientY;
             
             let nuevaLeft = initialLeft + (clientX - startXLayer);
             let nuevaTop = initialTop + (clientY - startYLayer);
-
-            const elemWidth = element.offsetWidth;
-            const elemHeight = element.offsetHeight;
-            const minVisibleW = elemWidth * 0.05;
-            const minVisibleH = elemHeight * 0.05;
-
-            const maxLeft = window.innerWidth - minVisibleW;
-            const minLeft = -elemWidth + minVisibleW;
-            const maxTop = window.innerHeight - minVisibleH;
-            const minTop = -elemHeight + minVisibleH;
-
-            if (nuevaLeft > maxLeft) nuevaLeft = maxLeft;
-            if (nuevaLeft < minLeft) nuevaLeft = minLeft;
-            if (nuevaTop > maxTop) nuevaTop = maxTop;
-            if (nuevaTop < minTop) nuevaTop = minTop;
 
             element.style.left = nuevaLeft + 'px';
             element.style.top = nuevaTop + 'px';
@@ -1054,11 +984,12 @@ btnGrabar.addEventListener('click', () => {
             if (!grabandoActivo) return;
             const fuenteCamara = modoCamaraIA ? canvasCamaraIA : videoCamara;
             ctxGrabacion.drawImage(fuenteCamara, 0, 0, canvasGrabacion.width, canvasGrabacion.height);
-            ctxGrabacion.drawImage(canvas, 0, 0, canvasGrabacion.width, canvasGrabacion.height);
 
-            document.querySelectorAll('.chroma-layer-extra canvas').forEach(c => {
-                const layer = c.parentElement;
-                ctxGrabacion.drawImage(c, layer.offsetLeft, layer.offsetTop, layer.offsetWidth, layer.offsetHeight);
+            document.querySelectorAll('.chroma-layer-extra').forEach(layer => {
+                const c = layer.querySelector('canvas');
+                if (c) {
+                    ctxGrabacion.drawImage(c, layer.offsetLeft, layer.offsetTop, layer.offsetWidth, layer.offsetHeight);
+                }
             });
 
             requestAnimationFrame(dibujarFrameParaGrabacion);
@@ -1155,8 +1086,7 @@ function cargarArchivoSeleccionado() {
     if (selectorVideo.options.length === 0) return;
     const selectedOption = selectorVideo.options[selectorVideo.selectedIndex];
     const archivoUrl = selectedOption.value;
-    tipoActual = selectedOption.getAttribute('data-tipo');
-
+    const tipoActual = selectedOption.getAttribute('data-tipo');
     addChromaLayerExtra(archivoUrl, tipoActual);
 }
 
@@ -1168,7 +1098,7 @@ function verificarAccesoSuperusuario() {
     if (SUPER_USUARIOS.includes(emailIngresado)) {
         const deviceIdActual = obtenerDispositivoId();
         const dispositivosAutorizadosKey = `auth_devs_${emailIngresado}`;
-        let dispositivosGuardados = JSON.parse(localStorage.getItem(dispositivosAutorizadosKey) || "[]");
+        let dispositivosGuardados = JSON.parse(localStorage.getItem(disposivosAutorizadosKey) || "[]");
 
         if (dispositivosGuardados.includes(deviceIdActual)) {
             esSuperUsuario = true;
@@ -1273,76 +1203,6 @@ async function lanzarApp() {
         };
     } catch (err) {
         mensajeError.innerText = "Error: No se pudo acceder a la cámara o permisos denegados.";
-    }
-}
-
-window.addEventListener('resize', () => {
-    if (videoMultimedia.videoWidth) {
-        canvas.width = videoMultimedia.videoWidth;
-        canvas.height = videoMultimedia.videoHeight;
-    } else if (imagenFuenteOculta.naturalWidth) {
-        canvas.width = imagenFuenteOculta.naturalWidth;
-        canvas.height = imagenFuenteOculta.naturalHeight;
-    }
-});
-
-videoMultimedia.addEventListener('loadeddata', () => {
-    canvas.width = videoMultimedia.videoWidth || 1280;
-    canvas.height = videoMultimedia.videoHeight || 720;
-    if (!procesando) { procesando = true; procesarChromaKeyVideo(); }
-});
-
-function procesarChromaKeyVideo() {
-    if (tipoActual === 'video' && !videoMultimedia.paused && !videoMultimedia.ended) {
-        if (videoMultimedia.videoWidth) {
-            canvas.width = videoMultimedia.videoWidth;
-            canvas.height = videoMultimedia.videoHeight;
-        }
-        ctx.drawImage(videoMultimedia, 0, 0, canvas.width, canvas.height);
-        let frame = ctx.getImageData(0, 0, canvas.width, canvas.height);
-        let totalPixeles = frame.data.length / 4;
-        let tolerance = parseFloat(toleranceRange.value);
-
-        for (let i = 0; i < totalPixeles; i++) {
-            let r = frame.data[i * 4 + 0], g = frame.data[i * 4 + 1], b = frame.data[i * 4 + 2];
-            if (colorFiltro === 'verde') { 
-                if (g > 60 && g > r * (1.8 - (tolerance * 0.4)) && g > b * (1.8 - (tolerance * 0.4))) frame.data[i * 4 + 3] = 0; 
-            } 
-            else if (colorFiltro === 'azul' && esSuperUsuario) { 
-                if (b > 60 && b > r * (1.8 - (tolerance * 0.4)) && b > g * (1.8 - (tolerance * 0.4))) frame.data[i * 4 + 3] = 0; 
-            } 
-            else if (colorFiltro === 'negro' && esSuperUsuario) { 
-                if (r < 50 && g < 50 && b < 50) frame.data[i * 4 + 3] = 0; 
-            }
-        }
-        ctx.putImageData(frame, 0, 0);
-    }
-    requestAnimationFrame(procesarChromaKeyVideo);
-}
-
-function procesarChromaKeyGIF() {
-    if (tipoActual === 'gif') {
-        canvas.width = imagenFuenteOculta.naturalWidth || 500;
-        canvas.height = imagenFuenteOculta.naturalHeight || 500;
-        ctx.drawImage(imagenFuenteOculta, 0, 0, canvas.width, canvas.height);
-        let frame = ctx.getImageData(0, 0, canvas.width, canvas.height);
-        let totalPixeles = frame.data.length / 4;
-        let tolerance = parseFloat(toleranceRange.value);
-
-        for (let i = 0; i < totalPixeles; i++) {
-            let r = frame.data[i * 4 + 0], g = frame.data[i * 4 + 1], b = frame.data[i * 4 + 2];
-            if (colorFiltro === 'verde') { 
-                if (g > 60 && g > r * (1.8 - (tolerance * 0.4)) && g > b * (1.8 - (tolerance * 0.4))) frame.data[i * 4 + 3] = 0; 
-            } 
-            else if (colorFiltro === 'azul' && esSuperUsuario) { 
-                if (b > 60 && b > r * (1.8 - (tolerance * 0.4)) && b > g * (1.8 - (tolerance * 0.4))) frame.data[i * 4 + 3] = 0; 
-            } 
-            else if (colorFiltro === 'negro' && esSuperUsuario) { 
-                if (r < 50 && g < 50 && b < 50) frame.data[i * 4 + 3] = 0; 
-            }
-        }
-        ctx.putImageData(frame, 0, 0);
-        animacionGifId = requestAnimationFrame(procesarChromaKeyGIF);
     }
 }
 
