@@ -148,26 +148,28 @@ html, body {
 #tooltip-texto { position: absolute; left: 40px; top: 50%; transform: translateY(-50%); background: rgba(0, 0, 0, 0.85); color: #fff; padding: 6px 12px; border-radius: 6px; font-size: 12px; white-space: nowrap; pointer-events: none; opacity: 0; visibility: hidden; transition: opacity 0.2s; box-shadow: 0 2px 5px rgba(0,0,0,0.3); }
 #btn-menu-circular:hover #tooltip-texto, #btn-menu-circular.activo-tactil #tooltip-texto { opacity: 1; visibility: visible; }
 
-/* MENÚ DESPLEGABLE CORREGIDO: Ubicado abajo de los botones con z-index máximo */
+/* MENÚ MODAL CENTRADO: Visible por completo en medio de la pantalla al tocar el engranaje */
 #selector-video-wrapper { 
     display: none; 
     position: fixed; 
-    top: 52px; 
-    left: 10px; 
-    width: 290px;
-    background: rgba(15, 15, 15, 0.98); 
-    padding: 14px; 
-    border-radius: 10px; 
-    box-shadow: 0 10px 30px rgba(0,0,0,0.9); 
+    top: 50%; 
+    left: 50%; 
+    transform: translate(-50%, -50%); 
+    width: 85%;
+    max-width: 320px;
+    background: rgba(20, 20, 20, 0.98); 
+    padding: 20px; 
+    border-radius: 14px; 
+    box-shadow: 0 10px 40px rgba(0,0,0,0.9); 
     flex-direction: column; 
-    gap: 10px; 
-    z-index: 40000; 
-    border: 1.5px solid #00ff00;
+    gap: 12px; 
+    z-index: 50000; 
+    border: 2px solid #00ff00;
 }
-#selector-video { padding: 10px; font-size: 14px; border-radius: 6px; border: 1px solid #666; background: #222; color: #fff; cursor: pointer; width: 100%; }
+#selector-video { padding: 12px; font-size: 14px; border-radius: 8px; border: 1px solid #666; background: #222; color: #fff; cursor: pointer; width: 100%; }
 #input-archivo-oculto { display: none; }
 
-.btn-accion-menu { color: white; border: none; padding: 10px; border-radius: 6px; font-size: 13px; cursor: pointer; text-align: center; font-weight: bold; width: 100%; }
+.btn-accion-menu { color: white; border: none; padding: 12px; border-radius: 8px; font-size: 14px; cursor: pointer; text-align: center; font-weight: bold; width: 100%; }
 #btn-descargar-demo { background: #007bff; }
 #btn-agregar-archivo { background: #1b4d3e; }
 #btn-borrar-item { background: #6c2222; }
@@ -350,8 +352,9 @@ html, body {
         <div id="btn-grabar" title="Grabar Video"></div>
     </div>
 
-    <!-- Menú desplegable flotante con z-index superior para que nunca quede oculto -->
+    <!-- Menú modal flotante centrado en pantalla para máxima visibilidad y comodidad -->
     <div id="selector-video-wrapper">
+        <h4 style="color: #00ff00; margin: 0 0 5px 0; text-align: center; font-size: 15px;">📁 Selector de Efectos</h4>
         <select id="selector-video"></select>
         <button id="btn-descargar-demo" class="btn-accion-menu">📥 Descargar Demo</button>
         <button id="btn-agregar-archivo" class="btn-accion-menu">➕ Agregar archivo local</button>
