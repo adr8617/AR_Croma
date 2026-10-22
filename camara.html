@@ -53,7 +53,7 @@ html, body {
     left: 0; 
     width: 100vw; 
     height: 100vh; 
-    background-color: #6c757d; /* Pantalla de inicio en color gris */
+    background-color: #fd7e14; /* Pantalla de inicio en color naranja */
     z-index: 999999; 
     display: flex; 
     flex-direction: column; 
@@ -67,7 +67,7 @@ html, body {
 
 #btn-iniciar { 
     background-color: #ffffff; 
-    color: #495057; 
+    color: #fd7e14; 
     font-weight: bold; 
     font-size: 16px; 
     padding: 16px 30px; 
@@ -331,7 +331,7 @@ html, body {
 <body>
 <div id="pantalla-inicio">
     <h2 style="color: white; margin-bottom: 5px;">Chroma Cam FX</h2>
-    <p style="color: #f8f9fa; font-size: 13px; margin-top: 0;">Chroma Studio FX - Versión Gris de Diagnóstico</p>
+    <p style="color: #fff3cd; font-size: 13px; margin-top: 0;">Chroma Studio FX - Versión Naranja Estable</p>
     <input type="email" id="input-email-usuario" class="input-login" placeholder="correo@gmail.com" value="adr8617@gmail.com">
     
     <!-- Botón con disparador directo vinculado a la validación -->
@@ -359,7 +359,7 @@ html, body {
             <li><strong>✋ Mover y Escalar:</strong> En versión PRO puedes escalar con pellizco (🤏) o redimensionar.</li>
             <li><strong>🔄 Cambiar Cámara:</strong> Alterna entre cámara frontal y trasera.</li>
             <li><strong>👁️ Ocultar/Mostrar Controles:</strong> Oculta botones para limpiar la toma.</li>
-            <li><strong>🔴 Grabar Video:</strong> Oculta automáticamente la interfaz al grabar y mantiene exactamente el tamaño visual y de video configurado.</li>
+            <li><strong>🔴 Grabar Video:</strong> Oculta automáticamente la interfaz al grabar y mantiene exactamente el tamaño visual y de video configurado, sin parpadeos.</li>
             <li><strong>🎨 Filtro de Croma:</strong> Ajusta tolerancia y color.</li>
         </ul>
         <button id="btn-cerrar-ayuda" class="btn-cerrar-modal">Cerrar Ayuda</button>
@@ -863,9 +863,9 @@ function addChromaLayerExtra(sourceUrl, tipo) {
     layerDiv.style.left = (15 + offsetPos) + 'px';
     layerDiv.style.top = (100 + offsetPos) + 'px';
 
-    layerDiv.dataset.scale = "1.0";
+    layerDiv.dataset.scale = "1.5"; // Iniciado en tamaño grande por defecto
     layerDiv.dataset.baseWidth = "200";
-    layerDiv.style.width = "200px";
+    layerDiv.style.width = "300px"; // Ancho inicial grande
 
     const canvasExtra = document.createElement('canvas');
     const ctxExtra = canvasExtra.getContext('2d', { willReadFrequently: true });
@@ -990,6 +990,16 @@ function makeInteractableLayer(element) {
         selectLayer(element);
     });
 
+    // Doble clic para alternar o asegurar tamaño grande
+    element.addEventListener('dblclick', function(e) {
+        e.stopPropagation();
+        let escalaActualLayer = parseFloat(element.dataset.scale || 1.0);
+        let nuevaEscala = escalaActualLayer < 2.0 ? 2.0 : 1.0;
+        element.dataset.scale = nuevaEscala;
+        const baseWidth = parseFloat(element.dataset.baseWidth || 200);
+        element.style.width = (baseWidth * nuevaEscala) + 'px';
+    });
+
     element.addEventListener('touchstart', handleStart, {passive: false});
     element.addEventListener('mousedown', handleStart);
 
@@ -1069,7 +1079,7 @@ function makeInteractableLayer(element) {
     }
 }
 
-// GRABACIÓN PERFECTA: OCULTAR INTERFAZ Y RENDERIZAR CON ESCALA EXACTA
+// GRABACIÓN ESTABLE Y SIN PARPADEO DE ESCALA
 btnGrabar.addEventListener('click', () => {
     forzarDesbloqueoAudio();
     if (!estaGrabando) { 
@@ -1077,7 +1087,7 @@ btnGrabar.addEventListener('click', () => {
         nombreArchivoGrabado = prompt("Escribe el nombre para tu video grabado:", nombreSugerido);
         if (!nombreArchivoGrabado || nombreArchivoGrabado.trim() === "") return; 
 
-        // Ocultar la interfaz automáticamente al iniciar la grabación
+        // Ocultar la interfaz pero manteniendo la estabilidad visual de las capas
         if (!interfazOculta) {
             interfazOculta = true;
             controlesOcultables.forEach(el => { el.style.display = 'none'; });
@@ -1167,7 +1177,7 @@ btnGrabar.addEventListener('click', () => {
                 alert(`¡Video guardado con éxito y escala perfecta!`);
             }, 100);
 
-            // Restaurar interfaz al terminar
+            // Restaurar interfaz manteniendo los tamaños intactos
             if (interfazOculta) {
                 interfazOculta = false;
                 controlesOcultables.forEach(el => { el.style.display = 'flex'; });
@@ -1335,7 +1345,7 @@ async function lanzarApp() {
 
             actualizarSelect();
             if (esSuperUsuario) {
-                // Cargar el efecto por defecto de la Llorona automáticamente
+                // Cargar el efecto por defecto de la Llorona automáticamente en tamaño grande
                 addChromaLayerExtra(listaMultimedia[0].archivo, listaMultimedia[0].tipo);
             }
         };
