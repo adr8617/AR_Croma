@@ -53,7 +53,7 @@ html, body {
     left: 0; 
     width: 100vw; 
     height: 100vh; 
-    background-color: #198754; 
+    background-color: #111111; 
     z-index: 999999; 
     display: flex; 
     flex-direction: column; 
@@ -67,7 +67,7 @@ html, body {
 
 #btn-iniciar { 
     background-color: #ffffff; 
-    color: #198754; 
+    color: #111111; 
     font-weight: bold; 
     font-size: 16px; 
     padding: 16px 30px; 
@@ -331,11 +331,11 @@ html, body {
 <body>
 <div id="pantalla-inicio">
     <h2 style="color: white; margin-bottom: 5px;">Chroma Cam FX</h2>
-    <p style="color: #e8f5e9; font-size: 13px; margin-top: 0;">Chroma Studio FX - Versión Verde Blindada</p>
+    <p style="color: #bbbbbb; font-size: 13px; margin-top: 0;">Chroma Studio FX - Versión Negra Blindada</p>
     <input type="email" id="input-email-usuario" class="input-login" placeholder="correo@gmail.com" value="adr8617@gmail.com">
     
-    <!-- Botón con disparador universal directo -->
-    <div id="btn-iniciar" onclick="verificarAccesoSuperusuario()">TOCA AQUÍ PARA INICIAR</div>
+    <!-- Botón con disparador seguro desacoplado -->
+    <div id="btn-iniciar" onclick="ejecutarAccesoDirecto()">TOCA AQUÍ PARA INICIAR</div>
     
     <p id="mensaje-error"></p>
 </div>
@@ -1199,6 +1199,18 @@ function cargarArchivoSeleccionado() {
 }
 
 selectorVideo.addEventListener('change', cargarArchivoSeleccionado);
+
+/* DESACOPLAMIENTO DE SEGURIDAD PARA RESPUESTA TÁCTIL INMEDIATA */
+function ejecutarAccesoDirecto() {
+    // 1. Ocultar la pantalla de inicio al instante antes de solicitar hardware
+    pantallaInicio.style.display = 'none';
+    panelControles.style.display = 'flex';
+    
+    // 2. Ejecutar la lógica de inicio y permisos en el siguiente ciclo seguro
+    setTimeout(() => {
+        verificarAccesoSuperusuario();
+    }, 50);
+}
 
 function verificarAccesoSuperusuario(e) {
     if (e) {
