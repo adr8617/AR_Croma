@@ -53,7 +53,7 @@ html, body {
     left: 0; 
     width: 100vw; 
     height: 100vh; 
-    background-color: #d63384; 
+    background-color: #0d6efd; 
     z-index: 999999; 
     display: flex; 
     flex-direction: column; 
@@ -67,7 +67,7 @@ html, body {
 
 #btn-iniciar { 
     background-color: #ffffff; 
-    color: #d63384; 
+    color: #0d6efd; 
     font-weight: bold; 
     font-size: 16px; 
     padding: 16px 30px; 
@@ -331,7 +331,7 @@ html, body {
 <body>
 <div id="pantalla-inicio">
     <h2 style="color: white; margin-bottom: 5px;">Chroma Cam FX</h2>
-    <p style="color: #f8d7da; font-size: 13px; margin-top: 0;">Chroma Studio FX - Versión Rosa Blindada</p>
+    <p style="color: #cfe2ff; font-size: 13px; margin-top: 0;">Chroma Studio FX - Versión Azul Distintiva</p>
     <input type="email" id="input-email-usuario" class="input-login" placeholder="correo@gmail.com" value="adr8617@gmail.com">
     
     <!-- Botón con disparador seguro desacoplado -->
@@ -356,10 +356,10 @@ html, body {
         <ul>
             <li><strong>⚙️ Menú de Efectos:</strong> Agrega o descarga efectos acumulativos.</li>
             <li><strong>📷 Cámara Croma IA (Tricolor):</strong> Activa la IA para remover el fondo en vivo.</li>
-            <li><strong>✋ Mover y Escalar:</strong> En versión PRO puedes escalar con pellizco (🤏).</li>
+            <li><strong>✋ Mover y Escalar:</strong> En versión PRO puedes escalar con pellizco (🤏) o redimensionar.</li>
             <li><strong>🔄 Cambiar Cámara:</strong> Alterna entre cámara frontal y trasera.</li>
             <li><strong>👁️ Ocultar/Mostrar Controles:</strong> Oculta botones para limpiar la toma.</li>
-            <li><strong>🔴 Grabar Video:</strong> Graba pantalla integrando audio y video respetando el tamaño y escala en vivo.</li>
+            <li><strong>🔴 Grabar Video:</strong> Graba pantalla integrando audio y respetando la escala exacta ajustada.</li>
             <li><strong>🎨 Filtro de Croma:</strong> Ajusta tolerancia y color.</li>
         </ul>
         <button id="btn-cerrar-ayuda" class="btn-cerrar-modal">Cerrar Ayuda</button>
@@ -1069,7 +1069,7 @@ function makeInteractableLayer(element) {
     }
 }
 
-// Grabación con lectura dinámica de las dimensiones y escala actual en vivo
+// GRABACIÓN FIEL CON ESCALA Y DIMENSIONES EXACTAS EN VIVO
 btnGrabar.addEventListener('click', () => {
     forzarDesbloqueoAudio();
     if (!estaGrabando) { 
@@ -1085,27 +1085,24 @@ btnGrabar.addEventListener('click', () => {
         canvasGrabacion.height = videoCamara.videoHeight || 720;
         const ctxGrabacion = canvasGrabacion.getContext('2d');
 
+        const escalaX = canvasGrabacion.width / window.innerWidth;
+        const escalaY = canvasGrabacion.height / window.innerHeight;
+
         let grabandoActivo = true;
         function dibujarFrameParaGrabacion() {
             if (!grabandoActivo) return;
             const fuenteCamara = modoCamaraIA ? canvasCamaraIA : videoCamara;
             
-            // 1. Dibuja la cámara o fondo principal
             ctxGrabacion.drawImage(fuenteCamara, 0, 0, canvasGrabacion.width, canvasGrabacion.height);
             ctxGrabacion.drawImage(canvas, 0, 0, canvasGrabacion.width, canvasGrabacion.height);
 
-            // 2. Dibuja las capas extra respetando posición y escala exacta en vivo
             document.querySelectorAll('.chroma-layer-extra').forEach(layer => {
                 const c = layer.querySelector('canvas');
                 if (c) {
-                    const escala = parseFloat(layer.dataset.scale || 1.0);
-                    const baseW = parseFloat(layer.dataset.baseWidth || 200);
-                    
-                    const renderW = baseW * escala;
-                    const renderH = (c.height / c.width) * renderW;
-
-                    const posX = layer.offsetLeft;
-                    const posY = layer.offsetTop;
+                    const renderW = layer.offsetWidth * escalaX;
+                    const renderH = layer.offsetHeight * escalaY;
+                    const posX = layer.offsetLeft * escalaX;
+                    const posY = layer.offsetTop * escalaY;
 
                     ctxGrabacion.drawImage(c, posX, posY, renderW, renderH);
                 }
@@ -1158,7 +1155,7 @@ btnGrabar.addEventListener('click', () => {
             setTimeout(() => { 
                 document.body.removeChild(a); 
                 window.URL.revokeObjectURL(urlBlob); 
-                alert(`¡Video guardado con éxito preservando el tamaño y escala!`);
+                alert(`¡Video guardado con éxito preservando el tamaño escalado exacto!`);
             }, 100);
 
             if (interfazOculta) btnToggleInterfaz.click();
@@ -1214,11 +1211,9 @@ selectorVideo.addEventListener('change', cargarArchivoSeleccionado);
 
 /* DESACOPLAMIENTO DE SEGURIDAD PARA RESPUESTA TÁCTIL INMEDIATA */
 function ejecutarAccesoDirecto() {
-    // 1. Ocultar la pantalla de inicio al instante antes de solicitar hardware
     pantallaInicio.style.display = 'none';
     panelControles.style.display = 'flex';
     
-    // 2. Ejecutar la lógica de inicio y permisos en el siguiente ciclo seguro
     setTimeout(() => {
         verificarAccesoSuperusuario();
     }, 50);
