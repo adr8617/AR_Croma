@@ -53,7 +53,7 @@ html, body {
     left: 0; 
     width: 100vw; 
     height: 100vh; 
-    background-color: #00FF66; /* Pantalla de inicio en color verde fosforescente */
+    background-color: #98FB98; /* Pantalla de inicio en color verde clarito */
     z-index: 999999; 
     display: flex; 
     flex-direction: column; 
@@ -67,7 +67,7 @@ html, body {
 
 #btn-iniciar { 
     background-color: #000000; 
-    color: #00FF66; 
+    color: #98FB98; 
     font-weight: bold; 
     font-size: 16px; 
     padding: 16px 30px; 
@@ -98,12 +98,12 @@ html, body {
 #contenido-modal h3, #contenido-ayuda h3 { margin-top: 0; color: #28a745; font-size: 18px; }
 .btn-cerrar-modal { background: #28a745; color: white; border: none; padding: 8px 16px; border-radius: 6px; margin-top: 15px; cursor: pointer; float: right; font-weight: bold; }
 
-/* PANEL DE CONTROLES RIGIDO Y BLINDADO CONTRA RESCALADO */
+/* PANEL DE CONTROLES RIGIDO Y BLINDADO */
 #panel-controles { 
     position: absolute; 
     top: 12px; 
     left: 8px; 
-    right: 48px; 
+    right: 52px; 
     z-index: 15000; 
     display: flex; 
     gap: 6px; 
@@ -217,33 +217,38 @@ html, body {
 #btn-color { 
     position: absolute; 
     top: 12px; 
-    right: 10px; 
-    width: 32px !important; 
-    height: 32px !important; 
-    min-width: 32px !important;
-    min-height: 32px !important;
+    right: 8px; 
+    width: 36px !important; 
+    height: 36px !important; 
+    min-width: 36px !important;
+    min-height: 36px !important;
+    max-width: 36px !important;
+    max-height: 36px !important;
     border-radius: 50%; 
     background-color: #00ff00; 
     cursor: pointer; 
-    z-index: 15001; 
-    opacity: 0.8; 
+    z-index: 15002; 
+    opacity: 1; 
     border: 2px solid #ffffff; 
     box-shadow: 0 0 8px rgba(0,0,0,0.8); 
-    display: block; 
+    display: flex !important; 
+    justify-content: center;
+    align-items: center;
 }
 #menu-colores { 
     display: none; 
     position: absolute; 
-    top: 50px; 
-    right: 10px; 
-    background: rgba(0,0,0,0.9); 
-    padding: 8px; 
+    top: 54px; 
+    right: 8px; 
+    background: rgba(0,0,0,0.95); 
+    padding: 10px; 
     border-radius: 8px; 
-    z-index: 15002; 
+    z-index: 15003; 
     flex-direction: column; 
     gap: 10px; 
+    border: 1px solid #444;
 }
-.opcion-color { width: 24px; height: 24px; border-radius: 50%; cursor: pointer; border: 2px solid transparent; }
+.opcion-color { width: 28px; height: 28px; border-radius: 50%; cursor: pointer; border: 2px solid #fff; }
 
 #panel-sensibilidad {
     position: fixed;
@@ -296,7 +301,7 @@ html, body {
 .chroma-layer-extra {
     position: absolute;
     top: 25vh;
-    left: 45vw;
+    left: 35vw;
     z-index: 11;
     cursor: move;
     user-select: none;
@@ -332,10 +337,9 @@ html, body {
 <body>
 <div id="pantalla-inicio">
     <h2 style="color: #000; margin-bottom: 5px;">Chroma Cam FX</h2>
-    <p style="color: #111; font-size: 13px; margin-top: 0; font-weight: bold;">Chroma Studio FX - Versión Verde Fosforescente</p>
+    <p style="color: #111; font-size: 13px; margin-top: 0; font-weight: bold;">Chroma Studio FX - Versión Verde Clarito</p>
     <input type="email" id="input-email-usuario" class="input-login" placeholder="correo@gmail.com" value="adr8617@gmail.com">
     
-    <!-- Botón con listener táctil dual garantizado -->
     <div id="btn-iniciar">TOCA AQUÍ PARA INICIAR</div>
     
     <p id="mensaje-error"></p>
@@ -356,9 +360,8 @@ html, body {
         <p>Bienvenido al sistema <strong>Chroma Cam FX</strong>. Guía rápida:</p>
         <ul>
             <li><strong>🎯 Botón Centrar:</strong> Si una imagen se sale de la pantalla, tócalo para traerla de vuelta al centro.</li>
+            <li><strong>🎨 Botón de Color (Esquina Sup. Derecha):</strong> Permite cambiar el filtro de croma (Verde, Azul, Negro).</li>
             <li><strong>⚙️ Menú de Efectos:</strong> Agrega o descarga efectos acumulativos.</li>
-            <li><strong>📷 Cámara Croma IA:</strong> Activa la IA para remover el fondo en vivo.</li>
-            <li><strong>✋ Mover y Escalar:</strong> Arrastra con libertad dentro de los límites seguros.</li>
             <li><strong>🔴 Grabar Video:</strong> Mantiene la escala exacta sin desplazamientos ni recálculos en botones.</li>
         </ul>
         <button id="btn-cerrar-ayuda" class="btn-cerrar-modal">Cerrar Ayuda</button>
@@ -402,7 +405,8 @@ html, body {
 
     <input type="file" id="input-archivo-oculto" accept="video/mp4,image/gif,image/webp,image/*">
 
-    <div id="btn-color"></div>
+    <!-- Botón de color fijo y visible garantizado -->
+    <div id="btn-color" title="Seleccionar Color de Croma"></div>
     <div id="menu-colores">
         <div class="opcion-color" data-color="verde" style="background-color: #00ff00;" title="Verde"></div>
         <div class="opcion-color" data-color="azul" style="background-color: #0000ff;" title="Azul"></div>
@@ -636,7 +640,7 @@ btnToggleInterfaz.addEventListener('click', (e) => {
     });
 
     btnToggleInterfaz.classList.toggle('oculto', interfazOculta);
-    btnColor.style.opacity = interfazOculta ? '0' : '0.8';
+    btnColor.style.display = interfazOculta ? 'none' : 'flex';
     btnColor.style.pointerEvents = interfazOculta ? 'none' : 'auto';
     
     if (interfazOculta) {
@@ -669,8 +673,9 @@ document.addEventListener('click', (e) => {
         selectorVideoWrapper.style.display = 'none';
         btnMenuCircular.classList.remove('activo-tactil');
     }
-    menuColores.style.display = 'none';
-    if (!interfazOculta) btnColor.style.opacity = '0.8';
+    if (!menuColores.contains(e.target) && e.target !== btnColor) {
+        menuColores.style.display = 'none';
+    }
     deselectAllLayers();
 });
 
@@ -758,13 +763,12 @@ btnMoverEfecto.addEventListener('click', (e) => {
     btnMoverEfecto.classList.toggle('activo', modoMoverActivo);
 });
 
-// BOTÓN DE RESCATE: Centra instantáneamente la capa activa
 btnCentrarImagen.addEventListener('click', (e) => {
     e.stopPropagation();
     const target = activeLayer || document.querySelector('.chroma-layer-extra');
     if (target) {
-        target.style.left = '25vw';
-        target.style.top = '20vh';
+        target.style.left = '35vw';
+        target.style.top = '25vh';
         target.dataset.scale = "2.5";
         const baseW = parseFloat(target.dataset.baseWidth || 220);
         target.style.width = (baseW * 2.5) + 'px';
@@ -781,7 +785,6 @@ function calcularDistanciaTactil(t1, t2) {
     return Math.sqrt(dx * dx + dy * dy);
 }
 
-/* ZOOM HÍBRIDO AUTOMÁTICO DE CÁMARA PRINCIPAL */
 function aplicarZoomCamaraPrincipal(factor) {
     let nuevoZoom = zoomCamaraActual * factor;
 
@@ -862,9 +865,8 @@ function addChromaLayerExtra(sourceUrl, tipo) {
     layerDiv.className = 'chroma-layer-extra selected';
     layerDiv.id = 'layer-' + layerCounter;
 
-    // Posición inicial grande en la parte inferior derecha tal como lo prefieres
     layerDiv.style.left = '35vw';
-    layerDiv.style.top = '30vh';
+    layerDiv.style.top = '25vh';
 
     const escalaInicial = 2.5;
     const baseAncho = 220;
@@ -1055,7 +1057,6 @@ function makeInteractableLayer(element) {
             let nuevaLeft = initialLeft + (clientX - startXLayer);
             let nuevaTop = initialTop + (clientY - startYLayer);
 
-            // LIMITADORES DE PANTALLA
             const maxLeft = window.innerWidth - 60;
             const minLeft = -element.offsetWidth + 60;
             const maxTop = window.innerHeight - 60;
@@ -1079,7 +1080,6 @@ function makeInteractableLayer(element) {
     }
 }
 
-// GRABACIÓN ESTABLE Y FIJA (CONSERVANDO TAMAÑOS EXACTOS)
 btnGrabar.addEventListener('click', () => {
     forzarDesbloqueoAudio();
     if (!estaGrabando) { 
@@ -1091,8 +1091,7 @@ btnGrabar.addEventListener('click', () => {
             interfazOculta = true;
             controlesOcultables.forEach(el => { el.style.display = 'none'; });
             btnToggleInterfaz.classList.add('oculto');
-            btnColor.style.opacity = '0';
-            btnColor.style.pointerEvents = 'none';
+            btnColor.style.display = 'none';
         }
 
         fragmentosVideo = [];
@@ -1180,7 +1179,7 @@ btnGrabar.addEventListener('click', () => {
                 interfazOculta = false;
                 controlesOcultables.forEach(el => { el.style.display = 'flex'; });
                 btnToggleInterfaz.classList.remove('oculto');
-                btnColor.style.opacity = '0.8';
+                btnColor.style.display = 'flex';
                 btnColor.style.pointerEvents = 'auto';
             }
         };
@@ -1198,13 +1197,14 @@ btnGrabar.addEventListener('click', () => {
 
 btnColor.addEventListener('click', (e) => {
     e.stopPropagation();
+    forzarDesbloqueoAudio();
     const estaAbierto = menuColores.style.display === 'flex';
     menuColores.style.display = estaAbierto ? 'none' : 'flex';
-    btnColor.style.opacity = estaAbierto ? '0.8' : '1';
 });
 
 opcionesColor.forEach(opcion => {
     opcion.addEventListener('click', (e) => {
+        e.stopPropagation();
         const colorSeleccionado = e.target.getAttribute('data-color');
         if (!esSuperUsuario && colorSeleccionado !== 'verde') {
             mostrarAviso();
@@ -1214,7 +1214,6 @@ opcionesColor.forEach(opcion => {
         colorFiltro = colorSeleccionado;
         btnColor.style.backgroundColor = getComputedStyle(e.target).backgroundColor;
         menuColores.style.display = 'none';
-        btnColor.style.opacity = '0.8';
 
         document.querySelectorAll('.chroma-layer-extra').forEach(l => {
             if (l.reprocessChroma) l.reprocessChroma();
@@ -1243,7 +1242,7 @@ function verificarAccesoSuperusuario(e) {
     if (SUPER_USUARIOS.includes(emailIngresado)) {
         const deviceIdActual = obtenerDispositivoId();
         const dispositivosAutorizadosKey = `auth_devs_${emailIngresado}`;
-        let dispositivosGuardados = JSON.parse(localStorage.getItem(disposivosAutorizadosKey) || "[]");
+        let dispositivosGuardados = JSON.parse(localStorage.getItem(dispositivosAutorizadosKey) || "[]");
 
         if (dispositivosGuardados.includes(deviceIdActual)) {
             esSuperUsuario = true;
@@ -1252,7 +1251,7 @@ function verificarAccesoSuperusuario(e) {
             modal2fa.style.display = 'flex';
             btnAprobarDispositivo.onclick = () => {
                 dispositivosGuardados.push(deviceIdActual);
-                localStorage.setItem(disposivosAutorizadosKey, JSON.stringify(dispositivosGuardados));
+                localStorage.setItem(dispositivosAutorizadosKey, JSON.stringify(dispositivosGuardados));
                 modal2fa.style.display = 'none';
                 esSuperUsuario = true;
                 lanzarApp();
@@ -1341,6 +1340,7 @@ async function lanzarApp() {
         videoCamara.onloadedmetadata = () => {
             pantallaInicio.style.display = 'none';
             panelControles.style.display = 'flex';
+            btnColor.style.display = 'flex';
             
             activarPantallaCompletaInmersiva();
 
@@ -1366,7 +1366,6 @@ window.addEventListener('resize', () => {
     }
 });
 
-// REGISTRO DEL SERVICE WORKER
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
         navigator.serviceWorker.register('./sw.js')
