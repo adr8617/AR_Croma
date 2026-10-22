@@ -53,7 +53,7 @@ html, body {
     left: 0; 
     width: 100vw; 
     height: 100vh; 
-    background-color: #111111; 
+    background-color: #d63384; 
     z-index: 999999; 
     display: flex; 
     flex-direction: column; 
@@ -67,7 +67,7 @@ html, body {
 
 #btn-iniciar { 
     background-color: #ffffff; 
-    color: #111111; 
+    color: #d63384; 
     font-weight: bold; 
     font-size: 16px; 
     padding: 16px 30px; 
@@ -331,7 +331,7 @@ html, body {
 <body>
 <div id="pantalla-inicio">
     <h2 style="color: white; margin-bottom: 5px;">Chroma Cam FX</h2>
-    <p style="color: #bbbbbb; font-size: 13px; margin-top: 0;">Chroma Studio FX - Versión Negra Blindada</p>
+    <p style="color: #f8d7da; font-size: 13px; margin-top: 0;">Chroma Studio FX - Versión Rosa Blindada</p>
     <input type="email" id="input-email-usuario" class="input-login" placeholder="correo@gmail.com" value="adr8617@gmail.com">
     
     <!-- Botón con disparador seguro desacoplado -->
@@ -359,7 +359,7 @@ html, body {
             <li><strong>✋ Mover y Escalar:</strong> En versión PRO puedes escalar con pellizco (🤏).</li>
             <li><strong>🔄 Cambiar Cámara:</strong> Alterna entre cámara frontal y trasera.</li>
             <li><strong>👁️ Ocultar/Mostrar Controles:</strong> Oculta botones para limpiar la toma.</li>
-            <li><strong>🔴 Grabar Video:</strong> Graba pantalla integrando audio y video.</li>
+            <li><strong>🔴 Grabar Video:</strong> Graba pantalla integrando audio y video respetando el tamaño y escala en vivo.</li>
             <li><strong>🎨 Filtro de Croma:</strong> Ajusta tolerancia y color.</li>
         </ul>
         <button id="btn-cerrar-ayuda" class="btn-cerrar-modal">Cerrar Ayuda</button>
@@ -1069,7 +1069,7 @@ function makeInteractableLayer(element) {
     }
 }
 
-// Grabación con lectura dinámica de las dimensiones actuales en vivo
+// Grabación con lectura dinámica de las dimensiones y escala actual en vivo
 btnGrabar.addEventListener('click', () => {
     forzarDesbloqueoAudio();
     if (!estaGrabando) { 
@@ -1089,13 +1089,25 @@ btnGrabar.addEventListener('click', () => {
         function dibujarFrameParaGrabacion() {
             if (!grabandoActivo) return;
             const fuenteCamara = modoCamaraIA ? canvasCamaraIA : videoCamara;
+            
+            // 1. Dibuja la cámara o fondo principal
             ctxGrabacion.drawImage(fuenteCamara, 0, 0, canvasGrabacion.width, canvasGrabacion.height);
             ctxGrabacion.drawImage(canvas, 0, 0, canvasGrabacion.width, canvasGrabacion.height);
 
+            // 2. Dibuja las capas extra respetando posición y escala exacta en vivo
             document.querySelectorAll('.chroma-layer-extra').forEach(layer => {
                 const c = layer.querySelector('canvas');
                 if (c) {
-                    ctxGrabacion.drawImage(c, layer.offsetLeft, layer.offsetTop, layer.offsetWidth, layer.offsetHeight);
+                    const escala = parseFloat(layer.dataset.scale || 1.0);
+                    const baseW = parseFloat(layer.dataset.baseWidth || 200);
+                    
+                    const renderW = baseW * escala;
+                    const renderH = (c.height / c.width) * renderW;
+
+                    const posX = layer.offsetLeft;
+                    const posY = layer.offsetTop;
+
+                    ctxGrabacion.drawImage(c, posX, posY, renderW, renderH);
                 }
             });
 
@@ -1146,7 +1158,7 @@ btnGrabar.addEventListener('click', () => {
             setTimeout(() => { 
                 document.body.removeChild(a); 
                 window.URL.revokeObjectURL(urlBlob); 
-                alert(`¡Video guardado con éxito!`);
+                alert(`¡Video guardado con éxito preservando el tamaño y escala!`);
             }, 100);
 
             if (interfazOculta) btnToggleInterfaz.click();
