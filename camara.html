@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no, viewport-fit=cover">
-<title>Chroma Cam FX - Rojo Carmín</title>
+<title>Chroma Cam FX - Rojo Fuego</title>
 <link rel="manifest" href="manifest.json">
 
 <!-- Librerías de Segmentación por IA (Google MediaPipe - Licencia Apache 2.0) -->
@@ -53,7 +53,7 @@ html, body {
     left: 0; 
     width: 100vw; 
     height: 100vh; 
-    background-color: #881337; /* Pantalla de inicio en Rojo Carmín Oscuro */
+    background-color: #990000; /* Pantalla de inicio en Rojo Fuego */
     z-index: 999999; 
     display: flex; 
     flex-direction: column; 
@@ -65,7 +65,7 @@ html, body {
 }
 
 #btn-iniciar { 
-    background-color: #f43f5e; 
+    background-color: #ff3333; 
     color: #fff; 
     font-weight: bold; 
     font-size: 16px; 
@@ -77,7 +77,7 @@ html, body {
     min-width: 280px;
     height: 54px;
     cursor: pointer; 
-    box-shadow: 0 4px 15px rgba(244,63,94,0.5); 
+    box-shadow: 0 4px 15px rgba(255,51,51,0.5); 
     user-select: none; 
     -webkit-user-select: none;
     display: flex;
@@ -101,7 +101,7 @@ html, body {
     z-index: 1000000;
 }
 
-#mensaje-error { color: #fecdd3; text-align: center; max-width: 80%; font-size: 14px; font-weight: bold; background: rgba(0,0,0,0.6); padding: 5px; border-radius: 4px; }
+#mensaje-error { color: #ffcccc; text-align: center; max-width: 80%; font-size: 14px; font-weight: bold; background: rgba(0,0,0,0.6); padding: 5px; border-radius: 4px; }
 
 #modal-2fa { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.9); z-index: 20000; display: none; justify-content: center; align-items: center; padding: 20px; box-sizing: border-box; }
 #contenido-2fa { background: #1c1c1c; color: #fff; padding: 25px; border-radius: 12px; max-width: 400px; width: 100%; text-align: center; box-shadow: 0 5px 20px rgba(0,0,0,0.7); border: 1px solid #ff4444; }
@@ -112,8 +112,8 @@ html, body {
 
 #modal-terminos, #modal-ayuda { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 10000; display: none; justify-content: center; align-items: center; padding: 20px; box-sizing: border-box; }
 #contenido-modal, #contenido-ayuda { background: #1c1c1c; color: #fff; padding: 25px; border-radius: 12px; max-width: 500px; width: 100%; max-height: 85vh; overflow-y: auto; box-shadow: 0 5px 20px rgba(0,0,0,0.7); font-size: 13px; line-height: 1.5; border: 1px solid #444; }
-#contenido-modal h3, #contenido-ayuda h3 { margin-top: 0; color: #f43f5e; font-size: 18px; }
-.btn-cerrar-modal { background: #f43f5e; color: white; border: none; padding: 8px 16px; border-radius: 6px; margin-top: 15px; cursor: pointer; float: right; font-weight: bold; }
+#contenido-modal h3, #contenido-ayuda h3 { margin-top: 0; color: #ff3333; font-size: 18px; }
+.btn-cerrar-modal { background: #ff3333; color: white; border: none; padding: 8px 16px; border-radius: 6px; margin-top: 15px; cursor: pointer; float: right; font-weight: bold; }
 
 /* PANEL DE CONTROLES EN DOS HILERAS ESTABLES */
 #panel-controles { 
@@ -152,20 +152,20 @@ html, body {
 
 #btn-menu-circular::after { content: "⚙️"; font-size: 14px; }
 #btn-mover-efecto::after { content: "✋"; font-size: 14px; }
-#btn-mover-efecto.activo { background-color: #f43f5e; border-color: #fff; }
+#btn-mover-efecto.activo { background-color: #ff3333; border-color: #fff; }
 #btn-cambiar-camara::after { content: "🔄"; font-size: 14px; }
 #btn-centrar-imagen::after { content: "🎯"; font-size: 14px; }
 
 #btn-camara-ia { 
-    background: linear-gradient(135deg, #f43f5e 0%, #0000ff 50%, #111111 100%); 
+    background: linear-gradient(135deg, #ff3333 0%, #0000ff 50%, #111111 100%); 
     border: 1.5px solid #ffffff; 
     position: relative;
     opacity: 0.6;
 }
 #btn-camara-ia.activo { 
     opacity: 1; 
-    box-shadow: 0 0 10px #f43f5e;
-    border-color: #f43f5e;
+    box-shadow: 0 0 10px #ff3333;
+    border-color: #ff3333;
 }
 #btn-camara-ia::after { content: "📷"; font-size: 13px; }
 
@@ -217,14 +217,14 @@ html, body {
     flex-direction: column; 
     gap: 12px; 
     z-index: 50000; 
-    border: 2px solid #f43f5e;
+    border: 2px solid #ff3333;
 }
 #selector-video { padding: 12px; font-size: 14px; border-radius: 8px; border: 1px solid #666; background: #222; color: #fff; cursor: pointer; width: 100%; }
 #input-archivo-oculto { display: none; }
 
 .btn-accion-menu { color: white; border: none; padding: 12px; border-radius: 8px; font-size: 14px; cursor: pointer; text-align: center; font-weight: bold; width: 100%; }
 #btn-descargar-demo { background: #007bff; }
-#btn-agregar-archivo { background: #881337; }
+#btn-agregar-archivo { background: #990000; }
 #btn-borrar-item { background: #6c2222; }
 
 #aviso-premium { position: absolute; bottom: 80px; left: 50%; transform: translateX(-50%); background: rgba(220, 53, 69, 0.95); color: white; padding: 12px 24px; border-radius: 8px; font-size: 13px; z-index: 19999; display: none; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.6); line-height: 1.4; }
@@ -240,7 +240,7 @@ html, body {
     max-width: 36px !important;
     max-height: 36px !important;
     border-radius: 50%; 
-    background-color: #f43f5e; 
+    background-color: #ff3333; 
     cursor: pointer; 
     z-index: 15002; 
     opacity: 1; 
@@ -282,7 +282,7 @@ html, body {
     backdrop-filter: blur(5px);
 }
 #panel-sensibilidad label { font-size: 12px; white-space: nowrap; }
-#panel-sensibilidad input[type=range] { width: 110px; accent-color: #f43f5e; }
+#panel-sensibilidad input[type=range] { width: 110px; accent-color: #ff3333; }
 
 #video-camara { 
     position: absolute; 
@@ -325,7 +325,7 @@ html, body {
     border: 2px transparent dashed;
     width: 450px;
 }
-.chroma-layer-extra.selected { border-color: #f43f5e; }
+.chroma-layer-extra.selected { border-color: #ff3333; }
 .chroma-layer-extra canvas, .chroma-layer-extra video { display: block; width: 100%; height: auto; }
 
 .btn-close-layer {
@@ -352,7 +352,7 @@ html, body {
 <body>
 <div id="pantalla-inicio">
     <h2 style="color: #fff; margin-bottom: 5px;">Chroma Cam FX</h2>
-    <p style="color: #fecdd3; font-size: 13px; margin-top: 0; font-weight: bold;">Chroma Studio FX - Versión Rojo Carmín</p>
+    <p style="color: #ffcccc; font-size: 13px; margin-top: 0; font-weight: bold;">Chroma Studio FX - Versión Rojo Fuego</p>
     <input type="email" id="input-email-usuario" class="input-login" placeholder="correo@gmail.com" value="adr8617@gmail.com">
     
     <!-- Botón con disparador directo en línea onclick garantizado -->
@@ -378,7 +378,7 @@ html, body {
             <li><strong>🎯 Botón Centrar:</strong> Si una imagen se sale de la pantalla, tócalo para traerla de vuelta al centro.</li>
             <li><strong>🎨 Botón de Color (Esquina Sup. Derecha):</strong> Permite cambiar el filtro de croma (Verde, Azul, Negro).</li>
             <li><strong>⚙️ Menú de Efectos:</strong> Agrega o descarga efectos acumulativos.</li>
-            <li><strong>🔴 Grabar Video:</strong> Mantiene la escala exacta sin desplazamientos ni recálculos en botones.</li>
+            <li><strong>🔴 Grabar Video:</strong> Comienza y detiene la grabación instantáneamente sin alterar la pantalla.</li>
         </ul>
         <button id="btn-cerrar-ayuda" class="btn-cerrar-modal">Cerrar Ayuda</button>
     </div>
@@ -412,7 +412,7 @@ html, body {
 
     <!-- Menú modal flotante centrado -->
     <div id="selector-video-wrapper">
-        <h4 style="color: #f43f5e; margin: 0 0 5px 0; text-align: center; font-size: 15px;">📁 Selector de Efectos</h4>
+        <h4 style="color: #ff3333; margin: 0 0 5px 0; text-align: center; font-size: 15px;">📁 Selector de Efectos</h4>
         <select id="selector-video"></select>
         <button id="btn-descargar-demo" class="btn-accion-menu">📥 Descargar Demo</button>
         <button id="btn-agregar-archivo" class="btn-accion-menu">➕ Agregar archivo local</button>
@@ -576,7 +576,6 @@ let activeLayer = null;
 let mediaRecorder;
 let fragmentosVideo = [];
 let estaGrabando = false;
-let nombreArchivoGrabado = "";
 
 let listaCamaras = [];
 let indiceCamaraActual = 0;
@@ -1088,13 +1087,10 @@ function makeInteractableLayer(element) {
     }
 }
 
+/* GRABACIÓN SIN PROMPT (Evita que la ventana se redusca y se mueva la interfaz) */
 btnGrabar.addEventListener('click', () => {
     forzarDesbloqueoAudio();
     if (!estaGrabando) { 
-        let nombreSugerido = `ChromaCam_${Date.now()}`;
-        nombreArchivoGrabado = prompt("Escribe el nombre para tu video grabado:", nombreSugerido);
-        if (!nombreArchivoGrabado || nombreArchivoGrabado.trim() === "") return; 
-
         fragmentosVideo = [];
         const canvasGrabacion = document.createElement('canvas');
         canvasGrabacion.width = videoCamara.videoWidth || 1280;
@@ -1167,7 +1163,7 @@ btnGrabar.addEventListener('click', () => {
             const a = document.createElement('a');
             a.style.display = 'none';
             a.href = urlBlob;
-            a.download = `${nombreArchivoGrabado.replace(/[^a-z0-9_]/gi, '_')}.webm`;
+            a.download = `ChromaCam_${Date.now()}.webm`;
             document.body.appendChild(a);
             a.click();
             setTimeout(() => { 
