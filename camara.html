@@ -53,7 +53,7 @@ html, body {
     left: 0; 
     width: 100vw; 
     height: 100vh; 
-    background-color: #0b0b0b; /* Pantalla de inicio en color negro profundo */
+    background-color: #3e2723; /* Pantalla de inicio en color marrón chocolate elegante */
     z-index: 999999; 
     display: flex; 
     flex-direction: column; 
@@ -65,8 +65,8 @@ html, body {
 }
 
 #btn-iniciar { 
-    background-color: #28a745; 
-    color: white; 
+    background-color: #ff9800; 
+    color: #000; 
     font-weight: bold; 
     font-size: 16px; 
     border: none;
@@ -77,7 +77,7 @@ html, body {
     min-width: 280px;
     height: 54px;
     cursor: pointer; 
-    box-shadow: 0 4px 15px rgba(40,167,69,0.5); 
+    box-shadow: 0 4px 15px rgba(255,152,0,0.5); 
     user-select: none; 
     -webkit-user-select: none;
     display: flex;
@@ -101,7 +101,7 @@ html, body {
     z-index: 1000000;
 }
 
-#mensaje-error { color: #ff4444; text-align: center; max-width: 80%; font-size: 14px; font-weight: bold; background: rgba(0,0,0,0.8); padding: 5px; border-radius: 4px; }
+#mensaje-error { color: #ffccbc; text-align: center; max-width: 80%; font-size: 14px; font-weight: bold; background: rgba(0,0,0,0.6); padding: 5px; border-radius: 4px; }
 
 #modal-2fa { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.9); z-index: 20000; display: none; justify-content: center; align-items: center; padding: 20px; box-sizing: border-box; }
 #contenido-2fa { background: #1c1c1c; color: #fff; padding: 25px; border-radius: 12px; max-width: 400px; width: 100%; text-align: center; box-shadow: 0 5px 20px rgba(0,0,0,0.7); border: 1px solid #ff4444; }
@@ -115,31 +115,29 @@ html, body {
 #contenido-modal h3, #contenido-ayuda h3 { margin-top: 0; color: #28a745; font-size: 18px; }
 .btn-cerrar-modal { background: #28a745; color: white; border: none; padding: 8px 16px; border-radius: 6px; margin-top: 15px; cursor: pointer; float: right; font-weight: bold; }
 
-/* PANEL DE CONTROLES RIGIDO Y BLINDADO */
+/* PANEL DE CONTROLES REORGANIZADO Y SIN RECORTES */
 #panel-controles { 
     position: absolute; 
-    top: 12px; 
+    top: 10px; 
     left: 8px; 
-    right: 52px; 
+    right: 50px; 
     z-index: 15000; 
     display: flex; 
-    gap: 6px; 
+    gap: 5px; 
     align-items: center; 
-    flex-wrap: nowrap; 
-    overflow-x: auto; 
-    scrollbar-width: none; 
+    flex-wrap: wrap; /* Permite acomodar los botones sin truncarse en pantallas chicas */
+    justify-content: flex-start;
 }
-#panel-controles::-webkit-scrollbar { display: none; }
 
 .btn-flotante { 
-    width: 36px !important; 
-    height: 36px !important; 
-    min-width: 36px !important;
-    min-height: 36px !important;
-    max-width: 36px !important;
-    max-height: 36px !important;
+    width: 34px !important; 
+    height: 34px !important; 
+    min-width: 34px !important;
+    min-height: 34px !important;
+    max-width: 34px !important;
+    max-height: 34px !important;
     border-radius: 50%; 
-    background-color: rgba(0, 0, 0, 0.7); 
+    background-color: rgba(0, 0, 0, 0.75); 
     border: 1.5px solid #fff; 
     cursor: pointer; 
     display: flex; 
@@ -152,11 +150,11 @@ html, body {
 }
 .btn-flotante:active { background-color: rgba(0, 0, 0, 0.9); }
 
-#btn-menu-circular::after { content: "⚙️"; font-size: 14px; }
-#btn-mover-efecto::after { content: "✋"; font-size: 14px; }
+#btn-menu-circular::after { content: "⚙️"; font-size: 13px; }
+#btn-mover-efecto::after { content: "✋"; font-size: 13px; }
 #btn-mover-efecto.activo { background-color: #28a745; border-color: #fff; }
-#btn-cambiar-camara::after { content: "🔄"; font-size: 14px; }
-#btn-centrar-imagen::after { content: "🎯"; font-size: 14px; }
+#btn-cambiar-camara::after { content: "🔄"; font-size: 13px; }
+#btn-centrar-imagen::after { content: "🎯"; font-size: 13px; }
 
 #btn-camara-ia { 
     background: linear-gradient(135deg, #00ff00 0%, #0000ff 50%, #111111 100%); 
@@ -169,22 +167,22 @@ html, body {
     box-shadow: 0 0 10px #00ff00;
     border-color: #00ff00;
 }
-#btn-camara-ia::after { content: "📷"; font-size: 13px; }
+#btn-camara-ia::after { content: "📷"; font-size: 12px; }
 
-#btn-toggle-interfaz::after { content: "👁️"; font-size: 14px; }
-#btn-toggle-interfaz.oculto::after { content: "🙈"; font-size: 14px; }
-#btn-ayuda::after { content: "❓"; font-size: 14px; }
-#btn-terminos::after { content: "📄"; font-size: 14px; }
+#btn-toggle-interfaz::after { content: "👁️"; font-size: 13px; }
+#btn-toggle-interfaz.oculto::after { content: "🙈"; font-size: 13px; }
+#btn-ayuda::after { content: "❓"; font-size: 13px; }
+#btn-terminos::after { content: "📄"; font-size: 13px; }
 
 #btn-grabar { 
-    width: 36px !important; 
-    height: 36px !important; 
-    min-width: 36px !important;
-    min-height: 36px !important;
-    max-width: 36px !important;
-    max-height: 36px !important;
+    width: 34px !important; 
+    height: 34px !important; 
+    min-width: 34px !important;
+    min-height: 34px !important;
+    max-width: 34px !important;
+    max-height: 34px !important;
     border-radius: 50%; 
-    background-color: rgba(255, 0, 0, 0.7); 
+    background-color: rgba(255, 0, 0, 0.8); 
     border: 1.5px solid #fff; 
     cursor: pointer; 
     display: flex; 
@@ -195,9 +193,9 @@ html, body {
     flex-shrink: 0 !important;
     flex-grow: 0 !important;
 }
-#btn-grabar::after { content: "🔴"; font-size: 12px; }
-#btn-grabar.grabando { background-color: rgba(255, 0, 0, 0.95); border-radius: 8px; animation: parpadeo 1s infinite; }
-#btn-grabar.grabando::after { content: "⏹️"; font-size: 11px; }
+#btn-grabar::after { content: "🔴"; font-size: 11px; }
+#btn-grabar.grabando { background-color: rgba(255, 0, 0, 0.95); border-radius: 6px; animation: parpadeo 1s infinite; }
+#btn-grabar.grabando::after { content: "⏹️"; font-size: 10px; }
 @keyframes parpadeo { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
 
 #tooltip-texto { position: absolute; left: 45px; top: 50%; transform: translateY(-50%); background: rgba(0, 0, 0, 0.85); color: #fff; padding: 6px 12px; border-radius: 6px; font-size: 12px; white-space: nowrap; pointer-events: none; opacity: 0; visibility: hidden; transition: opacity 0.2s; box-shadow: 0 2px 5px rgba(0,0,0,0.3); }
@@ -233,14 +231,14 @@ html, body {
 
 #btn-color { 
     position: absolute; 
-    top: 12px; 
+    top: 10px; 
     right: 8px; 
-    width: 36px !important; 
-    height: 36px !important; 
-    min-width: 36px !important;
-    min-height: 36px !important;
-    max-width: 36px !important;
-    max-height: 36px !important;
+    width: 34px !important; 
+    height: 34px !important; 
+    min-width: 34px !important;
+    min-height: 34px !important;
+    max-width: 34px !important;
+    max-height: 34px !important;
     border-radius: 50%; 
     background-color: #00ff00; 
     cursor: pointer; 
@@ -255,7 +253,7 @@ html, body {
 #menu-colores { 
     display: none; 
     position: absolute; 
-    top: 54px; 
+    top: 50px; 
     right: 8px; 
     background: rgba(0,0,0,0.95); 
     padding: 10px; 
@@ -353,8 +351,8 @@ html, body {
 </head>
 <body>
 <div id="pantalla-inicio">
-    <h2 style="color: white; margin-bottom: 5px;">Chroma Cam FX</h2>
-    <p style="color: #00ff00; font-size: 13px; margin-top: 0; font-weight: bold;">Chroma Studio FX - Versión Fondo Negro</p>
+    <h2 style="color: #fff; margin-bottom: 5px;">Chroma Cam FX</h2>
+    <p style="color: #ffccbc; font-size: 13px; margin-top: 0; font-weight: bold;">Chroma Studio FX - Versión Marrón Chocolate</p>
     <input type="email" id="input-email-usuario" class="input-login" placeholder="correo@gmail.com" value="adr8617@gmail.com">
     
     <!-- Botón con disparador directo en línea onclick garantizado -->
@@ -1256,7 +1254,7 @@ function verificarAccesoSuperusuario(e) {
         e.preventDefault();
     }
     
-    // 1. OCULTAR LA PANTALLA DE INICIO DE INMEDIATO (Feedback visual de que el botón sí respondió)
+    // Ocultar inicio y arrancar app de inmediato
     pantallaInicio.style.display = 'none';
     panelControles.style.display = 'flex';
     btnColor.style.display = 'flex';
@@ -1267,7 +1265,7 @@ function verificarAccesoSuperusuario(e) {
     if (SUPER_USUARIOS.includes(emailIngresado)) {
         const deviceIdActual = obtenerDispositivoId();
         const dispositivosAutorizadosKey = `auth_devs_${emailIngresado}`;
-        let dispositivosGuardados = JSON.parse(localStorage.getItem(disposivosAutorizadosKey) || "[]");
+        let dispositivosGuardados = JSON.parse(localStorage.getItem(dispositivosAutorizadosKey) || "[]");
 
         if (dispositivosGuardados.includes(deviceIdActual)) {
             esSuperUsuario = true;
@@ -1309,7 +1307,7 @@ async function iniciarCamara(deviceIdEspecifico = null) {
     try {
         const stream = await navigator.mediaDevices.getUserMedia({ video: restriccionesVideo, audio: true });
         videoCamara.srcObject = stream;
-        videoCamara.play();
+        await videoCamara.play();
 
         trackCamaraActual = stream.getVideoTracks()[0];
         if (trackCamaraActual && typeof trackCamaraActual.getCapabilities === 'function') {
@@ -1329,9 +1327,14 @@ async function iniciarCamara(deviceIdEspecifico = null) {
         }
 
     } catch (err) {
-        const streamFallback = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
-        videoCamara.srcObject = streamFallback;
-        videoCamara.play();
+        console.warn("Error en cámara con restricciones, intentando fallback genérico...", err);
+        try {
+            const streamFallback = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+            videoCamara.srcObject = streamFallback;
+            await videoCamara.play();
+        } catch (e2) {
+            mensajeError.innerText = "Error crítico de cámara: " + e2.message;
+        }
     }
 }
 
@@ -1365,7 +1368,7 @@ async function lanzarAppDespuesDeInicio() {
             }
         }
     } catch (err) {
-        console.error("Error al iniciar cámara:", err);
+        console.error("Error al iniciar la app:", err);
     }
 }
 
