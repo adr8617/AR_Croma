@@ -53,7 +53,7 @@ html, body {
     left: 0; 
     width: 100vw; 
     height: 100vh; 
-    background-color: #1a252f; /* Pantalla de inicio en color azul marino oscuro */
+    background-color: #0b0b0b; /* Pantalla de inicio en color negro profundo */
     z-index: 999999; 
     display: flex; 
     flex-direction: column; 
@@ -62,12 +62,11 @@ html, body {
     padding: 20px; 
     box-sizing: border-box; 
     gap: 15px; 
-    pointer-events: auto;
 }
 
 #btn-iniciar { 
-    background-color: #00ff00; 
-    color: #000000; 
+    background-color: #28a745; 
+    color: white; 
     font-weight: bold; 
     font-size: 16px; 
     border: none;
@@ -78,7 +77,7 @@ html, body {
     min-width: 280px;
     height: 54px;
     cursor: pointer; 
-    box-shadow: 0 4px 15px rgba(0,255,0,0.4); 
+    box-shadow: 0 4px 15px rgba(40,167,69,0.5); 
     user-select: none; 
     -webkit-user-select: none;
     display: flex;
@@ -86,8 +85,6 @@ html, body {
     align-items: center;
     outline: none;
     z-index: 1000000;
-    pointer-events: auto;
-    touch-action: manipulation;
 }
 
 .input-login { 
@@ -104,7 +101,7 @@ html, body {
     z-index: 1000000;
 }
 
-#mensaje-error { color: #fff; text-align: center; max-width: 80%; font-size: 14px; font-weight: bold; background: rgba(0,0,0,0.6); padding: 5px; border-radius: 4px; }
+#mensaje-error { color: #ff4444; text-align: center; max-width: 80%; font-size: 14px; font-weight: bold; background: rgba(0,0,0,0.8); padding: 5px; border-radius: 4px; }
 
 #modal-2fa { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.9); z-index: 20000; display: none; justify-content: center; align-items: center; padding: 20px; box-sizing: border-box; }
 #contenido-2fa { background: #1c1c1c; color: #fff; padding: 25px; border-radius: 12px; max-width: 400px; width: 100%; text-align: center; box-shadow: 0 5px 20px rgba(0,0,0,0.7); border: 1px solid #ff4444; }
@@ -356,11 +353,11 @@ html, body {
 </head>
 <body>
 <div id="pantalla-inicio">
-    <h2 style="color: #ffffff; margin-bottom: 5px;">Chroma Cam FX</h2>
-    <p style="color: #00ff00; font-size: 13px; margin-top: 0; font-weight: bold;">Chroma Studio FX - Versión Azul Marino</p>
+    <h2 style="color: white; margin-bottom: 5px;">Chroma Cam FX</h2>
+    <p style="color: #00ff00; font-size: 13px; margin-top: 0; font-weight: bold;">Chroma Studio FX - Versión Fondo Negro</p>
     <input type="email" id="input-email-usuario" class="input-login" placeholder="correo@gmail.com" value="adr8617@gmail.com">
     
-    <!-- Botón con disparador directo en línea y eventos múltiples garantizados -->
+    <!-- Botón con disparador directo en línea onclick garantizado -->
     <button id="btn-iniciar" type="button" onclick="verificarAccesoSuperusuario(event)">TOCA AQUÍ PARA INICIAR</button>
     
     <p id="mensaje-error"></p>
@@ -1258,42 +1255,43 @@ function verificarAccesoSuperusuario(e) {
         e.stopPropagation();
         e.preventDefault();
     }
+    
+    // 1. OCULTAR LA PANTALLA DE INICIO DE INMEDIATO (Feedback visual de que el botón sí respondió)
+    pantallaInicio.style.display = 'none';
+    panelControles.style.display = 'flex';
+    btnColor.style.display = 'flex';
+    activarPantallaCompletaInmersiva();
     forzarDesbloqueoAudio();
+
     const emailIngresado = inputEmailUsuario.value.trim().toLowerCase();
     if (SUPER_USUARIOS.includes(emailIngresado)) {
         const deviceIdActual = obtenerDispositivoId();
         const dispositivosAutorizadosKey = `auth_devs_${emailIngresado}`;
         let dispositivosGuardados = JSON.parse(localStorage.getItem(disposivosAutorizadosKey) || "[]");
 
-        if (disposivosGuardados.includes(deviceIdActual)) {
+        if (dispositivosGuardados.includes(deviceIdActual)) {
             esSuperUsuario = true;
-            lanzarApp();
+            lanzarAppDespuesDeInicio();
         } else {
             modal2fa.style.display = 'flex';
             btnAprobarDispositivo.onclick = () => {
-                disposivosGuardados.push(deviceIdActual);
-                localStorage.setItem(disposivosAutorizadosKey, JSON.stringify(disposivosGuardados));
+                dispositivosGuardados.push(deviceIdActual);
+                localStorage.setItem(dispositivosAutorizadosKey, JSON.stringify(dispositivosGuardados));
                 modal2fa.style.display = 'none';
                 esSuperUsuario = true;
-                lanzarApp();
+                lanzarAppDespuesDeInicio();
             };
             btnRechazarDispositivo.onclick = () => {
                 modal2fa.style.display = 'none';
                 esSuperUsuario = false;
-                lanzarApp();
+                lanzarAppDespuesDeInicio();
             };
         }
     } else {
         esSuperUsuario = false;
-        lanzarApp();
+        lanzarAppDespuesDeInicio();
     }
 }
-
-btnIniciar.addEventListener('click', (e) => verificarAccesoSuperusuario(e));
-btnIniciar.addEventListener('touchend', (e) => {
-    e.preventDefault();
-    verificarAccesoSuperusuario(e);
-}, { passive: false });
 
 async function iniciarCamara(deviceIdEspecifico = null) {
     if (videoCamara.srcObject) {
@@ -1355,28 +1353,19 @@ btnCambiarCamara.addEventListener('click', async () => {
     }
 });
 
-async function lanzarApp() {
-    mensajeError.innerText = "Solicitando permisos de cámara...";
+async function lanzarAppDespuesDeInicio() {
     try {
         await detectarDispositivosCamara();
         await iniciarCamara();
         
-        videoCamara.onloadedmetadata = () => {
-            pantallaInicio.style.display = 'none';
-            panelControles.style.display = 'flex';
-            btnColor.style.display = 'flex';
-            
-            activarPantallaCompletaInmersiva();
-
-            actualizarSelect();
-            if (esSuperUsuario) {
-                if (capaEfectoContainer.children.length <= 1) {
-                    addChromaLayerExtra(listaMultimedia[0].archivo, listaMultimedia[0].tipo);
-                }
+        actualizarSelect();
+        if (esSuperUsuario) {
+            if (capaEfectoContainer.children.length <= 1) {
+                addChromaLayerExtra(listaMultimedia[0].archivo, listaMultimedia[0].tipo);
             }
-        };
+        }
     } catch (err) {
-        mensajeError.innerText = "Error: No se pudo acceder a la cámara o permisos denegados.";
+        console.error("Error al iniciar cámara:", err);
     }
 }
 
