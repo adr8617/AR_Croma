@@ -53,7 +53,7 @@ html, body {
     left: 0; 
     width: 100vw; 
     height: 100vh; 
-    background-color: #4a1525; /* Pantalla de inicio en color Guinda / Borgoña */
+    background-color: #102a43; /* Pantalla de inicio en color Azul Acero Oscuro */
     z-index: 999999; 
     display: flex; 
     flex-direction: column; 
@@ -65,8 +65,8 @@ html, body {
 }
 
 #btn-iniciar { 
-    background-color: #ffc107; 
-    color: #000; 
+    background-color: #00b4d8; 
+    color: #fff; 
     font-weight: bold; 
     font-size: 16px; 
     border: none;
@@ -77,7 +77,7 @@ html, body {
     min-width: 280px;
     height: 54px;
     cursor: pointer; 
-    box-shadow: 0 4px 15px rgba(255,193,7,0.5); 
+    box-shadow: 0 4px 15px rgba(0,180,216,0.5); 
     user-select: none; 
     -webkit-user-select: none;
     display: flex;
@@ -101,7 +101,7 @@ html, body {
     z-index: 1000000;
 }
 
-#mensaje-error { color: #ff8a80; text-align: center; max-width: 80%; font-size: 14px; font-weight: bold; background: rgba(0,0,0,0.6); padding: 5px; border-radius: 4px; }
+#mensaje-error { color: #ade8f4; text-align: center; max-width: 80%; font-size: 14px; font-weight: bold; background: rgba(0,0,0,0.6); padding: 5px; border-radius: 4px; }
 
 #modal-2fa { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.9); z-index: 20000; display: none; justify-content: center; align-items: center; padding: 20px; box-sizing: border-box; }
 #contenido-2fa { background: #1c1c1c; color: #fff; padding: 25px; border-radius: 12px; max-width: 400px; width: 100%; text-align: center; box-shadow: 0 5px 20px rgba(0,0,0,0.7); border: 1px solid #ff4444; }
@@ -115,18 +115,18 @@ html, body {
 #contenido-modal h3, #contenido-ayuda h3 { margin-top: 0; color: #28a745; font-size: 18px; }
 .btn-cerrar-modal { background: #28a745; color: white; border: none; padding: 8px 16px; border-radius: 6px; margin-top: 15px; cursor: pointer; float: right; font-weight: bold; }
 
-/* PANEL DE CONTROLES ADAPTABLE Y SIN TRUNCAMIENTO */
+/* PANEL DE CONTROLES EN DOS HILERAS FIJAS Y ESTABLES */
 #panel-controles { 
     position: absolute; 
-    top: 8px; 
+    top: 6px; 
     left: 8px; 
-    right: 48px; 
+    right: 52px; 
     z-index: 15000; 
     display: flex; 
     gap: 6px; 
     align-items: center; 
-    flex-wrap: wrap; /* Evita que los botones se salgan o se recorten al cambiar de pantalla completa */
-    max-width: calc(100vw - 56px);
+    flex-wrap: wrap; 
+    max-width: calc(100vw - 60px);
 }
 
 .btn-flotante { 
@@ -231,7 +231,7 @@ html, body {
 
 #btn-color { 
     position: absolute; 
-    top: 8px; 
+    top: 6px; 
     right: 8px; 
     width: 36px !important; 
     height: 36px !important; 
@@ -352,7 +352,7 @@ html, body {
 <body>
 <div id="pantalla-inicio">
     <h2 style="color: #fff; margin-bottom: 5px;">Chroma Cam FX</h2>
-    <p style="color: #ffecb3; font-size: 13px; margin-top: 0; font-weight: bold;">Chroma Studio FX - Versión Guinda</p>
+    <p style="color: #90e0ef; font-size: 13px; margin-top: 0; font-weight: bold;">Chroma Studio FX - Versión Azul Acero</p>
     <input type="email" id="input-email-usuario" class="input-login" placeholder="correo@gmail.com" value="adr8617@gmail.com">
     
     <!-- Botón con disparador directo en línea onclick garantizado -->
@@ -1013,13 +1013,15 @@ function makeInteractableLayer(element) {
         selectLayer(element);
     });
 
+    // DOBLE CLIC SEGURO: Alterna escala sin perder posición ni romper colores
     element.addEventListener('dblclick', function(e) {
         e.stopPropagation();
         let escalaActualLayer = parseFloat(element.dataset.scale || 1.0);
-        let nuevaEscala = escalaActualLayer < 2.5 ? 2.5 : 1.0;
+        let nuevaEscala = escalaActualLayer < 2.0 ? 2.5 : 1.0;
         element.dataset.scale = nuevaEscala;
         const baseWidth = parseFloat(element.dataset.baseWidth || 220);
         element.style.width = (baseWidth * nuevaEscala) + 'px';
+        if (element.reprocessChroma) element.reprocessChroma();
     });
 
     element.addEventListener('touchstart', handleStart, {passive: false});
@@ -1103,12 +1105,7 @@ btnGrabar.addEventListener('click', () => {
         nombreArchivoGrabado = prompt("Escribe el nombre para tu video grabado:", nombreSugerido);
         if (!nombreArchivoGrabado || nombreArchivoGrabado.trim() === "") return; 
 
-        if (!interfazOculta) {
-            interfazOculta = true;
-            controlesOcultables.forEach(el => { el.style.display = 'none'; });
-            btnToggleInterfaz.classList.add('oculto');
-            btnColor.style.display = 'none';
-        }
+        // IMPORTANTE: Ya NO ocultamos la interfaz de botones al grabar para evitar que las capas se desplacen o se salgan de posición
 
         fragmentosVideo = [];
         const canvasGrabacion = document.createElement('canvas');
@@ -1190,14 +1187,6 @@ btnGrabar.addEventListener('click', () => {
                 window.URL.revokeObjectURL(urlBlob); 
                 alert(`¡Video guardado con éxito y escala perfecta!`);
             }, 100);
-
-            if (interfazOculta) {
-                interfazOculta = false;
-                controlesOcultables.forEach(el => { el.style.display = 'flex'; });
-                btnToggleInterfaz.classList.remove('oculto');
-                btnColor.style.display = 'flex';
-                btnColor.style.pointerEvents = 'auto';
-            }
         };
 
         mediaRecorder.start();
