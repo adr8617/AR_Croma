@@ -53,7 +53,7 @@ html, body {
     left: 0; 
     width: 100vw; 
     height: 100vh; 
-    background-color: #6f42c1; /* Pantalla de inicio en color púrpura */
+    background-color: #000000; /* Pantalla de inicio en color negro puro */
     z-index: 999999; 
     display: flex; 
     flex-direction: column; 
@@ -67,7 +67,7 @@ html, body {
 
 #btn-iniciar { 
     background-color: #ffffff; 
-    color: #6f42c1; 
+    color: #000000; 
     font-weight: bold; 
     font-size: 16px; 
     padding: 16px 30px; 
@@ -75,7 +75,7 @@ html, body {
     text-align: center; 
     width: 280px; 
     cursor: pointer; 
-    box-shadow: 0 4px 12px rgba(0,0,0,0.6); 
+    box-shadow: 0 4px 12px rgba(255,255,255,0.2); 
     user-select: none; 
     -webkit-user-select: none;
     z-index: 1000000;
@@ -331,7 +331,7 @@ html, body {
 <body>
 <div id="pantalla-inicio">
     <h2 style="color: white; margin-bottom: 5px;">Chroma Cam FX</h2>
-    <p style="color: #fff3cd; font-size: 13px; margin-top: 0;">Chroma Studio FX - Versión Púrpura Estable</p>
+    <p style="color: #aaa; font-size: 13px; margin-top: 0;">Chroma Studio FX - Versión Fondo Negro Estable</p>
     <input type="email" id="input-email-usuario" class="input-login" placeholder="correo@gmail.com" value="adr8617@gmail.com">
     
     <!-- Botón con listener táctil dual garantizado -->
@@ -1333,7 +1333,7 @@ async function lanzarApp() {
 
             actualizarSelect();
             if (esSuperUsuario) {
-                // Cargar una única instancia de la Llorona de manera limpia
+                // Cargar una única instancia de la Llorona de manera limpia y sin duplicados
                 if (capaEfectoContainer.children.length <= 1) {
                     addChromaLayerExtra(listaMultimedia[0].archivo, listaMultimedia[0].tipo);
                 }
