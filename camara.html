@@ -53,7 +53,7 @@ html, body {
     left: 0; 
     width: 100vw; 
     height: 100vh; 
-    background-color: #007bff; /* Pantalla de inicio en color azul */
+    background-color: #6f42c1; /* Pantalla de inicio en color púrpura */
     z-index: 999999; 
     display: flex; 
     flex-direction: column; 
@@ -67,7 +67,7 @@ html, body {
 
 #btn-iniciar { 
     background-color: #ffffff; 
-    color: #007bff; 
+    color: #6f42c1; 
     font-weight: bold; 
     font-size: 16px; 
     padding: 16px 30px; 
@@ -291,10 +291,10 @@ html, body {
 
 #canvas-overlay { width: 100vw; height: 100vh; max-width: 100%; max-height: 100%; object-fit: contain; pointer-events: auto; touch-action: none; cursor: default; }
 
-/* CAPAS TOTALMENTE AISLADAS Y PROTEGIDAS CONTRA RESCALADOS GLOBALES */
+/* CAPAS TOTALMENTE ESTABLES Y PROTEGIDAS */
 .chroma-layer-extra {
     position: absolute;
-    top: 25vh;
+    top: 20vh;
     left: 20vw;
     z-index: 11;
     cursor: move;
@@ -331,7 +331,7 @@ html, body {
 <body>
 <div id="pantalla-inicio">
     <h2 style="color: white; margin-bottom: 5px;">Chroma Cam FX</h2>
-    <p style="color: #fff3cd; font-size: 13px; margin-top: 0;">Chroma Studio FX - Versión Azul Interactiva</p>
+    <p style="color: #fff3cd; font-size: 13px; margin-top: 0;">Chroma Studio FX - Versión Púrpura Estable</p>
     <input type="email" id="input-email-usuario" class="input-login" placeholder="correo@gmail.com" value="adr8617@gmail.com">
     
     <!-- Botón con listener táctil dual garantizado -->
@@ -359,7 +359,7 @@ html, body {
             <li><strong>✋ Mover y Escalar:</strong> En versión PRO puedes escalar con pellizco (🤏) o redimensionar.</li>
             <li><strong>🔄 Cambiar Cámara:</strong> Alterna entre cámara frontal y trasera.</li>
             <li><strong>👁️ Ocultar/Mostrar Controles:</strong> Oculta botones para limpiar la toma.</li>
-            <li><strong>🔴 Grabar Video:</strong> Oculta automáticamente la interfaz al grabar y mantiene exactamente el tamaño visual y de video configurado, sin achicarse.</li>
+            <li><strong>🔴 Grabar Video:</strong> Mantiene la escala exacta y posición fija sin desplazamientos ni recálculos imprevistos.</li>
             <li><strong>🎨 Filtro de Croma:</strong> Ajusta tolerancia y color.</li>
         </ul>
         <button id="btn-cerrar-ayuda" class="btn-cerrar-modal">Cerrar Ayuda</button>
@@ -859,14 +859,16 @@ function addChromaLayerExtra(sourceUrl, tipo) {
     layerDiv.className = 'chroma-layer-extra selected';
     layerDiv.id = 'layer-' + layerCounter;
 
-    let offsetPos = (layerCounter % 5) * 30;
-    layerDiv.style.left = (15 + offsetPos) + 'px';
-    layerDiv.style.top = (100 + offsetPos) + 'px';
+    // Posición centrada y estable
+    layerDiv.style.left = '10vw';
+    layerDiv.style.top = '15vh';
 
-    // Establecer tamaño grande inicial por defecto
-    layerDiv.dataset.scale = "1.8";
-    layerDiv.dataset.baseWidth = "220";
-    layerDiv.style.width = (220 * 1.8) + 'px';
+    // Establecer tamaño grande inicial por defecto de manera fija y robusta
+    const escalaInicial = 2.2;
+    const baseAncho = 220;
+    layerDiv.dataset.scale = escalaInicial;
+    layerDiv.dataset.baseWidth = baseAncho;
+    layerDiv.style.width = (baseAncho * escalaInicial) + 'px';
 
     const canvasExtra = document.createElement('canvas');
     const ctxExtra = canvasExtra.getContext('2d', { willReadFrequently: true });
@@ -994,9 +996,9 @@ function makeInteractableLayer(element) {
     element.addEventListener('dblclick', function(e) {
         e.stopPropagation();
         let escalaActualLayer = parseFloat(element.dataset.scale || 1.0);
-        let nuevaEscala = escalaActualLayer < 2.0 ? 2.0 : 1.0;
+        let nuevaEscala = escalaActualLayer < 2.2 ? 2.2 : 1.0;
         element.dataset.scale = nuevaEscala;
-        const baseWidth = parseFloat(element.dataset.baseWidth || 200);
+        const baseWidth = parseFloat(element.dataset.baseWidth || 220);
         element.style.width = (baseWidth * nuevaEscala) + 'px';
     });
 
@@ -1051,21 +1053,6 @@ function makeInteractableLayer(element) {
             let nuevaLeft = initialLeft + (clientX - startXLayer);
             let nuevaTop = initialTop + (clientY - startYLayer);
 
-            const elemWidth = element.offsetWidth;
-            const elemHeight = element.offsetHeight;
-            const minVisibleW = elemWidth * 0.05;
-            const minVisibleH = elemHeight * 0.05;
-
-            const maxLeft = window.innerWidth - minVisibleW;
-            const minLeft = -elemWidth + minVisibleW;
-            const maxTop = window.innerHeight - minVisibleH;
-            const minTop = -elemHeight + minVisibleH;
-
-            if (nuevaLeft > maxLeft) nuevaLeft = maxLeft;
-            if (nuevaLeft < minLeft) nuevaLeft = minLeft;
-            if (nuevaTop > maxTop) nuevaTop = maxTop;
-            if (nuevaTop < minTop) nuevaTop = minTop;
-
             element.style.left = nuevaLeft + 'px';
             element.style.top = nuevaTop + 'px';
         }
@@ -1079,7 +1066,7 @@ function makeInteractableLayer(element) {
     }
 }
 
-// GRABACIÓN ESTABLE Y SIN CAMBIOS DE ESCALA INESPERADOS
+// GRABACIÓN ESTABLE SIN SALTOS NI MODIFICACIONES DE TAMAÑO
 btnGrabar.addEventListener('click', () => {
     forzarDesbloqueoAudio();
     if (!estaGrabando) { 
@@ -1087,7 +1074,6 @@ btnGrabar.addEventListener('click', () => {
         nombreArchivoGrabado = prompt("Escribe el nombre para tu video grabado:", nombreSugerido);
         if (!nombreArchivoGrabado || nombreArchivoGrabado.trim() === "") return; 
 
-        // Ocultar controles sin forzar recálculos de tamaño en las capas
         if (!interfazOculta) {
             interfazOculta = true;
             controlesOcultables.forEach(el => { el.style.display = 'none'; });
@@ -1117,7 +1103,7 @@ btnGrabar.addEventListener('click', () => {
                 const c = layer.querySelector('canvas');
                 if (c) {
                     const escala = parseFloat(layer.dataset.scale || 1.0);
-                    const baseW = parseFloat(layer.dataset.baseWidth || 200);
+                    const baseW = parseFloat(layer.dataset.baseWidth || 220);
                     const renderW = baseW * escala * escalaX;
                     const renderH = (c.height / c.width) * renderW;
                     const posX = layer.offsetLeft * escalaX;
@@ -1177,7 +1163,6 @@ btnGrabar.addEventListener('click', () => {
                 alert(`¡Video guardado con éxito y escala perfecta!`);
             }, 100);
 
-            // Restaurar interfaz manteniendo los tamaños intactos
             if (interfazOculta) {
                 interfazOculta = false;
                 controlesOcultables.forEach(el => { el.style.display = 'flex'; });
@@ -1271,7 +1256,6 @@ function verificarAccesoSuperusuario(e) {
     }
 }
 
-// VINCULACIÓN DIRECTA BLINDADA MEDIANTE LISTENER TÁCTIL Y MOUSE (pointerdown)
 btnIniciar.addEventListener('pointerdown', verificarAccesoSuperusuario);
 btnIniciar.addEventListener('click', verificarAccesoSuperusuario);
 
@@ -1349,8 +1333,10 @@ async function lanzarApp() {
 
             actualizarSelect();
             if (esSuperUsuario) {
-                // Cargar el efecto por defecto de la Llorona automáticamente en tamaño grande
-                addChromaLayerExtra(listaMultimedia[0].archivo, listaMultimedia[0].tipo);
+                // Cargar una única instancia de la Llorona de manera limpia
+                if (capaEfectoContainer.children.length <= 1) {
+                    addChromaLayerExtra(listaMultimedia[0].archivo, listaMultimedia[0].tipo);
+                }
             }
         };
     } catch (err) {
