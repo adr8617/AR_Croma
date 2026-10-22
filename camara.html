@@ -53,7 +53,7 @@ html, body {
     left: 0; 
     width: 100vw; 
     height: 100vh; 
-    background-color: #6f42c1; 
+    background-color: #198754; 
     z-index: 999999; 
     display: flex; 
     flex-direction: column; 
@@ -66,8 +66,8 @@ html, body {
 }
 
 #btn-iniciar { 
-    background-color: #28a745; 
-    color: white; 
+    background-color: #ffffff; 
+    color: #198754; 
     font-weight: bold; 
     font-size: 16px; 
     padding: 16px 30px; 
@@ -331,11 +331,11 @@ html, body {
 <body>
 <div id="pantalla-inicio">
     <h2 style="color: white; margin-bottom: 5px;">Chroma Cam FX</h2>
-    <p style="color: #e2d9f3; font-size: 13px; margin-top: 0;">Chroma Studio FX - Versión Púrpura</p>
+    <p style="color: #e8f5e9; font-size: 13px; margin-top: 0;">Chroma Studio FX - Versión Verde Blindada</p>
     <input type="email" id="input-email-usuario" class="input-login" placeholder="correo@gmail.com" value="adr8617@gmail.com">
     
-    <!-- Botón interactivo asegurado -->
-    <div id="btn-iniciar">TOCA AQUÍ PARA INICIAR</div>
+    <!-- Botón con disparador universal directo -->
+    <div id="btn-iniciar" onclick="verificarAccesoSuperusuario()">TOCA AQUÍ PARA INICIAR</div>
     
     <p id="mensaje-error"></p>
 </div>
@@ -1387,19 +1387,6 @@ function procesarChromaKeyGIF() {
         animacionGifId = requestAnimationFrame(procesarChromaKeyGIF);
     }
 }
-
-// Vinculación robusta directa al botón verde (pointerdown + click + touchend para máxima respuesta móvil)
-btnIniciar.addEventListener('pointerdown', (e) => {
-    verificarAccesoSuperusuario(e);
-});
-
-btnIniciar.addEventListener('click', (e) => {
-    verificarAccesoSuperusuario(e);
-});
-
-btnIniciar.addEventListener('touchend', (e) => {
-    verificarAccesoSuperusuario(e);
-}, { passive: false });
 
 // REGISTRO DEL SERVICE WORKER PARA PERMITIR INSTALACIÓN PWA Y USO OFFLINE
 if ('serviceWorker' in navigator) {
