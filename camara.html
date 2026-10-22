@@ -53,7 +53,7 @@ html, body {
     left: 0; 
     width: 100vw; 
     height: 100vh; 
-    background-color: #0d6efd; 
+    background-color: #fd7e14; 
     z-index: 999999; 
     display: flex; 
     flex-direction: column; 
@@ -67,7 +67,7 @@ html, body {
 
 #btn-iniciar { 
     background-color: #ffffff; 
-    color: #0d6efd; 
+    color: #fd7e14; 
     font-weight: bold; 
     font-size: 16px; 
     padding: 16px 30px; 
@@ -331,7 +331,7 @@ html, body {
 <body>
 <div id="pantalla-inicio">
     <h2 style="color: white; margin-bottom: 5px;">Chroma Cam FX</h2>
-    <p style="color: #cfe2ff; font-size: 13px; margin-top: 0;">Chroma Studio FX - Versión Azul Distintiva</p>
+    <p style="color: #ffe8d6; font-size: 13px; margin-top: 0;">Chroma Studio FX - Versión Naranja Estable</p>
     <input type="email" id="input-email-usuario" class="input-login" placeholder="correo@gmail.com" value="adr8617@gmail.com">
     
     <!-- Botón con disparador seguro desacoplado -->
@@ -359,7 +359,7 @@ html, body {
             <li><strong>✋ Mover y Escalar:</strong> En versión PRO puedes escalar con pellizco (🤏) o redimensionar.</li>
             <li><strong>🔄 Cambiar Cámara:</strong> Alterna entre cámara frontal y trasera.</li>
             <li><strong>👁️ Ocultar/Mostrar Controles:</strong> Oculta botones para limpiar la toma.</li>
-            <li><strong>🔴 Grabar Video:</strong> Graba pantalla integrando audio y respetando la escala exacta ajustada.</li>
+            <li><strong>🔴 Grabar Video:</strong> Graba pantalla integrando audio y respetando la escala exacta ajustada sin modificar la vista previa.</li>
             <li><strong>🎨 Filtro de Croma:</strong> Ajusta tolerancia y color.</li>
         </ul>
         <button id="btn-cerrar-ayuda" class="btn-cerrar-modal">Cerrar Ayuda</button>
@@ -1069,15 +1069,13 @@ function makeInteractableLayer(element) {
     }
 }
 
-// GRABACIÓN FIEL CON ESCALA Y DIMENSIONES EXACTAS EN VIVO
+// GRABACIÓN ESTABLE SIN OCULTAR INTERFAZ AUTOMÁTICAMENTE
 btnGrabar.addEventListener('click', () => {
     forzarDesbloqueoAudio();
     if (!estaGrabando) { 
         let nombreSugerido = `ChromaCam_${Date.now()}`;
         nombreArchivoGrabado = prompt("Escribe el nombre para tu video grabado:", nombreSugerido);
         if (!nombreArchivoGrabado || nombreArchivoGrabado.trim() === "") return; 
-
-        if (!interfazOculta) btnToggleInterfaz.click();
 
         fragmentosVideo = [];
         const canvasGrabacion = document.createElement('canvas');
@@ -1155,10 +1153,8 @@ btnGrabar.addEventListener('click', () => {
             setTimeout(() => { 
                 document.body.removeChild(a); 
                 window.URL.revokeObjectURL(urlBlob); 
-                alert(`¡Video guardado con éxito preservando el tamaño escalado exacto!`);
+                alert(`¡Video guardado con éxito manteniendo la escala exacta!`);
             }, 100);
-
-            if (interfazOculta) btnToggleInterfaz.click();
         };
 
         mediaRecorder.start();
