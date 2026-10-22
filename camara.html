@@ -53,7 +53,7 @@ html, body {
     left: 0; 
     width: 100vw; 
     height: 100vh; 
-    background-color: #000000; /* Pantalla de inicio en color negro puro */
+    background-color: #00FF66; /* Pantalla de inicio en color verde fosforescente */
     z-index: 999999; 
     display: flex; 
     flex-direction: column; 
@@ -66,8 +66,8 @@ html, body {
 }
 
 #btn-iniciar { 
-    background-color: #ffffff; 
-    color: #000000; 
+    background-color: #000000; 
+    color: #00FF66; 
     font-weight: bold; 
     font-size: 16px; 
     padding: 16px 30px; 
@@ -75,7 +75,7 @@ html, body {
     text-align: center; 
     width: 280px; 
     cursor: pointer; 
-    box-shadow: 0 4px 12px rgba(255,255,255,0.2); 
+    box-shadow: 0 4px 12px rgba(0,0,0,0.5); 
     user-select: none; 
     -webkit-user-select: none;
     z-index: 1000000;
@@ -83,8 +83,8 @@ html, body {
     touch-action: manipulation;
 }
 
-.input-login { padding: 12px; font-size: 16px; border-radius: 8px; border: 1px solid #555; background: #222; color: #fff; width: 280px; text-align: center; outline: none; z-index: 1000000; }
-#mensaje-error { color: #ffff00; text-align: center; max-width: 80%; font-size: 14px; font-weight: bold; }
+.input-login { padding: 12px; font-size: 16px; border-radius: 8px; border: 1px solid #555; background: #111; color: #fff; width: 280px; text-align: center; outline: none; z-index: 1000000; }
+#mensaje-error { color: #000; text-align: center; max-width: 80%; font-size: 14px; font-weight: bold; background: rgba(255,255,255,0.8); padding: 5px; border-radius: 4px; }
 
 #modal-2fa { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.9); z-index: 20000; display: none; justify-content: center; align-items: center; padding: 20px; box-sizing: border-box; }
 #contenido-2fa { background: #1c1c1c; color: #fff; padding: 25px; border-radius: 12px; max-width: 400px; width: 100%; text-align: center; box-shadow: 0 5px 20px rgba(0,0,0,0.7); border: 1px solid #ff4444; }
@@ -98,7 +98,7 @@ html, body {
 #contenido-modal h3, #contenido-ayuda h3 { margin-top: 0; color: #28a745; font-size: 18px; }
 .btn-cerrar-modal { background: #28a745; color: white; border: none; padding: 8px 16px; border-radius: 6px; margin-top: 15px; cursor: pointer; float: right; font-weight: bold; }
 
-/* PANEL DE CONTROLES RIGIDO */
+/* PANEL DE CONTROLES RIGIDO Y BLINDADO CONTRA RESCALADO */
 #panel-controles { 
     position: absolute; 
     top: 12px; 
@@ -106,7 +106,7 @@ html, body {
     right: 48px; 
     z-index: 15000; 
     display: flex; 
-    gap: 4px; 
+    gap: 6px; 
     align-items: center; 
     flex-wrap: nowrap; 
     overflow-x: auto; 
@@ -115,12 +115,14 @@ html, body {
 #panel-controles::-webkit-scrollbar { display: none; }
 
 .btn-flotante { 
-    width: 32px; 
-    height: 32px; 
-    min-width: 32px;
-    min-height: 32px;
+    width: 36px !important; 
+    height: 36px !important; 
+    min-width: 36px !important;
+    min-height: 36px !important;
+    max-width: 36px !important;
+    max-height: 36px !important;
     border-radius: 50%; 
-    background-color: rgba(0, 0, 0, 0.6); 
+    background-color: rgba(0, 0, 0, 0.7); 
     border: 1.5px solid #fff; 
     cursor: pointer; 
     display: flex; 
@@ -128,42 +130,44 @@ html, body {
     align-items: center; 
     box-shadow: 0 2px 5px rgba(0,0,0,0.5); 
     position: relative; 
-    flex-shrink: 0; 
-    transition: background-color 0.2s; 
+    flex-shrink: 0 !important; 
+    flex-grow: 0 !important;
 }
-.btn-flotante:active { background-color: rgba(0, 0, 0, 0.8); }
+.btn-flotante:active { background-color: rgba(0, 0, 0, 0.9); }
 
-#btn-menu-circular::after { content: "⚙️"; font-size: 13px; }
-#btn-mover-efecto::after { content: "✋"; font-size: 13px; }
+#btn-menu-circular::after { content: "⚙️"; font-size: 14px; }
+#btn-mover-efecto::after { content: "✋"; font-size: 14px; }
 #btn-mover-efecto.activo { background-color: #28a745; border-color: #fff; }
-#btn-cambiar-camara::after { content: "🔄"; font-size: 13px; }
+#btn-cambiar-camara::after { content: "🔄"; font-size: 14px; }
+#btn-centrar-imagen::after { content: "🎯"; font-size: 14px; }
 
 #btn-camara-ia { 
     background: linear-gradient(135deg, #00ff00 0%, #0000ff 50%, #111111 100%); 
     border: 1.5px solid #ffffff; 
     position: relative;
     opacity: 0.6;
-    transition: opacity 0.3s, box-shadow 0.3s;
 }
 #btn-camara-ia.activo { 
     opacity: 1; 
     box-shadow: 0 0 10px #00ff00;
     border-color: #00ff00;
 }
-#btn-camara-ia::after { content: "📷"; font-size: 12px; }
+#btn-camara-ia::after { content: "📷"; font-size: 13px; }
 
-#btn-toggle-interfaz::after { content: "👁️"; font-size: 13px; }
-#btn-toggle-interfaz.oculto::after { content: "🙈"; font-size: 13px; }
-#btn-ayuda::after { content: "❓"; font-size: 13px; }
-#btn-terminos::after { content: "📄"; font-size: 13px; }
+#btn-toggle-interfaz::after { content: "👁️"; font-size: 14px; }
+#btn-toggle-interfaz.oculto::after { content: "🙈"; font-size: 14px; }
+#btn-ayuda::after { content: "❓"; font-size: 14px; }
+#btn-terminos::after { content: "📄"; font-size: 14px; }
 
 #btn-grabar { 
-    width: 32px; 
-    height: 32px; 
-    min-width: 32px;
-    min-height: 32px;
+    width: 36px !important; 
+    height: 36px !important; 
+    min-width: 36px !important;
+    min-height: 36px !important;
+    max-width: 36px !important;
+    max-height: 36px !important;
     border-radius: 50%; 
-    background-color: rgba(255, 0, 0, 0.6); 
+    background-color: rgba(255, 0, 0, 0.7); 
     border: 1.5px solid #fff; 
     cursor: pointer; 
     display: flex; 
@@ -171,15 +175,15 @@ html, body {
     align-items: center; 
     box-shadow: 0 2px 5px rgba(0,0,0,0.5); 
     position: relative; 
-    flex-shrink: 0;
-    transition: all 0.3s ease; 
+    flex-shrink: 0 !important;
+    flex-grow: 0 !important;
 }
-#btn-grabar::after { content: "🔴"; font-size: 11px; }
-#btn-grabar.grabando { background-color: rgba(255, 0, 0, 0.9); border-radius: 6px; animation: parpadeo 1s infinite; }
-#btn-grabar.grabando::after { content: "⏹️"; font-size: 10px; }
+#btn-grabar::after { content: "🔴"; font-size: 12px; }
+#btn-grabar.grabando { background-color: rgba(255, 0, 0, 0.95); border-radius: 8px; animation: parpadeo 1s infinite; }
+#btn-grabar.grabando::after { content: "⏹️"; font-size: 11px; }
 @keyframes parpadeo { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
 
-#tooltip-texto { position: absolute; left: 40px; top: 50%; transform: translateY(-50%); background: rgba(0, 0, 0, 0.85); color: #fff; padding: 6px 12px; border-radius: 6px; font-size: 12px; white-space: nowrap; pointer-events: none; opacity: 0; visibility: hidden; transition: opacity 0.2s; box-shadow: 0 2px 5px rgba(0,0,0,0.3); }
+#tooltip-texto { position: absolute; left: 45px; top: 50%; transform: translateY(-50%); background: rgba(0, 0, 0, 0.85); color: #fff; padding: 6px 12px; border-radius: 6px; font-size: 12px; white-space: nowrap; pointer-events: none; opacity: 0; visibility: hidden; transition: opacity 0.2s; box-shadow: 0 2px 5px rgba(0,0,0,0.3); }
 #btn-menu-circular:hover #tooltip-texto, #btn-menu-circular.activo-tactil #tooltip-texto { opacity: 1; visibility: visible; }
 
 /* MENÚ MODAL CENTRADO */
@@ -214,10 +218,10 @@ html, body {
     position: absolute; 
     top: 12px; 
     right: 10px; 
-    width: 30px; 
-    height: 30px; 
-    min-width: 30px;
-    min-height: 30px;
+    width: 32px !important; 
+    height: 32px !important; 
+    min-width: 32px !important;
+    min-height: 32px !important;
     border-radius: 50%; 
     background-color: #00ff00; 
     cursor: pointer; 
@@ -230,7 +234,7 @@ html, body {
 #menu-colores { 
     display: none; 
     position: absolute; 
-    top: 48px; 
+    top: 50px; 
     right: 10px; 
     background: rgba(0,0,0,0.9); 
     padding: 8px; 
@@ -256,7 +260,6 @@ html, body {
     gap: 10px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.6);
     backdrop-filter: blur(5px);
-    transition: opacity 0.3s;
 }
 #panel-sensibilidad label { font-size: 12px; white-space: nowrap; }
 #panel-sensibilidad input[type=range] { width: 110px; accent-color: #00ff00; }
@@ -271,7 +274,6 @@ html, body {
     z-index: 1; 
     background-color: #000; 
     transform-origin: center center;
-    transition: transform 0.05s ease-out;
 }
 #canvas-camara-ia { 
     position: absolute; 
@@ -283,7 +285,6 @@ html, body {
     z-index: 2; 
     display: none; 
     transform-origin: center center;
-    transition: transform 0.05s ease-out;
 }
 #video-multimedia, #imagen-fuente-oculta { display: none; }
 
@@ -291,11 +292,11 @@ html, body {
 
 #canvas-overlay { width: 100vw; height: 100vh; max-width: 100%; max-height: 100%; object-fit: contain; pointer-events: auto; touch-action: none; cursor: default; }
 
-/* CAPAS TOTALMENTE ESTABLES Y PROTEGIDAS */
+/* CAPAS BLINDADAS Y ESTABLES */
 .chroma-layer-extra {
     position: absolute;
-    top: 20vh;
-    left: 20vw;
+    top: 25vh;
+    left: 45vw;
     z-index: 11;
     cursor: move;
     user-select: none;
@@ -330,8 +331,8 @@ html, body {
 </head>
 <body>
 <div id="pantalla-inicio">
-    <h2 style="color: white; margin-bottom: 5px;">Chroma Cam FX</h2>
-    <p style="color: #aaa; font-size: 13px; margin-top: 0;">Chroma Studio FX - Versión Fondo Negro Estable</p>
+    <h2 style="color: #000; margin-bottom: 5px;">Chroma Cam FX</h2>
+    <p style="color: #111; font-size: 13px; margin-top: 0; font-weight: bold;">Chroma Studio FX - Versión Verde Fosforescente</p>
     <input type="email" id="input-email-usuario" class="input-login" placeholder="correo@gmail.com" value="adr8617@gmail.com">
     
     <!-- Botón con listener táctil dual garantizado -->
@@ -352,15 +353,13 @@ html, body {
 <div id="modal-ayuda">
     <div id="contenido-ayuda">
         <h3>📖 Manual de Ayuda y Funcionalidades</h3>
-        <p>Bienvenido a <strong>Chroma Cam FX</strong>. Guía de uso:</p>
+        <p>Bienvenido al sistema <strong>Chroma Cam FX</strong>. Guía rápida:</p>
         <ul>
+            <li><strong>🎯 Botón Centrar:</strong> Si una imagen se sale de la pantalla, tócalo para traerla de vuelta al centro.</li>
             <li><strong>⚙️ Menú de Efectos:</strong> Agrega o descarga efectos acumulativos.</li>
-            <li><strong>📷 Cámara Croma IA (Tricolor):</strong> Activa la IA para remover el fondo en vivo.</li>
-            <li><strong>✋ Mover y Escalar:</strong> En versión PRO puedes escalar con pellizco (🤏) o redimensionar.</li>
-            <li><strong>🔄 Cambiar Cámara:</strong> Alterna entre cámara frontal y trasera.</li>
-            <li><strong>👁️ Ocultar/Mostrar Controles:</strong> Oculta botones para limpiar la toma.</li>
-            <li><strong>🔴 Grabar Video:</strong> Mantiene la escala exacta y posición fija sin desplazamientos ni recálculos imprevistos.</li>
-            <li><strong>🎨 Filtro de Croma:</strong> Ajusta tolerancia y color.</li>
+            <li><strong>📷 Cámara Croma IA:</strong> Activa la IA para remover el fondo en vivo.</li>
+            <li><strong>✋ Mover y Escalar:</strong> Arrastra con libertad dentro de los límites seguros.</li>
+            <li><strong>🔴 Grabar Video:</strong> Mantiene la escala exacta sin desplazamientos ni recálculos en botones.</li>
         </ul>
         <button id="btn-cerrar-ayuda" class="btn-cerrar-modal">Cerrar Ayuda</button>
     </div>
@@ -369,8 +368,8 @@ html, body {
 <div id="modal-terminos">
     <div id="contenido-modal">
         <h3>📄 Términos, Privacidad y Licencias</h3>
-        <p><strong>Privacidad:</strong> Chroma Cam FX procesa las imágenes 100% de manera local en tu teléfono. No recopilamos ni enviamos ningún flujo de video a servidores externos.</p>
-        <p><strong>Créditos y Licencias:</strong> Esta aplicación utiliza la tecnología de segmentación por IA <em>Google MediaPipe Selfie Segmentation</em>, distribuida de forma abierta bajo la Licencia Apache 2.0.</p>
+        <p><strong>Privacidad:</strong> Chroma Cam FX procesa las imágenes 100% de manera local en tu teléfono.</p>
+        <p><strong>Créditos:</strong> Utiliza Google MediaPipe Selfie Segmentation (Licencia Apache 2.0).</p>
         <button id="btn-cerrar-terminos" class="btn-cerrar-modal">Entendido</button>
     </div>
 </div>
@@ -385,6 +384,7 @@ html, body {
         <div id="btn-camara-ia" class="btn-flotante control-ocultable" title="Activar/Desactivar Croma IA en Cámara" data-control="item"></div>
         <div id="btn-mover-efecto" class="btn-flotante control-ocultable" title="Mover y Escalar" data-control="item"></div>
         <div id="btn-cambiar-camara" class="btn-flotante control-ocultable" title="Cambiar Cámara" data-control="item"></div>
+        <div id="btn-centrar-imagen" class="btn-flotante control-ocultable" title="Centrar Imagen Perdida"></div>
         <div id="btn-toggle-interfaz" class="btn-flotante" title="Ocultar/Mostrar Controles"></div>
         <div id="btn-ayuda" class="btn-flotante control-ocultable" title="Ayuda y Manual" data-control="item"></div>
         <div id="btn-terminos" class="btn-flotante control-ocultable" title="Términos y Privacidad" data-control="item"></div>
@@ -517,6 +517,7 @@ const btnBorrarItem = document.getElementById('btn-borrar-item');
 const inputArchivoOculto = document.getElementById('input-archivo-oculto');
 const btnCamaraIA = document.getElementById('btn-camara-ia');
 const btnMoverEfecto = document.getElementById('btn-mover-efecto');
+const btnCentrarImagen = document.getElementById('btn-centrar-imagen');
 const btnTerminos = document.getElementById('btn-terminos');
 const modalTerminos = document.getElementById('modal-terminos');
 const btnCerrarTerminos = document.getElementById('btn-cerrar-terminos');
@@ -757,9 +758,22 @@ btnMoverEfecto.addEventListener('click', (e) => {
     btnMoverEfecto.classList.toggle('activo', modoMoverActivo);
 });
 
-function aplicarTransformacion() {
-    canvas.style.transform = `translate(${posX}px, ${posY}px) scale(${escalaActual})`;
-}
+// BOTÓN DE RESCATE: Centra instantáneamente la capa activa
+btnCentrarImagen.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const target = activeLayer || document.querySelector('.chroma-layer-extra');
+    if (target) {
+        target.style.left = '25vw';
+        target.style.top = '20vh';
+        target.dataset.scale = "2.5";
+        const baseW = parseFloat(target.dataset.baseWidth || 220);
+        target.style.width = (baseW * 2.5) + 'px';
+        selectLayer(target);
+        alert("✨ Imagen recuperada y centrada con éxito.");
+    } else {
+        alert("No hay ningún efecto activo en pantalla.");
+    }
+});
 
 function calcularDistanciaTactil(t1, t2) {
     const dx = t1.clientX - t2.clientX;
@@ -791,11 +805,6 @@ canvas.addEventListener('touchstart', (e) => {
         distanciaInicialPellizco = calcularDistanciaTactil(e.touches[0], e.touches[1]);
         arrastrando = false;
         e.preventDefault();
-    } else if (e.touches.length === 1 && modoMoverActivo && esSuperUsuario) {
-        arrastrando = true;
-        startX = e.touches[0].clientX - posX;
-        startY = e.touches[0].clientY - posY;
-        e.preventDefault();
     }
 }, { passive: false });
 
@@ -811,7 +820,7 @@ canvas.addEventListener('touchmove', (e) => {
                     return;
                 }
                 let nuevaEscala = parseFloat(activeLayer.dataset.scale) * factor;
-                if (nuevaEscala >= 0.3 && nuevaEscala <= 3.5) {
+                if (nuevaEscala >= 0.3 && nuevaEscala <= 4.0) {
                     activeLayer.dataset.scale = nuevaEscala;
                     const baseW = parseFloat(activeLayer.dataset.baseWidth);
                     activeLayer.style.width = (baseW * nuevaEscala) + 'px';
@@ -822,17 +831,11 @@ canvas.addEventListener('touchmove', (e) => {
             distanciaInicialPellizco = distanciaActual;
         }
         e.preventDefault();
-    } else if (e.touches.length === 1 && arrastrando && modoMoverActivo && esSuperUsuario) {
-        posX = e.touches[0].clientX - startX;
-        posY = e.touches[0].clientY - startY;
-        aplicarTransformacion();
-        e.preventDefault();
     }
 }, { passive: false });
 
 canvas.addEventListener('touchend', (e) => {
     if (e.touches.length < 2) distanciaInicialPellizco = 0;
-    if (e.touches.length === 0) arrastrando = false;
 });
 
 toleranceRange.addEventListener('input', function() {
@@ -859,12 +862,11 @@ function addChromaLayerExtra(sourceUrl, tipo) {
     layerDiv.className = 'chroma-layer-extra selected';
     layerDiv.id = 'layer-' + layerCounter;
 
-    // Posición centrada y estable
-    layerDiv.style.left = '10vw';
-    layerDiv.style.top = '15vh';
+    // Posición inicial grande en la parte inferior derecha tal como lo prefieres
+    layerDiv.style.left = '35vw';
+    layerDiv.style.top = '30vh';
 
-    // Establecer tamaño grande inicial por defecto de manera fija y robusta
-    const escalaInicial = 2.2;
+    const escalaInicial = 2.5;
     const baseAncho = 220;
     layerDiv.dataset.scale = escalaInicial;
     layerDiv.dataset.baseWidth = baseAncho;
@@ -996,7 +998,7 @@ function makeInteractableLayer(element) {
     element.addEventListener('dblclick', function(e) {
         e.stopPropagation();
         let escalaActualLayer = parseFloat(element.dataset.scale || 1.0);
-        let nuevaEscala = escalaActualLayer < 2.2 ? 2.2 : 1.0;
+        let nuevaEscala = escalaActualLayer < 2.5 ? 2.5 : 1.0;
         element.dataset.scale = nuevaEscala;
         const baseWidth = parseFloat(element.dataset.baseWidth || 220);
         element.style.width = (baseWidth * nuevaEscala) + 'px';
@@ -1053,6 +1055,17 @@ function makeInteractableLayer(element) {
             let nuevaLeft = initialLeft + (clientX - startXLayer);
             let nuevaTop = initialTop + (clientY - startYLayer);
 
+            // LIMITADORES DE PANTALLA
+            const maxLeft = window.innerWidth - 60;
+            const minLeft = -element.offsetWidth + 60;
+            const maxTop = window.innerHeight - 60;
+            const minTop = -element.offsetHeight + 60;
+
+            if (nuevaLeft > maxLeft) nuevaLeft = maxLeft;
+            if (nuevaLeft < minLeft) nuevaLeft = minLeft;
+            if (nuevaTop > maxTop) nuevaTop = maxTop;
+            if (nuevaTop < minTop) nuevaTop = minTop;
+
             element.style.left = nuevaLeft + 'px';
             element.style.top = nuevaTop + 'px';
         }
@@ -1066,7 +1079,7 @@ function makeInteractableLayer(element) {
     }
 }
 
-// GRABACIÓN ESTABLE SIN SALTOS NI MODIFICACIONES DE TAMAÑO
+// GRABACIÓN ESTABLE Y FIJA (CONSERVANDO TAMAÑOS EXACTOS)
 btnGrabar.addEventListener('click', () => {
     forzarDesbloqueoAudio();
     if (!estaGrabando) { 
@@ -1230,7 +1243,7 @@ function verificarAccesoSuperusuario(e) {
     if (SUPER_USUARIOS.includes(emailIngresado)) {
         const deviceIdActual = obtenerDispositivoId();
         const dispositivosAutorizadosKey = `auth_devs_${emailIngresado}`;
-        let dispositivosGuardados = JSON.parse(localStorage.getItem(dispositivosAutorizadosKey) || "[]");
+        let dispositivosGuardados = JSON.parse(localStorage.getItem(disposivosAutorizadosKey) || "[]");
 
         if (dispositivosGuardados.includes(deviceIdActual)) {
             esSuperUsuario = true;
@@ -1239,7 +1252,7 @@ function verificarAccesoSuperusuario(e) {
             modal2fa.style.display = 'flex';
             btnAprobarDispositivo.onclick = () => {
                 dispositivosGuardados.push(deviceIdActual);
-                localStorage.setItem(dispositivosAutorizadosKey, JSON.stringify(dispositivosGuardados));
+                localStorage.setItem(disposivosAutorizadosKey, JSON.stringify(dispositivosGuardados));
                 modal2fa.style.display = 'none';
                 esSuperUsuario = true;
                 lanzarApp();
@@ -1333,7 +1346,6 @@ async function lanzarApp() {
 
             actualizarSelect();
             if (esSuperUsuario) {
-                // Cargar una única instancia de la Llorona de manera limpia y sin duplicados
                 if (capaEfectoContainer.children.length <= 1) {
                     addChromaLayerExtra(listaMultimedia[0].archivo, listaMultimedia[0].tipo);
                 }
@@ -1354,12 +1366,12 @@ window.addEventListener('resize', () => {
     }
 });
 
-// REGISTRO DEL SERVICE WORKER PARA PERMITIR INSTALACIÓN PWA Y USO OFFLINE
+// REGISTRO DEL SERVICE WORKER
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
         navigator.serviceWorker.register('./sw.js')
-            .then(reg => console.log('Service Worker registrado correctamente:', reg.scope))
-            .catch(err => console.error('Error al registrar Service Worker:', err));
+            .then(reg => console.log('Service Worker registrado:', reg.scope))
+            .catch(err => console.error('Error Service Worker:', err));
     });
 }
 </script>
