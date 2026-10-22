@@ -53,7 +53,7 @@ html, body {
     left: 0; 
     width: 100vw; 
     height: 100vh; 
-    background-color: #fd7e14; 
+    background-color: #6f42c1; 
     z-index: 999999; 
     display: flex; 
     flex-direction: column; 
@@ -67,7 +67,7 @@ html, body {
 
 #btn-iniciar { 
     background-color: #ffffff; 
-    color: #fd7e14; 
+    color: #6f42c1; 
     font-weight: bold; 
     font-size: 16px; 
     padding: 16px 30px; 
@@ -331,7 +331,7 @@ html, body {
 <body>
 <div id="pantalla-inicio">
     <h2 style="color: white; margin-bottom: 5px;">Chroma Cam FX</h2>
-    <p style="color: #ffe8d6; font-size: 13px; margin-top: 0;">Chroma Studio FX - Versión Naranja Estable</p>
+    <p style="color: #e2d9f3; font-size: 13px; margin-top: 0;">Chroma Studio FX - Versión Púrpura Sincronizada</p>
     <input type="email" id="input-email-usuario" class="input-login" placeholder="correo@gmail.com" value="adr8617@gmail.com">
     
     <!-- Botón con disparador seguro desacoplado -->
@@ -359,7 +359,7 @@ html, body {
             <li><strong>✋ Mover y Escalar:</strong> En versión PRO puedes escalar con pellizco (🤏) o redimensionar.</li>
             <li><strong>🔄 Cambiar Cámara:</strong> Alterna entre cámara frontal y trasera.</li>
             <li><strong>👁️ Ocultar/Mostrar Controles:</strong> Oculta botones para limpiar la toma.</li>
-            <li><strong>🔴 Grabar Video:</strong> Graba pantalla integrando audio y respetando la escala exacta ajustada sin modificar la vista previa.</li>
+            <li><strong>🔴 Grabar Video:</strong> Oculta automáticamente la interfaz al grabar y respeta exactamente la escala ampliada en pantalla y video.</li>
             <li><strong>🎨 Filtro de Croma:</strong> Ajusta tolerancia y color.</li>
         </ul>
         <button id="btn-cerrar-ayuda" class="btn-cerrar-modal">Cerrar Ayuda</button>
@@ -1069,13 +1069,22 @@ function makeInteractableLayer(element) {
     }
 }
 
-// GRABACIÓN ESTABLE SIN OCULTAR INTERFAZ AUTOMÁTICAMENTE
+// GRABACIÓN PERFECTA: OCULTAR INTERFAZ Y RENDERIZAR CON ESCALA EXACTA
 btnGrabar.addEventListener('click', () => {
     forzarDesbloqueoAudio();
     if (!estaGrabando) { 
         let nombreSugerido = `ChromaCam_${Date.now()}`;
         nombreArchivoGrabado = prompt("Escribe el nombre para tu video grabado:", nombreSugerido);
         if (!nombreArchivoGrabado || nombreArchivoGrabado.trim() === "") return; 
+
+        // Ocultar la interfaz automáticamente al iniciar la grabación
+        if (!interfazOculta) {
+            interfazOculta = true;
+            controlesOcultables.forEach(el => { el.style.display = 'none'; });
+            btnToggleInterfaz.classList.add('oculto');
+            btnColor.style.opacity = '0';
+            btnColor.style.pointerEvents = 'none';
+        }
 
         fragmentosVideo = [];
         const canvasGrabacion = document.createElement('canvas');
@@ -1097,8 +1106,10 @@ btnGrabar.addEventListener('click', () => {
             document.querySelectorAll('.chroma-layer-extra').forEach(layer => {
                 const c = layer.querySelector('canvas');
                 if (c) {
-                    const renderW = layer.offsetWidth * escalaX;
-                    const renderH = layer.offsetHeight * escalaY;
+                    const escala = parseFloat(layer.dataset.scale || 1.0);
+                    const baseW = parseFloat(layer.dataset.baseWidth || 200);
+                    const renderW = baseW * escala * escalaX;
+                    const renderH = (c.height / c.width) * renderW;
                     const posX = layer.offsetLeft * escalaX;
                     const posY = layer.offsetTop * escalaY;
 
@@ -1153,8 +1164,17 @@ btnGrabar.addEventListener('click', () => {
             setTimeout(() => { 
                 document.body.removeChild(a); 
                 window.URL.revokeObjectURL(urlBlob); 
-                alert(`¡Video guardado con éxito manteniendo la escala exacta!`);
+                alert(`¡Video guardado con éxito y escala perfecta!`);
             }, 100);
+
+            // Restaurar interfaz al terminar
+            if (interfazOculta) {
+                interfazOculta = false;
+                controlesOcultables.forEach(el => { el.style.display = 'flex'; });
+                btnToggleInterfaz.classList.remove('oculto');
+                btnColor.style.opacity = '0.8';
+                btnColor.style.pointerEvents = 'auto';
+            }
         };
 
         mediaRecorder.start();
