@@ -53,7 +53,7 @@ html, body {
     left: 0; 
     width: 100vw; 
     height: 100vh; 
-    background-color: #17a2b8; 
+    background-color: #6c757d; /* Pantalla de inicio en color gris */
     z-index: 999999; 
     display: flex; 
     flex-direction: column; 
@@ -67,7 +67,7 @@ html, body {
 
 #btn-iniciar { 
     background-color: #ffffff; 
-    color: #17a2b8; 
+    color: #495057; 
     font-weight: bold; 
     font-size: 16px; 
     padding: 16px 30px; 
@@ -331,11 +331,11 @@ html, body {
 <body>
 <div id="pantalla-inicio">
     <h2 style="color: white; margin-bottom: 5px;">Chroma Cam FX</h2>
-    <p style="color: #d1ecf1; font-size: 13px; margin-top: 0;">Chroma Studio FX - Versión Cian Sincronizada</p>
+    <p style="color: #f8f9fa; font-size: 13px; margin-top: 0;">Chroma Studio FX - Versión Gris de Diagnóstico</p>
     <input type="email" id="input-email-usuario" class="input-login" placeholder="correo@gmail.com" value="adr8617@gmail.com">
     
-    <!-- Botón con disparador seguro desacoplado -->
-    <div id="btn-iniciar" onclick="ejecutarAccesoDirecto()">TOCA AQUÍ PARA INICIAR</div>
+    <!-- Botón con disparador directo vinculado a la validación -->
+    <div id="btn-iniciar" onclick="verificarAccesoSuperusuario(event)">TOCA AQUÍ PARA INICIAR</div>
     
     <p id="mensaje-error"></p>
 </div>
@@ -1069,7 +1069,7 @@ function makeInteractableLayer(element) {
     }
 }
 
-// GRABACIÓN PERFECTA SIN INTERFERIR CON EL TAMAÑO VISUAL EN PANTALLA
+// GRABACIÓN PERFECTA: OCULTAR INTERFAZ Y RENDERIZAR CON ESCALA EXACTA
 btnGrabar.addEventListener('click', () => {
     forzarDesbloqueoAudio();
     if (!estaGrabando) { 
@@ -1077,7 +1077,7 @@ btnGrabar.addEventListener('click', () => {
         nombreArchivoGrabado = prompt("Escribe el nombre para tu video grabado:", nombreSugerido);
         if (!nombreArchivoGrabado || nombreArchivoGrabado.trim() === "") return; 
 
-        // Ocultar la interfaz automáticamente al iniciar la grabación de forma limpia
+        // Ocultar la interfaz automáticamente al iniciar la grabación
         if (!interfazOculta) {
             interfazOculta = true;
             controlesOcultables.forEach(el => { el.style.display = 'none'; });
@@ -1167,7 +1167,7 @@ btnGrabar.addEventListener('click', () => {
                 alert(`¡Video guardado con éxito y escala perfecta!`);
             }, 100);
 
-            // Restaurar interfaz al terminar la grabación
+            // Restaurar interfaz al terminar
             if (interfazOculta) {
                 interfazOculta = false;
                 controlesOcultables.forEach(el => { el.style.display = 'flex'; });
@@ -1225,16 +1225,6 @@ function cargarArchivoSeleccionado() {
 
 selectorVideo.addEventListener('change', cargarArchivoSeleccionado);
 
-/* DESACOPLAMIENTO DE SEGURIDAD PARA RESPUESTA TÁCTIL INMEDIATA */
-function ejecutarAccesoDirecto() {
-    pantallaInicio.style.display = 'none';
-    panelControles.style.display = 'flex';
-    
-    setTimeout(() => {
-        verificarAccesoSuperusuario();
-    }, 50);
-}
-
 function verificarAccesoSuperusuario(e) {
     if (e) {
         e.stopPropagation();
@@ -1245,7 +1235,7 @@ function verificarAccesoSuperusuario(e) {
     if (SUPER_USUARIOS.includes(emailIngresado)) {
         const deviceIdActual = obtenerDispositivoId();
         const dispositivosAutorizadosKey = `auth_devs_${emailIngresado}`;
-        let dispositivosGuardados = JSON.parse(localStorage.getItem(disposivosAutorizadosKey) || "[]");
+        let dispositivosGuardados = JSON.parse(localStorage.getItem(dispositivosAutorizadosKey) || "[]");
 
         if (dispositivosGuardados.includes(deviceIdActual)) {
             esSuperUsuario = true;
@@ -1345,7 +1335,8 @@ async function lanzarApp() {
 
             actualizarSelect();
             if (esSuperUsuario) {
-                cargarArchivoSeleccionado();
+                // Cargar el efecto por defecto de la Llorona automáticamente
+                addChromaLayerExtra(listaMultimedia[0].archivo, listaMultimedia[0].tipo);
             }
         };
     } catch (err) {
@@ -1362,66 +1353,6 @@ window.addEventListener('resize', () => {
         canvas.height = imagenFuenteOculta.naturalHeight;
     }
 });
-
-videoMultimedia.addEventListener('loadeddata', () => {
-    canvas.width = videoMultimedia.videoWidth || 1280;
-    canvas.height = videoMultimedia.videoHeight || 720;
-    if (!procesando) { procesando = true; procesarChromaKeyVideo(); }
-});
-
-function procesarChromaKeyVideo() {
-    if (tipoActual === 'video' && !videoMultimedia.paused && !videoMultimedia.ended) {
-        if (videoMultimedia.videoWidth) {
-            canvas.width = videoMultimedia.videoWidth;
-            canvas.height = videoMultimedia.videoHeight;
-        }
-        ctx.drawImage(videoMultimedia, 0, 0, canvas.width, canvas.height);
-        let frame = ctx.getImageData(0, 0, canvas.width, canvas.height);
-        let totalPixeles = frame.data.length / 4;
-        let tolerance = parseFloat(toleranceRange.value);
-
-        for (let i = 0; i < totalPixeles; i++) {
-            let r = frame.data[i * 4 + 0], g = frame.data[i * 4 + 1], b = frame.data[i * 4 + 2];
-            if (colorFiltro === 'verde') { 
-                if (g > 60 && g > r * (1.8 - (tolerance * 0.4)) && g > b * (1.8 - (tolerance * 0.4))) frame.data[i * 4 + 3] = 0; 
-            } 
-            else if (colorFiltro === 'azul' && esSuperUsuario) { 
-                if (b > 60 && b > r * (1.8 - (tolerance * 0.4)) && b > g * (1.8 - (tolerance * 0.4))) frame.data[i * 4 + 3] = 0; 
-            } 
-            else if (colorFiltro === 'negro' && esSuperUsuario) { 
-                if (r < 50 && g < 50 && b < 50) frame.data[i * 4 + 3] = 0; 
-            }
-        }
-        ctx.putImageData(frame, 0, 0);
-    }
-    requestAnimationFrame(procesarChromaKeyVideo);
-}
-
-function procesarChromaKeyGIF() {
-    if (tipoActual === 'gif') {
-        canvas.width = imagenFuenteOculta.naturalWidth || 500;
-        canvas.height = imagenFuenteOculta.naturalHeight || 500;
-        ctx.drawImage(imagenFuenteOculta, 0, 0, canvas.width, canvas.height);
-        let frame = ctx.getImageData(0, 0, canvas.width, canvas.height);
-        let totalPixeles = frame.data.length / 4;
-        let tolerance = parseFloat(toleranceRange.value);
-
-        for (let i = 0; i < totalPixeles; i++) {
-            let r = frame.data[i * 4 + 0], g = frame.data[i * 4 + 1], b = frame.data[i * 4 + 2];
-            if (colorFiltro === 'verde') { 
-                if (g > 60 && g > r * (1.8 - (tolerance * 0.4)) && g > b * (1.8 - (tolerance * 0.4))) frame.data[i * 4 + 3] = 0; 
-            } 
-            else if (colorFiltro === 'azul' && esSuperUsuario) { 
-                if (b > 60 && b > r * (1.8 - (tolerance * 0.4)) && b > g * (1.8 - (tolerance * 0.4))) frame.data[i * 4 + 3] = 0; 
-            } 
-            else if (colorFiltro === 'negro' && esSuperUsuario) { 
-                if (r < 50 && g < 50 && b < 50) frame.data[i * 4 + 3] = 0; 
-            }
-        }
-        ctx.putImageData(frame, 0, 0);
-        animacionGifId = requestAnimationFrame(procesarChromaKeyGIF);
-    }
-}
 
 // REGISTRO DEL SERVICE WORKER PARA PERMITIR INSTALACIÓN PWA Y USO OFFLINE
 if ('serviceWorker' in navigator) {
