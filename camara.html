@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no, viewport-fit=cover">
-<title>Chroma Cam FX - Esmeralda Estable</title>
+<title>Chroma Cam FX - Azul Océano Estable</title>
 <link rel="manifest" href="manifest.json">
 
 <!-- Librerías de Segmentación por IA (Google MediaPipe - Licencia Apache 2.0) -->
@@ -53,7 +53,7 @@ html, body {
     left: 0; 
     width: 100vw; 
     height: 100vh; 
-    background-color: #064e3b; /* Pantalla de inicio en Verde Esmeralda Oscuro */
+    background-color: #0f172a; /* Pantalla de inicio en Azul Océano Profundo */
     z-index: 999999; 
     display: flex; 
     flex-direction: column; 
@@ -65,7 +65,7 @@ html, body {
 }
 
 #btn-iniciar { 
-    background-color: #10b981; 
+    background-color: #3b82f6; 
     color: #fff; 
     font-weight: bold; 
     font-size: 16px; 
@@ -77,7 +77,7 @@ html, body {
     min-width: 280px;
     height: 54px;
     cursor: pointer; 
-    box-shadow: 0 4px 15px rgba(16,185,129,0.5); 
+    box-shadow: 0 4px 15px rgba(59,130,246,0.5); 
     user-select: none; 
     -webkit-user-select: none;
     display: flex;
@@ -101,21 +101,21 @@ html, body {
     z-index: 1000000;
 }
 
-#mensaje-error { color: #a7f3d0; text-align: center; max-width: 80%; font-size: 14px; font-weight: bold; background: rgba(0,0,0,0.6); padding: 5px; border-radius: 4px; }
+#mensaje-error { color: #bfdbfe; text-align: center; max-width: 80%; font-size: 14px; font-weight: bold; background: rgba(0,0,0,0.6); padding: 5px; border-radius: 4px; }
 
 #modal-2fa { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.9); z-index: 20000; display: none; justify-content: center; align-items: center; padding: 20px; box-sizing: border-box; }
-#contenido-2fa { background: #1c1c1c; color: #fff; padding: 25px; border-radius: 12px; max-width: 400px; width: 100%; text-align: center; box-shadow: 0 5px 20px rgba(0,0,0,0.7); border: 1px solid #ff4444; }
-#contenido-2fa h3 { color: #ff4444; margin-top: 0; }
+#contenido-2fa { background: #1c1c1c; color: #fff; padding: 25px; border-radius: 12px; max-width: 400px; width: 100%; text-align: center; box-shadow: 0 5px 20px rgba(0,0,0,0.7); border: 1px solid #3b82f6; }
+#contenido-2fa h3 { color: #3b82f6; margin-top: 0; }
 .btn-2fa { padding: 10px 20px; border-radius: 6px; border: none; font-weight: bold; cursor: pointer; margin: 10px 5px; }
 #btn-aprobar-dispositivo { background: #28a745; color: white; }
 #btn-rechazar-dispositivo { background: #dc3545; color: white; }
 
 #modal-terminos, #modal-ayuda { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 10000; display: none; justify-content: center; align-items: center; padding: 20px; box-sizing: border-box; }
 #contenido-modal, #contenido-ayuda { background: #1c1c1c; color: #fff; padding: 25px; border-radius: 12px; max-width: 500px; width: 100%; max-height: 85vh; overflow-y: auto; box-shadow: 0 5px 20px rgba(0,0,0,0.7); font-size: 13px; line-height: 1.5; border: 1px solid #444; }
-#contenido-modal h3, #contenido-ayuda h3 { margin-top: 0; color: #10b981; font-size: 18px; }
-.btn-cerrar-modal { background: #10b981; color: white; border: none; padding: 8px 16px; border-radius: 6px; margin-top: 15px; cursor: pointer; float: right; font-weight: bold; }
+#contenido-modal h3, #contenido-ayuda h3 { margin-top: 0; color: #3b82f6; font-size: 18px; }
+.btn-cerrar-modal { background: #3b82f6; color: white; border: none; padding: 8px 16px; border-radius: 6px; margin-top: 15px; cursor: pointer; float: right; font-weight: bold; }
 
-/* PANEL DE CONTROLES EN DOS HILERAS ESTABLES */
+/* PANEL DE CONTROLES ESTABLE CON TAMAÑOS RIGUROSOS */
 #panel-controles { 
     position: absolute; 
     top: 6px; 
@@ -152,20 +152,20 @@ html, body {
 
 #btn-menu-circular::after { content: "⚙️"; font-size: 14px; }
 #btn-mover-efecto::after { content: "✋"; font-size: 14px; }
-#btn-mover-efecto.activo { background-color: #10b981; border-color: #fff; }
+#btn-mover-efecto.activo { background-color: #3b82f6; border-color: #fff; }
 #btn-cambiar-camara::after { content: "🔄"; font-size: 14px; }
 #btn-centrar-imagen::after { content: "🎯"; font-size: 14px; }
 
 #btn-camara-ia { 
-    background: linear-gradient(135deg, #10b981 0%, #0000ff 50%, #111111 100%); 
+    background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 50%, #111111 100%); 
     border: 1.5px solid #ffffff; 
     position: relative;
     opacity: 0.6;
 }
 #btn-camara-ia.activo { 
     opacity: 1; 
-    box-shadow: 0 0 10px #10b981;
-    border-color: #10b981;
+    box-shadow: 0 0 10px #3b82f6;
+    border-color: #3b82f6;
 }
 #btn-camara-ia::after { content: "📷"; font-size: 13px; }
 
@@ -217,14 +217,14 @@ html, body {
     flex-direction: column; 
     gap: 12px; 
     z-index: 50000; 
-    border: 2px solid #10b981;
+    border: 2px solid #3b82f6;
 }
 #selector-video { padding: 12px; font-size: 14px; border-radius: 8px; border: 1px solid #666; background: #222; color: #fff; cursor: pointer; width: 100%; }
 #input-archivo-oculto { display: none; }
 
 .btn-accion-menu { color: white; border: none; padding: 12px; border-radius: 8px; font-size: 14px; cursor: pointer; text-align: center; font-weight: bold; width: 100%; }
 #btn-descargar-demo { background: #007bff; }
-#btn-agregar-archivo { background: #064e3b; }
+#btn-agregar-archivo { background: #1e3a8a; }
 #btn-borrar-item { background: #6c2222; }
 
 #aviso-premium { position: absolute; bottom: 80px; left: 50%; transform: translateX(-50%); background: rgba(220, 53, 69, 0.95); color: white; padding: 12px 24px; border-radius: 8px; font-size: 13px; z-index: 19999; display: none; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.6); line-height: 1.4; }
@@ -240,7 +240,7 @@ html, body {
     max-width: 36px !important;
     max-height: 36px !important;
     border-radius: 50%; 
-    background-color: #10b981; 
+    background-color: #3b82f6; 
     cursor: pointer; 
     z-index: 15002; 
     opacity: 1; 
@@ -282,7 +282,7 @@ html, body {
     backdrop-filter: blur(5px);
 }
 #panel-sensibilidad label { font-size: 12px; white-space: nowrap; }
-#panel-sensibilidad input[type=range] { width: 110px; accent-color: #10b981; }
+#panel-sensibilidad input[type=range] { width: 110px; accent-color: #3b82f6; }
 
 #video-camara { 
     position: absolute; 
@@ -312,20 +312,20 @@ html, body {
 
 #canvas-overlay { width: 100vw; height: 100vh; max-width: 100%; max-height: 100%; object-fit: contain; pointer-events: auto; touch-action: none; cursor: default; }
 
-/* CAPAS BLINDADAS Y ESTABLES CON TAMAÑOS ABSOLUTOS */
+/* CAPAS INDEPENDIENTES Y PROTEGIDAS CONTRA SOLAPAMIENTO */
 .chroma-layer-extra {
     position: absolute;
-    top: 150px;
-    left: 100px;
+    top: 120px;
+    left: 80px;
     z-index: 11;
     cursor: move;
     user-select: none;
     touch-action: none;
     pointer-events: auto;
     border: 2px transparent dashed;
-    width: 450px;
+    width: 380px;
 }
-.chroma-layer-extra.selected { border-color: #10b981; }
+.chroma-layer-extra.selected { border-color: #3b82f6; }
 .chroma-layer-extra canvas, .chroma-layer-extra video { display: block; width: 100%; height: auto; }
 
 .btn-close-layer {
@@ -352,10 +352,9 @@ html, body {
 <body>
 <div id="pantalla-inicio">
     <h2 style="color: #fff; margin-bottom: 5px;">Chroma Cam FX</h2>
-    <p style="color: #a7f3d0; font-size: 13px; margin-top: 0; font-weight: bold;">Chroma Studio FX - Versión Esmeralda Estable</p>
+    <p style="color: #bfdbfe; font-size: 13px; margin-top: 0; font-weight: bold;">Chroma Studio FX - Versión Azul Océano Estable</p>
     <input type="email" id="input-email-usuario" class="input-login" placeholder="correo@gmail.com" value="adr8617@gmail.com">
     
-    <!-- Botón con disparador directo en línea onclick garantizado -->
     <button id="btn-iniciar" type="button" onclick="verificarAccesoSuperusuario(event)">TOCA AQUÍ PARA INICIAR</button>
     
     <p id="mensaje-error"></p>
@@ -375,10 +374,10 @@ html, body {
         <h3>📖 Manual de Ayuda y Funcionalidades</h3>
         <p>Bienvenido al sistema <strong>Chroma Cam FX</strong>. Guía rápida:</p>
         <ul>
-            <li><strong>🎯 Botón Centrar:</strong> Si una imagen se sale de la pantalla, tócalo para traerla de vuelta al centro.</li>
-            <li><strong>🎨 Botón de Color (Esquina Sup. Derecha):</strong> Permite cambiar el filtro de croma (Verde, Azul, Negro).</li>
-            <li><strong>⚙️ Menú de Efectos:</strong> Agrega o descarga efectos acumulativos.</li>
-            <li><strong>🔴 Grabar Video:</strong> Comienza y detiene la grabación instantáneamente sin alterar la pantalla.</li>
+            <li><strong>🎯 Botón Centrar:</strong> Trae de vuelta al centro el efecto seleccionado.</li>
+            <li><strong>🎨 Botón de Color:</strong> Cambia el filtro de croma (Verde, Azul, Negro).</li>
+            <li><strong>⚙️ Menú de Efectos:</strong> Agrega o descarga efectos acumulativos independientes.</li>
+            <li><strong>🔴 Grabar Video:</strong> Captura tu composición perfectamente sin alteraciones.</li>
         </ul>
         <button id="btn-cerrar-ayuda" class="btn-cerrar-modal">Cerrar Ayuda</button>
     </div>
@@ -412,7 +411,7 @@ html, body {
 
     <!-- Menú modal flotante centrado -->
     <div id="selector-video-wrapper">
-        <h4 style="color: #10b981; margin: 0 0 5px 0; text-align: center; font-size: 15px;">📁 Selector de Efectos</h4>
+        <h4 style="color: #3b82f6; margin: 0 0 5px 0; text-align: center; font-size: 15px;">📁 Selector de Efectos</h4>
         <select id="selector-video"></select>
         <button id="btn-descargar-demo" class="btn-accion-menu">📥 Descargar Demo</button>
         <button id="btn-agregar-archivo" class="btn-accion-menu">➕ Agregar archivo local</button>
@@ -421,7 +420,6 @@ html, body {
 
     <input type="file" id="input-archivo-oculto" accept="video/mp4,image/gif,image/webp,image/*">
 
-    <!-- Botón de color fijo y visible garantizado -->
     <div id="btn-color" title="Seleccionar Color de Croma"></div>
     <div id="menu-colores">
         <div class="opcion-color" data-color="verde" style="background-color: #00ff00;" title="Verde"></div>
@@ -783,9 +781,9 @@ btnCentrarImagen.addEventListener('click', (e) => {
     const target = activeLayer || document.querySelector('.chroma-layer-extra');
     if (target) {
         target.style.left = '100px';
-        target.style.top = '150px';
+        target.style.top = '120px';
         target.dataset.scale = "1.0";
-        const baseW = parseFloat(target.dataset.baseWidth || 450);
+        const baseW = parseFloat(target.dataset.baseWidth || 380);
         target.style.width = baseW + 'px';
         selectLayer(target);
         alert("✨ Imagen recuperada y centrada con éxito.");
@@ -880,11 +878,16 @@ function addChromaLayerExtra(sourceUrl, tipo) {
     layerDiv.className = 'chroma-layer-extra selected';
     layerDiv.id = 'layer-' + layerCounter;
 
-    layerDiv.style.left = '100px';
-    layerDiv.style.top = '150px';
+    // Desplazamiento inteligente automático según la cantidad de capas para evitar solapamiento exacto
+    const offsetCount = document.querySelectorAll('.chroma-layer-extra').length;
+    const initialLeft = 60 + (offsetCount * 30);
+    const initialTop = 100 + (offsetCount * 30);
+
+    layerDiv.style.left = initialLeft + 'px';
+    layerDiv.style.top = initialTop + 'px';
 
     const escalaInicial = 1.0;
-    const baseAncho = 450;
+    const baseAncho = 380;
     layerDiv.dataset.scale = escalaInicial;
     layerDiv.dataset.baseWidth = baseAncho;
     layerDiv.style.width = (baseAncho * escalaInicial) + 'px';
@@ -1012,13 +1015,12 @@ function makeInteractableLayer(element) {
         selectLayer(element);
     });
 
-    // DOBLE CLIC SEGURO: Alterna escala controlada sin perder posición ni desaparecer
     element.addEventListener('dblclick', function(e) {
         e.stopPropagation();
         let escalaActualLayer = parseFloat(element.dataset.scale || 1.0);
         let nuevaEscala = escalaActualLayer < 1.5 ? 2.0 : 1.0;
         element.dataset.scale = nuevaEscala;
-        const baseWidth = parseFloat(element.dataset.baseWidth || 450);
+        const baseWidth = parseFloat(element.dataset.baseWidth || 380);
         element.style.width = (baseWidth * nuevaEscala) + 'px';
         if (element.reprocessChroma) element.reprocessChroma();
     });
@@ -1087,13 +1089,12 @@ function makeInteractableLayer(element) {
     }
 }
 
-/* GRABACIÓN COMPLETAMENTE ESTABLE: Reemplazo de alert() por notificación flotante visual sin redimensionar ventana */
 function mostrarNotificacionFlotante(texto) {
     let notif = document.getElementById('notif-guardado-exitoso');
     if (!notif) {
         notif = document.createElement('div');
         notif.id = 'notif-guardado-exitoso';
-        notif.style.cssText = "position:fixed; top:20px; left:50%; transform:translateX(-50%); background:#10b981; color:white; padding:12px 24px; border-radius:10px; z-index:999999; font-weight:bold; box-shadow:0 4px 15px rgba(0,0,0,0.5); font-size:14px; text-align:center;";
+        notif.style.cssText = "position:fixed; top:20px; left:50%; transform:translateX(-50%); background:#3b82f6; color:white; padding:12px 24px; border-radius:10px; z-index:999999; font-weight:bold; box-shadow:0 4px 15px rgba(0,0,0,0.5); font-size:14px; text-align:center;";
         document.body.appendChild(notif);
     }
     notif.innerText = texto;
@@ -1125,7 +1126,7 @@ btnGrabar.addEventListener('click', () => {
                 const c = layer.querySelector('canvas');
                 if (c) {
                     const escala = parseFloat(layer.dataset.scale || 1.0);
-                    const baseW = parseFloat(layer.dataset.baseWidth || 450);
+                    const baseW = parseFloat(layer.dataset.baseWidth || 380);
                     const renderW = baseW * escala * escalaX;
                     const renderH = (c.height / c.width) * renderW;
                     const posX = layer.offsetLeft * escalaX;
@@ -1182,8 +1183,6 @@ btnGrabar.addEventListener('click', () => {
             setTimeout(() => { 
                 document.body.removeChild(a); 
                 window.URL.revokeObjectURL(urlBlob); 
-                
-                // Notificación flotante que NO deforma la pantalla ni modifica la escala
                 mostrarNotificacionFlotante("✨ ¡Video guardado con éxito y escala preservada!");
             }, 100);
         };
