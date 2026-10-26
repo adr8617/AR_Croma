@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no, viewport-fit=cover">
-<title>Chroma Cam FX - Edición Roja Estable</title>
+<title>Chroma Cam FX - Edición Naranja Definitiva</title>
 <link rel="manifest" href="manifest.json">
 
 <!-- Librerías de Segmentación por IA (Google MediaPipe - Licencia Apache 2.0) -->
@@ -31,17 +31,17 @@ html, body {
     overscroll-behavior: none;
 }
 
-/* Indicador visual color ROJO de nueva versión al cargar */
+/* Indicador visual color NARANJA de nueva versión al cargar */
 body::before {
     content: "";
     position: fixed;
     top: 0; left: 0; right: 0; bottom: 0;
-    border: 6px solid #dc3545;
+    border: 6px solid #fd7e14;
     z-index: 9999999;
     pointer-events: none;
-    animation: desvanecerBordeRojo 2.5s forwards;
+    animation: desvanecerBordeNaranja 2.5s forwards;
 }
-@keyframes desvanecerBordeRojo {
+@keyframes desvanecerBordeNaranja {
     0% { opacity: 1; }
     70% { opacity: 1; }
     100% { opacity: 0; }
@@ -341,7 +341,7 @@ body::before {
 <body>
 <div id="pantalla-inicio">
     <h2 style="color: #fff; margin-bottom: 5px;">Chroma Cam FX</h2>
-    <p style="color: #bfdbfe; font-size: 13px; margin-top: 0; font-weight: bold;">Chroma Studio FX - Edición Roja Estable</p>
+    <p style="color: #bfdbfe; font-size: 13px; margin-top: 0; font-weight: bold;">Chroma Studio FX - Edición Naranja Definitiva</p>
     <input type="email" id="input-email-usuario" class="input-login" placeholder="correo@gmail.com" value="adr8617@gmail.com">
     <button id="btn-iniciar" type="button" onclick="verificarAccesoSuperusuario(event)">TOCA AQUÍ PARA INICIAR</button>
     <p id="mensaje-error"></p>
@@ -363,7 +363,7 @@ body::before {
         <ul>
             <li><strong>⚙️ Menú de Efectos:</strong> Selecciona múltiples casillas y ábrelos simultáneamente.</li>
             <li><strong>🎯 Botón Centrar:</strong> Trae de vuelta al centro el efecto activo.</li>
-            <li><strong>🔴 Grabar Video:</strong> Captura cámara y audio de videos superpuestos nítido y sin chasquidos ni aceleración de líneas.</li>
+            <li><strong>🔴 Grabar Video:</strong> Captura sincronizada de la cámara principal (micrófono nítido) y efectos superpuestos.</li>
         </ul>
         <button id="btn-cerrar-ayuda" class="btn-cerrar-modal">Cerrar Ayuda</button>
     </div>
@@ -420,7 +420,7 @@ body::before {
         <input type="range" id="toleranceRange" min="0.5" max="2.2" step="0.05" value="1.0">
     </div>
 
-    <video id="video-camara" autoplay playsinline muted></video>
+    <video id="video-camara" autoplay playsinline></video>
     <canvas id="canvas-camara-ia"></canvas>
     
     <video id="video-multimedia" loop playsinline crossorigin="anonymous"></video>
@@ -436,6 +436,8 @@ const SUPER_USUARIOS = ["adr8617@gmail.com", "la.burbuj@gmail.com"];
 let esSuperUsuario = false;
 let audioContextGlobal = null;
 let masterDestinationNode = null; 
+let micSourceNodeGlobal = null;
+let micGainNodeGlobal = null;
 
 let trackCamaraActual = null;
 let zoomCamaraSoportadoNativo = false;
@@ -1053,7 +1055,7 @@ function mostrarNotificacionFlotante(texto) {
     if (!notif) {
         notif = document.createElement('div');
         notif.id = 'notif-guardado-exitoso';
-        notif.style.cssText = "position:fixed; top:20px; left:50%; transform:translateX(-50%); background:#dc3545; color:white; padding:12px 24px; border-radius:10px; z-index:999999; font-weight:bold; box-shadow:0 4px 15px rgba(0,0,0,0.5); font-size:14px; text-align:center;";
+        notif.style.cssText = "position:fixed; top:20px; left:50%; transform:translateX(-50%); background:#fd7e14; color:white; padding:12px 24px; border-radius:10px; z-index:999999; font-weight:bold; box-shadow:0 4px 15px rgba(0,0,0,0.5); font-size:14px; text-align:center;";
         document.body.appendChild(notif);
     }
     notif.innerText = texto;
@@ -1061,7 +1063,7 @@ function mostrarNotificacionFlotante(texto) {
     setTimeout(() => { notif.style.display = 'none'; }, 3500);
 }
 
-/* GRABACIÓN SINCRONIZADA NATIVA (SIN ACELERACIÓN DE LÍNEAS NI CHASQUIDOS) */
+/* GRABACIÓN INTEGRAL CON AUDIO DE CÁMARA Y EFECTOS PERFECTAMENTE SINCRONIZADOS */
 btnGrabar.addEventListener('click', () => {
     forzarDesbloqueoAudio();
     if (!estaGrabando) { 
@@ -1076,7 +1078,6 @@ btnGrabar.addEventListener('click', () => {
 
         let grabandoActivo = true;
         
-        // Bucle sincronizado mediante requestAnimationFrame nativo para evitar saturación de búfer y líneas rápidas
         function dibujarFrameParaGrabacion() {
             if (!grabandoActivo) return;
             const fuenteCamara = modoCamaraIA ? canvasCamaraIA : videoCamara;
@@ -1102,17 +1103,22 @@ btnGrabar.addEventListener('click', () => {
 
         try {
             if (audioContextGlobal && masterDestinationNode) {
-                // 1. Audio combinado de los videos superpuestos
+                // 1. Añadir audio de los videos de efectos superpuestos
                 if (masterDestinationNode.stream.getAudioTracks().length > 0) {
                     tracksCombinados.push(masterDestinationNode.stream.getAudioTracks()[0]);
                 }
 
-                // 2. Audio limpio del micrófono de la cámara sincronizado
+                // 2. Añadir audio limpio del micrófono de la cámara principal mediante nodo de ganancia dedicado
                 const streamCamara = videoCamara.srcObject;
                 if (streamCamara && streamCamara.getAudioTracks().length > 0) {
-                    const fuenteMic = audioContextGlobal.createMediaStreamSource(streamCamara);
+                    if (!micSourceNodeGlobal) {
+                        micSourceNodeGlobal = audioContextGlobal.createMediaStreamSource(streamCamara);
+                        micGainNodeGlobal = audioContextGlobal.createGain();
+                        micGainNodeGlobal.gain.value = 1.0; // Volumen completo del micrófono
+                        micSourceNodeGlobal.connect(micGainNodeGlobal);
+                    }
                     const destMic = audioContextGlobal.createMediaStreamDestination();
-                    fuenteMic.connect(destMic); 
+                    micGainNodeGlobal.connect(destMic);
                     if (destMic.stream.getAudioTracks().length > 0) {
                         tracksCombinados.push(destMic.stream.getAudioTracks()[0]);
                     }
@@ -1138,7 +1144,7 @@ btnGrabar.addEventListener('click', () => {
             setTimeout(() => { 
                 document.body.removeChild(a); 
                 window.URL.revokeObjectURL(urlBlob); 
-                mostrarNotificacionFlotante("✨ ¡Video guardado con éxito y audio sincronizado!");
+                mostrarNotificacionFlotante("✨ ¡Video guardado con éxito y audio de cámara y efectos nítidos!");
             }, 100);
         };
 
@@ -1186,7 +1192,7 @@ function verificarAccesoSuperusuario(e) {
     if (SUPER_USUARIOS.includes(emailIngresado)) {
         const deviceIdActual = obtenerDispositivoId();
         const dispositivosAutorizadosKey = `auth_devs_${emailIngresado}`;
-        let dispositivosGuardados = JSON.parse(localStorage.getItem(disposivosAutorizadosKey) || "[]");
+        let dispositivosGuardados = JSON.parse(localStorage.getItem(dispositivosAutorizadosKey) || "[]");
 
         if (dispositivosGuardados.includes(deviceIdActual)) {
             esSuperUsuario = true;
