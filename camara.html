@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no, viewport-fit=cover">
-<title>Chroma Cam FX - Edición Rosa Integral</title>
+<title>Chroma Cam FX - Edición Cian Integral</title>
 <link rel="manifest" href="manifest.json">
 
 <!-- Librerías de Segmentación por IA (Google MediaPipe - Licencia Apache 2.0) -->
@@ -31,17 +31,17 @@ html, body {
     overscroll-behavior: none;
 }
 
-/* Indicador visual color ROSA de nueva versión al cargar */
+/* Indicador visual color CIAN brillante de nueva versión al cargar */
 body::before {
     content: "";
     position: fixed;
     top: 0; left: 0; right: 0; bottom: 0;
-    border: 6px solid #ff69b4;
+    border: 6px solid #00ffff;
     z-index: 9999999;
     pointer-events: none;
-    animation: desvanecerBordeRosa 2.5s forwards;
+    animation: desvanecerBordeCian 2.5s forwards;
 }
-@keyframes desvanecerBordeRosa {
+@keyframes desvanecerBordeCian {
     0% { opacity: 1; }
     70% { opacity: 1; }
     100% { opacity: 0; }
@@ -341,7 +341,7 @@ body::before {
 <body>
 <div id="pantalla-inicio">
     <h2 style="color: #fff; margin-bottom: 5px;">Chroma Cam FX</h2>
-    <p style="color: #bfdbfe; font-size: 13px; margin-top: 0; font-weight: bold;">Chroma Studio FX - Edición Rosa Integral</p>
+    <p style="color: #bfdbfe; font-size: 13px; margin-top: 0; font-weight: bold;">Chroma Studio FX - Edición Cian Integral</p>
     <input type="email" id="input-email-usuario" class="input-login" placeholder="correo@gmail.com" value="adr8617@gmail.com">
     <button id="btn-iniciar" type="button" onclick="verificarAccesoSuperusuario(event)">TOCA AQUÍ PARA INICIAR</button>
     <p id="mensaje-error"></p>
@@ -363,7 +363,7 @@ body::before {
         <ul>
             <li><strong>⚙️ Menú de Efectos:</strong> Selecciona múltiples casillas y ábrelos simultáneamente.</li>
             <li><strong>🎯 Botón Centrar:</strong> Trae de vuelta al centro el efecto activo.</li>
-            <li><strong>🔴 Grabar Video:</strong> Captura sincronizada del micrófono de la cámara (voz y sonido ambiente de la tele) y efectos superpuestos.</li>
+            <li><strong>🔴 Grabar Video:</strong> Captura sincronizada del micrófono de la cámara (voz y sonido de la televisión de fondo) y efectos superpuestos.</li>
         </ul>
         <button id="btn-cerrar-ayuda" class="btn-cerrar-modal">Cerrar Ayuda</button>
     </div>
@@ -1057,7 +1057,7 @@ function mostrarNotificacionFlotante(texto) {
     if (!notif) {
         notif = document.createElement('div');
         notif.id = 'notif-guardado-exitoso';
-        notif.style.cssText = "position:fixed; top:20px; left:50%; transform:translateX(-50%); background:#ff69b4; color:white; padding:12px 24px; border-radius:10px; z-index:999999; font-weight:bold; box-shadow:0 4px 15px rgba(0,0,0,0.5); font-size:14px; text-align:center;";
+        notif.style.cssText = "position:fixed; top:20px; left:50%; transform:translateX(-50%); background:#00ffff; color:#000; padding:12px 24px; border-radius:10px; z-index:999999; font-weight:bold; box-shadow:0 4px 15px rgba(0,0,0,0.5); font-size:14px; text-align:center;";
         document.body.appendChild(notif);
     }
     notif.innerText = texto;
