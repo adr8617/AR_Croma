@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no, viewport-fit=cover">
-<title>Chroma Cam FX - Edición Vino Refinada</title>
+<title>Chroma Cam FX - Edición Roja Estable</title>
 <link rel="manifest" href="manifest.json">
 
 <!-- Librerías de Segmentación por IA (Google MediaPipe - Licencia Apache 2.0) -->
@@ -27,24 +27,21 @@ html, body {
     -webkit-touch-callout: none;
     user-select: none;
     position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    top: 0; left: 0; right: 0; bottom: 0;
     overscroll-behavior: none;
 }
 
-/* Indicador visual color VINO de nueva versión al cargar */
+/* Indicador visual color ROJO de nueva versión al cargar */
 body::before {
     content: "";
     position: fixed;
     top: 0; left: 0; right: 0; bottom: 0;
-    border: 6px solid #722f37;
+    border: 6px solid #dc3545;
     z-index: 9999999;
     pointer-events: none;
-    animation: desvanecerBordeVino 2.5s forwards;
+    animation: desvanecerBordeRojo 2.5s forwards;
 }
-@keyframes desvanecerBordeVino {
+@keyframes desvanecerBordeRojo {
     0% { opacity: 1; }
     70% { opacity: 1; }
     100% { opacity: 0; }
@@ -344,7 +341,7 @@ body::before {
 <body>
 <div id="pantalla-inicio">
     <h2 style="color: #fff; margin-bottom: 5px;">Chroma Cam FX</h2>
-    <p style="color: #bfdbfe; font-size: 13px; margin-top: 0; font-weight: bold;">Chroma Studio FX - Edición Vino Refinada</p>
+    <p style="color: #bfdbfe; font-size: 13px; margin-top: 0; font-weight: bold;">Chroma Studio FX - Edición Roja Estable</p>
     <input type="email" id="input-email-usuario" class="input-login" placeholder="correo@gmail.com" value="adr8617@gmail.com">
     <button id="btn-iniciar" type="button" onclick="verificarAccesoSuperusuario(event)">TOCA AQUÍ PARA INICIAR</button>
     <p id="mensaje-error"></p>
@@ -366,7 +363,7 @@ body::before {
         <ul>
             <li><strong>⚙️ Menú de Efectos:</strong> Selecciona múltiples casillas y ábrelos simultáneamente.</li>
             <li><strong>🎯 Botón Centrar:</strong> Trae de vuelta al centro el efecto activo.</li>
-            <li><strong>🔴 Grabar Video:</strong> Captura cámara y audio de videos superpuestos nítido y sin chasquidos.</li>
+            <li><strong>🔴 Grabar Video:</strong> Captura cámara y audio de videos superpuestos nítido y sin chasquidos ni aceleración de líneas.</li>
         </ul>
         <button id="btn-cerrar-ayuda" class="btn-cerrar-modal">Cerrar Ayuda</button>
     </div>
@@ -1056,7 +1053,7 @@ function mostrarNotificacionFlotante(texto) {
     if (!notif) {
         notif = document.createElement('div');
         notif.id = 'notif-guardado-exitoso';
-        notif.style.cssText = "position:fixed; top:20px; left:50%; transform:translateX(-50%); background:#722f37; color:white; padding:12px 24px; border-radius:10px; z-index:999999; font-weight:bold; box-shadow:0 4px 15px rgba(0,0,0,0.5); font-size:14px; text-align:center;";
+        notif.style.cssText = "position:fixed; top:20px; left:50%; transform:translateX(-50%); background:#dc3545; color:white; padding:12px 24px; border-radius:10px; z-index:999999; font-weight:bold; box-shadow:0 4px 15px rgba(0,0,0,0.5); font-size:14px; text-align:center;";
         document.body.appendChild(notif);
     }
     notif.innerText = texto;
@@ -1064,7 +1061,7 @@ function mostrarNotificacionFlotante(texto) {
     setTimeout(() => { notif.style.display = 'none'; }, 3500);
 }
 
-/* GRABACIÓN SINCRONIZADA Y ESTABILIZADA (SIN ACELERACIÓN DE LÍNEAS) */
+/* GRABACIÓN SINCRONIZADA NATIVA (SIN ACELERACIÓN DE LÍNEAS NI CHASQUIDOS) */
 btnGrabar.addEventListener('click', () => {
     forzarDesbloqueoAudio();
     if (!estaGrabando) { 
@@ -1079,7 +1076,7 @@ btnGrabar.addEventListener('click', () => {
 
         let grabandoActivo = true;
         
-        // Bucle de renderizado independiente con sincronización nativa de frames (evita desborde de memoria)
+        // Bucle sincronizado mediante requestAnimationFrame nativo para evitar saturación de búfer y líneas rápidas
         function dibujarFrameParaGrabacion() {
             if (!grabandoActivo) return;
             const fuenteCamara = modoCamaraIA ? canvasCamaraIA : videoCamara;
@@ -1096,9 +1093,9 @@ btnGrabar.addEventListener('click', () => {
                     ctxGrabacion.drawImage(c, layer.offsetLeft * escalaX, layer.offsetTop * escalaY, renderW, renderH);
                 }
             });
-            setTimeout(dibujarFrameParaGrabacion, 33); // Tasa fija de ~30 fps para evitar sobrecarga en procesadores móviles
+            requestAnimationFrame(dibujarFrameParaGrabacion);
         }
-        dibujarFrameParaGrabacion();
+        requestAnimationFrame(dibujarFrameParaGrabacion);
 
         const streamCanvasUnificado = canvasGrabacion.captureStream(30);
         const tracksCombinados = [...streamCanvasUnificado.getVideoTracks()];
@@ -1110,7 +1107,7 @@ btnGrabar.addEventListener('click', () => {
                     tracksCombinados.push(masterDestinationNode.stream.getAudioTracks()[0]);
                 }
 
-                // 2. Audio limpio del micrófono de la cámara (aislado para evitar chasquidos)
+                // 2. Audio limpio del micrófono de la cámara sincronizado
                 const streamCamara = videoCamara.srcObject;
                 if (streamCamara && streamCamara.getAudioTracks().length > 0) {
                     const fuenteMic = audioContextGlobal.createMediaStreamSource(streamCamara);
@@ -1189,7 +1186,7 @@ function verificarAccesoSuperusuario(e) {
     if (SUPER_USUARIOS.includes(emailIngresado)) {
         const deviceIdActual = obtenerDispositivoId();
         const dispositivosAutorizadosKey = `auth_devs_${emailIngresado}`;
-        let dispositivosGuardados = JSON.parse(localStorage.getItem(dispositivosAutorizadosKey) || "[]");
+        let dispositivosGuardados = JSON.parse(localStorage.getItem(disposivosAutorizadosKey) || "[]");
 
         if (dispositivosGuardados.includes(deviceIdActual)) {
             esSuperUsuario = true;
