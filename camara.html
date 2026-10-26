@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no, viewport-fit=cover">
-<title>Chroma Cam FX - Verde Versión Actualizada</title>
+<title>Chroma Cam FX - Edición Vino Estable</title>
 <link rel="manifest" href="manifest.json">
 
 <!-- Librerías de Segmentación por IA (Google MediaPipe - Licencia Apache 2.0) -->
@@ -34,17 +34,17 @@ html, body {
     overscroll-behavior: none;
 }
 
-/* Indicador visual verde de nueva versión al cargar */
+/* Indicador visual color VINO de nueva versión al cargar */
 body::before {
     content: "";
     position: fixed;
     top: 0; left: 0; right: 0; bottom: 0;
-    border: 6px solid #28a745;
+    border: 6px solid #722f37;
     z-index: 9999999;
     pointer-events: none;
-    animation: desvanecerBordeVerde 2.5s forwards;
+    animation: desvanecerBordeVino 2.5s forwards;
 }
-@keyframes desvanecerBordeVerde {
+@keyframes desvanecerBordeVino {
     0% { opacity: 1; }
     70% { opacity: 1; }
     100% { opacity: 0; }
@@ -52,10 +52,8 @@ body::before {
 
 #contenedor-principal { 
     position: absolute; 
-    top: 0;
-    left: 0;
-    width: 100vw; 
-    height: 100vh; 
+    top: 0; left: 0;
+    width: 100vw; height: 100vh; 
     overflow: hidden; 
     background: #000; 
     display: flex; 
@@ -65,10 +63,8 @@ body::before {
 
 #pantalla-inicio { 
     position: fixed; 
-    top: 0; 
-    left: 0; 
-    width: 100vw; 
-    height: 100vh; 
+    top: 0; left: 0; 
+    width: 100vw; height: 100vh; 
     background-color: #0f172a; 
     z-index: 999999; 
     display: flex; 
@@ -214,8 +210,7 @@ body::before {
 #selector-video-wrapper { 
     display: none; 
     position: fixed; 
-    top: 50%; 
-    left: 50%; 
+    top: 50%; left: 50%; 
     transform: translate(-50%, -50%); 
     width: 90%;
     max-width: 360px;
@@ -287,8 +282,7 @@ body::before {
 #menu-colores { 
     display: none; 
     position: absolute; 
-    top: 50px; 
-    right: 8px; 
+    top: 50px; right: 8px; 
     background: rgba(0,0,0,0.95); 
     padding: 10px; 
     border-radius: 8px; 
@@ -301,8 +295,7 @@ body::before {
 
 #panel-sensibilidad {
     position: fixed;
-    bottom: 20px;
-    left: 50%;
+    bottom: 20px; left: 50%;
     transform: translateX(-50%);
     z-index: 15000;
     background: rgba(0, 0, 0, 0.75);
@@ -326,8 +319,7 @@ body::before {
 
 .chroma-layer-extra {
     position: absolute;
-    top: 120px;
-    left: 80px;
+    top: 120px; left: 80px;
     z-index: 11;
     cursor: move;
     user-select: none;
@@ -342,10 +334,8 @@ body::before {
 .btn-close-layer {
     display: none;
     position: absolute;
-    top: -15px;
-    right: -15px;
-    width: 30px;
-    height: 30px;
+    top: -15px; right: -15px;
+    width: 30px; height: 30px;
     background-color: #ff3333;
     color: white;
     border-radius: 50%;
@@ -362,7 +352,7 @@ body::before {
 <body>
 <div id="pantalla-inicio">
     <h2 style="color: #fff; margin-bottom: 5px;">Chroma Cam FX</h2>
-    <p style="color: #bfdbfe; font-size: 13px; margin-top: 0; font-weight: bold;">Chroma Studio FX - Versión Verde Actualizada</p>
+    <p style="color: #bfdbfe; font-size: 13px; margin-top: 0; font-weight: bold;">Chroma Studio FX - Edición Vino Estable</p>
     <input type="email" id="input-email-usuario" class="input-login" placeholder="correo@gmail.com" value="adr8617@gmail.com">
     <button id="btn-iniciar" type="button" onclick="verificarAccesoSuperusuario(event)">TOCA AQUÍ PARA INICIAR</button>
     <p id="mensaje-error"></p>
@@ -382,9 +372,9 @@ body::before {
         <h3>📖 Manual de Ayuda y Funcionalidades</h3>
         <p>Guía rápida Chroma Cam FX:</p>
         <ul>
-            <li><strong>⚙️ Menú de Efectos:</strong> Selecciona múltiples efectos con casillas y ábrelos simultáneamente.</li>
+            <li><strong>⚙️ Menú de Efectos:</strong> Selecciona múltiples casillas y ábrelos simultáneamente.</li>
             <li><strong>🎯 Botón Centrar:</strong> Trae de vuelta al centro el efecto activo.</li>
-            <li><strong>🔴 Grabar Video:</strong> Captura cámara y audio limpio sin chasquidos.</li>
+            <li><strong>🔴 Grabar Video:</strong> Captura cámara y audio de videos superpuestos nítido y sin chasquidos.</li>
         </ul>
         <button id="btn-cerrar-ayuda" class="btn-cerrar-modal">Cerrar Ayuda</button>
     </div>
@@ -456,6 +446,7 @@ body::before {
 const SUPER_USUARIOS = ["adr8617@gmail.com", "la.burbuj@gmail.com"];
 let esSuperUsuario = false;
 let audioContextGlobal = null;
+let masterDestinationNode = null; // Nodo de destino global para la mezcla de audio
 
 let trackCamaraActual = null;
 let zoomCamaraSoportadoNativo = false;
@@ -476,6 +467,7 @@ function forzarDesbloqueoAudio() {
     activarPantallaCompletaInmersiva();
     if (!audioContextGlobal) {
         audioContextGlobal = new (window.AudioContext || window.webkitAudioContext)();
+        masterDestinationNode = audioContextGlobal.createMediaStreamDestination();
     }
     if (audioContextGlobal.state === 'suspended') {
         audioContextGlobal.resume();
@@ -910,6 +902,7 @@ function addChromaLayerExtra(sourceUrl, tipo) {
     const canvasExtra = document.createElement('canvas');
     const ctxExtra = canvasExtra.getContext('2d', { willReadFrequently: true });
     let videoElementRef = null;
+    let audioSourceNodeRef = null;
 
     const closeBtn = document.createElement('div');
     closeBtn.className = 'btn-close-layer';
@@ -922,6 +915,9 @@ function addChromaLayerExtra(sourceUrl, tipo) {
             videoElementRef.currentTime = 0;
             videoElementRef.removeAttribute('src');
             videoElementRef.load();
+        }
+        if (audioSourceNodeRef) {
+            try { audioSourceNodeRef.disconnect(); } catch(err) {}
         }
         layerDiv.remove();
         if (activeLayer === layerDiv) activeLayer = null;
@@ -963,7 +959,24 @@ function addChromaLayerExtra(sourceUrl, tipo) {
         vExtra.volume = 1.0;
         vExtra.playsInline = true;
         videoElementRef = vExtra;
-        vExtra.play().catch(() => { vExtra.muted = true; vExtra.play(); });
+
+        // Conectar audio del video superpuesto de forma persistente y limpia al AudioContext
+        if (audioContextGlobal) {
+            try {
+                audioSourceNodeRef = audioContextGlobal.createMediaElementSource(vExtra);
+                audioSourceNodeRef.connect(audioContextGlobal.destination); // Para escuchar en altavoces
+                if (masterDestinationNode) {
+                    audioSourceNodeRef.connect(masterDestinationNode); // Para grabar el audio del video
+                }
+            } catch (err) {
+                console.warn("Audio source node ya conectado:", err);
+            }
+        }
+
+        vExtra.play().catch(() => {
+            vExtra.muted = true;
+            vExtra.play();
+        });
 
         let renderingVideo = true;
         function processVideoFrame() {
@@ -1055,7 +1068,7 @@ function mostrarNotificacionFlotante(texto) {
     if (!notif) {
         notif = document.createElement('div');
         notif.id = 'notif-guardado-exitoso';
-        notif.style.cssText = "position:fixed; top:20px; left:50%; transform:translateX(-50%); background:#28a745; color:white; padding:12px 24px; border-radius:10px; z-index:999999; font-weight:bold; box-shadow:0 4px 15px rgba(0,0,0,0.5); font-size:14px; text-align:center;";
+        notif.style.cssText = "position:fixed; top:20px; left:50%; transform:translateX(-50%); background:#722f37; color:white; padding:12px 24px; border-radius:10px; z-index:999999; font-weight:bold; box-shadow:0 4px 15px rgba(0,0,0,0.5); font-size:14px; text-align:center;";
         document.body.appendChild(notif);
     }
     notif.innerText = texto;
@@ -1063,7 +1076,7 @@ function mostrarNotificacionFlotante(texto) {
     setTimeout(() => { notif.style.display = 'none'; }, 3500);
 }
 
-/* CORRECCIÓN ROBUSTA DE AUDIO Y GRABACIÓN (SIN CHASQUIDOS NI SILENCIOS) */
+/* GRABACIÓN ROBUSTA DE AUDIO Y VIDEO SIN CHASQUIDOS */
 btnGrabar.addEventListener('click', () => {
     forzarDesbloqueoAudio();
     if (!estaGrabando) { 
@@ -1101,28 +1114,24 @@ btnGrabar.addEventListener('click', () => {
         const tracksCombinados = [...streamCanvasUnificado.getVideoTracks()];
 
         try {
-            const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-            const dest = audioCtx.createMediaStreamDestination();
-            
-            // Audio de la cámara (micrófono)
-            const streamCamara = videoCamara.srcObject;
-            if (streamCamara && streamCamara.getAudioTracks().length > 0) {
-                const fuenteMic = audioCtx.createMediaStreamSource(streamCamara);
-                fuenteMic.connect(dest);
-            }
-            
-            // Audio de los videos superpuestos activos
-            document.querySelectorAll('.chroma-layer-extra video').forEach(v => {
-                if (!v.paused && !v.muted) {
-                    const fuenteVideo = audioCtx.createMediaElementSource(v);
-                    fuenteVideo.connect(dest);
+            if (audioContextGlobal && masterDestinationNode) {
+                // 1. Añadir audio master mezclado (videos superpuestos)
+                if (masterDestinationNode.stream.getAudioTracks().length > 0) {
+                    tracksCombinados.push(masterDestinationNode.stream.getAudioTracks()[0]);
                 }
-            });
 
-            if (dest.stream.getAudioTracks().length > 0) {
-                tracksCombinados.push(dest.stream.getAudioTracks()[0]);
+                // 2. Añadir audio limpio del micrófono de la cámara sin feedback en altavoces
+                const streamCamara = videoCamara.srcObject;
+                if (streamCamara && streamCamara.getAudioTracks().length > 0) {
+                    const fuenteMic = audioContextGlobal.createMediaStreamSource(streamCamara);
+                    const destMic = audioContextGlobal.createMediaStreamDestination();
+                    fuenteMic.connect(destMic); // Se graba el micro sin enviarlo a altavoces para evitar eco
+                    if (destMic.stream.getAudioTracks().length > 0) {
+                        tracksCombinados.push(destMic.stream.getAudioTracks()[0]);
+                    }
+                }
             }
-        } catch (err) { console.warn("Aviso de audio:", err); }
+        } catch (err) { console.warn("Aviso de audio en grabación:", err); }
 
         const streamFinal = new MediaStream(tracksCombinados);
         try { mediaRecorder = new MediaRecorder(streamFinal, { mimeType: 'video/webm; codecs=vp9,opus' }); } 
