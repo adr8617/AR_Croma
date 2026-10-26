@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no, viewport-fit=cover">
-<title>Chroma Cam FX - Edición Cian Integral</title>
+<title>Chroma Cam FX - Edición Blanca Pericial</title>
 <link rel="manifest" href="manifest.json">
 
 <!-- Librerías de Segmentación por IA (Google MediaPipe - Licencia Apache 2.0) -->
@@ -31,17 +31,17 @@ html, body {
     overscroll-behavior: none;
 }
 
-/* Indicador visual color CIAN brillante de nueva versión al cargar */
+/* Indicador visual color BLANCO de nueva versión pericial al cargar */
 body::before {
     content: "";
     position: fixed;
     top: 0; left: 0; right: 0; bottom: 0;
-    border: 6px solid #00ffff;
+    border: 6px solid #ffffff;
     z-index: 9999999;
     pointer-events: none;
-    animation: desvanecerBordeCian 2.5s forwards;
+    animation: desvanecerBordeBlanco 2.5s forwards;
 }
-@keyframes desvanecerBordeCian {
+@keyframes desvanecerBordeBlanco {
     0% { opacity: 1; }
     70% { opacity: 1; }
     100% { opacity: 0; }
@@ -341,7 +341,7 @@ body::before {
 <body>
 <div id="pantalla-inicio">
     <h2 style="color: #fff; margin-bottom: 5px;">Chroma Cam FX</h2>
-    <p style="color: #bfdbfe; font-size: 13px; margin-top: 0; font-weight: bold;">Chroma Studio FX - Edición Cian Integral</p>
+    <p style="color: #ffffff; font-size: 13px; margin-top: 0; font-weight: bold;">Chroma Studio FX - Edición Blanca Pericial</p>
     <input type="email" id="input-email-usuario" class="input-login" placeholder="correo@gmail.com" value="adr8617@gmail.com">
     <button id="btn-iniciar" type="button" onclick="verificarAccesoSuperusuario(event)">TOCA AQUÍ PARA INICIAR</button>
     <p id="mensaje-error"></p>
@@ -363,7 +363,7 @@ body::before {
         <ul>
             <li><strong>⚙️ Menú de Efectos:</strong> Selecciona múltiples casillas y ábrelos simultáneamente.</li>
             <li><strong>🎯 Botón Centrar:</strong> Trae de vuelta al centro el efecto activo.</li>
-            <li><strong>🔴 Grabar Video:</strong> Captura sincronizada del micrófono de la cámara (voz y sonido de la televisión de fondo) y efectos superpuestos.</li>
+            <li><strong>🔴 Grabar Video:</strong> Captura pericial sincronizada (mezcla en bus maestro de micrófono + TV + efectos).</li>
         </ul>
         <button id="btn-cerrar-ayuda" class="btn-cerrar-modal">Cerrar Ayuda</button>
     </div>
@@ -438,7 +438,6 @@ let audioContextGlobal = null;
 let masterDestinationNode = null; 
 let micSourceNodeGlobal = null;
 let micGainNodeGlobal = null;
-let micDestinationNodeGlobal = null;
 
 let trackCamaraActual = null;
 let zoomCamaraSoportadoNativo = false;
@@ -459,8 +458,8 @@ function forzarDesbloqueoAudio() {
     activarPantallaCompletaInmersiva();
     if (!audioContextGlobal) {
         audioContextGlobal = new (window.AudioContext || window.webkitAudioContext)();
+        // Creamos un destino de MediaStream unificado maestro
         masterDestinationNode = audioContextGlobal.createMediaStreamDestination();
-        micDestinationNodeGlobal = audioContextGlobal.createMediaStreamDestination();
     }
     if (audioContextGlobal.state === 'suspended') {
         audioContextGlobal.resume();
@@ -1057,7 +1056,7 @@ function mostrarNotificacionFlotante(texto) {
     if (!notif) {
         notif = document.createElement('div');
         notif.id = 'notif-guardado-exitoso';
-        notif.style.cssText = "position:fixed; top:20px; left:50%; transform:translateX(-50%); background:#00ffff; color:#000; padding:12px 24px; border-radius:10px; z-index:999999; font-weight:bold; box-shadow:0 4px 15px rgba(0,0,0,0.5); font-size:14px; text-align:center;";
+        notif.style.cssText = "position:fixed; top:20px; left:50%; transform:translateX(-50%); background:#ffffff; color:#000; padding:12px 24px; border-radius:10px; z-index:999999; font-weight:bold; box-shadow:0 4px 15px rgba(0,0,0,0.5); font-size:14px; text-align:center;";
         document.body.appendChild(notif);
     }
     notif.innerText = texto;
@@ -1065,7 +1064,7 @@ function mostrarNotificacionFlotante(texto) {
     setTimeout(() => { notif.style.display = 'none'; }, 3500);
 }
 
-/* GRABACIÓN INTEGRAL: MEZCLA PERFECTA DE MICRÓFONO (TV/VOZ) Y EFECTOS */
+/* GRABACIÓN PERICIAL UNIFICADA: MEZCLA MAESTRA DE MICRÓFONO Y EFECTOS EN EL MISMO BUS */
 btnGrabar.addEventListener('click', () => {
     forzarDesbloqueoAudio();
     if (!estaGrabando) { 
@@ -1104,13 +1103,8 @@ btnGrabar.addEventListener('click', () => {
         const tracksCombinados = [...streamCanvasUnificado.getVideoTracks()];
 
         try {
-            if (audioContextGlobal && masterDestinationNode && micDestinationNodeGlobal) {
-                // 1. Añadir el audio de los efectos (La Llorona)
-                if (masterDestinationNode.stream.getAudioTracks().length > 0) {
-                    tracksCombinados.push(masterDestinationNode.stream.getAudioTracks()[0]);
-                }
-
-                // 2. Añadir el audio del micrófono (voz y sonido de la televisión de fondo)
+            if (audioContextGlobal && masterDestinationNode) {
+                // 1. Conectamos el micrófono de la cámara (voz + TV de fondo) directamente al bus maestro si no estaba conectado
                 const streamCamara = videoCamara.srcObject;
                 if (streamCamara && streamCamara.getAudioTracks().length > 0) {
                     if (!micSourceNodeGlobal) {
@@ -1118,14 +1112,17 @@ btnGrabar.addEventListener('click', () => {
                         micGainNodeGlobal = audioContextGlobal.createGain();
                         micGainNodeGlobal.gain.value = 1.0; 
                         micSourceNodeGlobal.connect(micGainNodeGlobal);
-                        micGainNodeGlobal.connect(micDestinationNodeGlobal);
-                    }
-                    if (micDestinationNodeGlobal.stream.getAudioTracks().length > 0) {
-                        tracksCombinados.push(micDestinationNodeGlobal.stream.getAudioTracks()[0]);
+                        // ¡LA CLAVE PERICIAL!: Enrutamos el micrófono directo al masterDestinationNode compartido
+                        micGainNodeGlobal.connect(masterDestinationNode);
                     }
                 }
+
+                // 2. Tomamos la pista de audio unificada resultante del bus maestro (que ya contiene micrófono, TV y efectos mezclados sin pérdidas)
+                if (masterDestinationNode.stream.getAudioTracks().length > 0) {
+                    tracksCombinados.push(masterDestinationNode.stream.getAudioTracks()[0]);
+                }
             }
-        } catch (err) { console.warn("Aviso de audio en grabación:", err); }
+        } catch (err) { console.warn("Aviso de audio en grabación pericial:", err); }
 
         const streamFinal = new MediaStream(tracksCombinados);
         try { mediaRecorder = new MediaRecorder(streamFinal, { mimeType: 'video/webm; codecs=vp9,opus' }); } 
@@ -1139,13 +1136,13 @@ btnGrabar.addEventListener('click', () => {
             const a = document.createElement('a');
             a.style.display = 'none';
             a.href = urlBlob;
-            a.download = `ChromaCam_${Date.now()}.webm`;
+            a.download = `ChromaCam_Pericial_${Date.now()}.webm`;
             document.body.appendChild(a);
             a.click();
             setTimeout(() => { 
                 document.body.removeChild(a); 
                 window.URL.revokeObjectURL(urlBlob); 
-                mostrarNotificacionFlotante("✨ ¡Video guardado con audio de TV/micrófono y efectos!");
+                mostrarNotificacionFlotante("✨ ¡Video pericial guardado con audio unificado (TV + Micrófono + Efectos)!");
             }, 100);
         };
 
