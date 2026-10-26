@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no, viewport-fit=cover">
-<title>Chroma Cam FX - Azul Océano Estable</title>
+<title>Chroma Cam FX - Verde Versión Actualizada</title>
 <link rel="manifest" href="manifest.json">
 
 <!-- Librerías de Segmentación por IA (Google MediaPipe - Licencia Apache 2.0) -->
@@ -34,6 +34,22 @@ html, body {
     overscroll-behavior: none;
 }
 
+/* Indicador visual verde de nueva versión al cargar */
+body::before {
+    content: "";
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    border: 6px solid #28a745;
+    z-index: 9999999;
+    pointer-events: none;
+    animation: desvanecerBordeVerde 2.5s forwards;
+}
+@keyframes desvanecerBordeVerde {
+    0% { opacity: 1; }
+    70% { opacity: 1; }
+    100% { opacity: 0; }
+}
+
 #contenedor-principal { 
     position: absolute; 
     top: 0;
@@ -53,7 +69,7 @@ html, body {
     left: 0; 
     width: 100vw; 
     height: 100vh; 
-    background-color: #0f172a; /* Pantalla de inicio en Azul Océano Profundo */
+    background-color: #0f172a; 
     z-index: 999999; 
     display: flex; 
     flex-direction: column; 
@@ -78,8 +94,6 @@ html, body {
     height: 54px;
     cursor: pointer; 
     box-shadow: 0 4px 15px rgba(59,130,246,0.5); 
-    user-select: none; 
-    -webkit-user-select: none;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -104,18 +118,17 @@ html, body {
 #mensaje-error { color: #bfdbfe; text-align: center; max-width: 80%; font-size: 14px; font-weight: bold; background: rgba(0,0,0,0.6); padding: 5px; border-radius: 4px; }
 
 #modal-2fa { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.9); z-index: 20000; display: none; justify-content: center; align-items: center; padding: 20px; box-sizing: border-box; }
-#contenido-2fa { background: #1c1c1c; color: #fff; padding: 25px; border-radius: 12px; max-width: 400px; width: 100%; text-align: center; box-shadow: 0 5px 20px rgba(0,0,0,0.7); border: 1px solid #3b82f6; }
+#contenido-2fa { background: #1c1c1c; color: #fff; padding: 25px; border-radius: 12px; max-width: 400px; width: 100%; text-align: center; border: 1px solid #3b82f6; }
 #contenido-2fa h3 { color: #3b82f6; margin-top: 0; }
 .btn-2fa { padding: 10px 20px; border-radius: 6px; border: none; font-weight: bold; cursor: pointer; margin: 10px 5px; }
 #btn-aprobar-dispositivo { background: #28a745; color: white; }
 #btn-rechazar-dispositivo { background: #dc3545; color: white; }
 
 #modal-terminos, #modal-ayuda { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 10000; display: none; justify-content: center; align-items: center; padding: 20px; box-sizing: border-box; }
-#contenido-modal, #contenido-ayuda { background: #1c1c1c; color: #fff; padding: 25px; border-radius: 12px; max-width: 500px; width: 100%; max-height: 85vh; overflow-y: auto; box-shadow: 0 5px 20px rgba(0,0,0,0.7); font-size: 13px; line-height: 1.5; border: 1px solid #444; }
-#contenido-modal h3, #contenido-ayuda h3 { margin-top: 0; color: #3b82f6; font-size: 18px; }
-.btn-cerrar-modal { background: #3b82f6; color: white; border: none; padding: 8px 16px; border-radius: 6px; margin-top: 15px; cursor: pointer; float: right; font-weight: bold; }
+#contenido-modal, #contenido-ayuda { background: #1c1c1c; color: #fff; padding: 25px; border-radius: 12px; max-width: 500px; width: 100%; max-height: 85vh; overflow-y: auto; font-size: 13px; line-height: 1.5; border: 1px solid #444; }
+.btn-cerrar-modal { background: #3b82f6; color: white; border: none; padding: 8px 16px; border-radius: 6px; margin-top: 15px; cursor: pointer; font-weight: bold; float: right; }
 
-/* PANEL DE CONTROLES ESTABLE CON TAMAÑOS RIGUROSOS */
+/* PANEL DE CONTROLES ESTABLE CON TAMAÑOS RIGUROSOS Y BLINDADOS */
 #panel-controles { 
     position: absolute; 
     top: 6px; 
@@ -136,36 +149,35 @@ html, body {
     min-height: 36px !important;
     max-width: 36px !important;
     max-height: 36px !important;
-    border-radius: 50%; 
-    background-color: rgba(0, 0, 0, 0.75); 
-    border: 1.5px solid #fff; 
+    border-radius: 50% !important; 
+    background-color: rgba(0, 0, 0, 0.75) !important; 
+    border: 1.5px solid #fff !important; 
     cursor: pointer; 
-    display: flex; 
-    justify-content: center; 
-    align-items: center; 
+    display: flex !important; 
+    justify-content: center !important; 
+    align-items: center !important; 
     box-shadow: 0 2px 5px rgba(0,0,0,0.5); 
-    position: relative; 
+    position: relative !important; 
     flex-shrink: 0 !important; 
     flex-grow: 0 !important;
 }
-.btn-flotante:active { background-color: rgba(0, 0, 0, 0.9); }
+.btn-flotante:active { background-color: rgba(0, 0, 0, 0.9) !important; }
 
 #btn-menu-circular::after { content: "⚙️"; font-size: 14px; }
 #btn-mover-efecto::after { content: "✋"; font-size: 14px; }
-#btn-mover-efecto.activo { background-color: #3b82f6; border-color: #fff; }
+#btn-mover-efecto.activo { background-color: #3b82f6 !important; border-color: #fff !important; }
 #btn-cambiar-camara::after { content: "🔄"; font-size: 14px; }
 #btn-centrar-imagen::after { content: "🎯"; font-size: 14px; }
 
 #btn-camara-ia { 
-    background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 50%, #111111 100%); 
-    border: 1.5px solid #ffffff; 
-    position: relative;
+    background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 50%, #111111 100%) !important; 
+    border: 1.5px solid #ffffff !important; 
     opacity: 0.6;
 }
 #btn-camara-ia.activo { 
     opacity: 1; 
     box-shadow: 0 0 10px #3b82f6;
-    border-color: #3b82f6;
+    border-color: #3b82f6 !important;
 }
 #btn-camara-ia::after { content: "📷"; font-size: 13px; }
 
@@ -181,35 +193,32 @@ html, body {
     min-height: 36px !important;
     max-width: 36px !important;
     max-height: 36px !important;
-    border-radius: 50%; 
-    background-color: rgba(255, 0, 0, 0.8); 
-    border: 1.5px solid #fff; 
+    border-radius: 50% !important; 
+    background-color: rgba(255, 0, 0, 0.8) !important; 
+    border: 1.5px solid #fff !important; 
     cursor: pointer; 
-    display: flex; 
-    justify-content: center; 
-    align-items: center; 
-    box-shadow: 0 2px 5px rgba(0,0,0,0.5); 
-    position: relative; 
+    display: flex !important; 
+    justify-content: center !important; 
+    align-items: center !important; 
     flex-shrink: 0 !important;
     flex-grow: 0 !important;
 }
 #btn-grabar::after { content: "🔴"; font-size: 12px; }
-#btn-grabar.grabando { background-color: rgba(255, 0, 0, 0.95); border-radius: 8px; animation: parpadeo 1s infinite; }
+#btn-grabar.grabando { background-color: rgba(255, 0, 0, 0.95) !important; border-radius: 8px !important; animation: parpadeo 1s infinite; }
 #btn-grabar.grabando::after { content: "⏹️"; font-size: 11px; }
 @keyframes parpadeo { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
 
-#tooltip-texto { position: absolute; left: 45px; top: 50%; transform: translateY(-50%); background: rgba(0, 0, 0, 0.85); color: #fff; padding: 6px 12px; border-radius: 6px; font-size: 12px; white-space: nowrap; pointer-events: none; opacity: 0; visibility: hidden; transition: opacity 0.2s; box-shadow: 0 2px 5px rgba(0,0,0,0.3); }
-#btn-menu-circular:hover #tooltip-texto, #btn-menu-circular.activo-tactil #tooltip-texto { opacity: 1; visibility: visible; }
+#tooltip-texto { position: absolute; left: 45px; top: 50%; transform: translateY(-50%); background: rgba(0, 0, 0, 0.85); color: #fff; padding: 6px 12px; border-radius: 6px; font-size: 12px; white-space: nowrap; pointer-events: none; opacity: 0; visibility: hidden; transition: opacity 0.2s; }
 
-/* MENÚ MODAL CENTRADO */
+/* MENÚ MODAL CENTRADO CON CASILLAS DE VERIFICACIÓN MÚLTIPLE */
 #selector-video-wrapper { 
     display: none; 
     position: fixed; 
     top: 50%; 
     left: 50%; 
     transform: translate(-50%, -50%); 
-    width: 85%;
-    max-width: 320px;
+    width: 90%;
+    max-width: 360px;
     background: rgba(20, 20, 20, 0.98); 
     padding: 20px; 
     border-radius: 14px; 
@@ -219,36 +228,61 @@ html, body {
     z-index: 50000; 
     border: 2px solid #3b82f6;
 }
-#selector-video { padding: 12px; font-size: 14px; border-radius: 8px; border: 1px solid #666; background: #222; color: #fff; cursor: pointer; width: 100%; }
+
+#contenedor-lista-checkboxes {
+    max-height: 180px;
+    overflow-y: auto;
+    background: #111;
+    border: 1px solid #555;
+    border-radius: 8px;
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.item-checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #fff;
+    font-size: 13px;
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 4px;
+}
+.item-checkbox-label:hover { background: #222; }
+.item-checkbox-label input { accent-color: #3b82f6; width: 16px; height: 16px; cursor: pointer; }
+
 #input-archivo-oculto { display: none; }
 
-.btn-accion-menu { color: white; border: none; padding: 12px; border-radius: 8px; font-size: 14px; cursor: pointer; text-align: center; font-weight: bold; width: 100%; }
+.btn-accion-menu { color: white; border: none; padding: 10px; border-radius: 8px; font-size: 13px; cursor: pointer; text-align: center; font-weight: bold; width: 100%; }
+#btn-abrir-seleccionados { background: #28a745; }
+#btn-abrir-agregar { background: #1d4ed8; }
 #btn-descargar-demo { background: #007bff; }
-#btn-agregar-archivo { background: #1e3a8a; }
+#btn-agregar-archivo { background: #374151; }
 #btn-borrar-item { background: #6c2222; }
 
-#aviso-premium { position: absolute; bottom: 80px; left: 50%; transform: translateX(-50%); background: rgba(220, 53, 69, 0.95); color: white; padding: 12px 24px; border-radius: 8px; font-size: 13px; z-index: 19999; display: none; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.6); line-height: 1.4; }
+#aviso-premium { position: absolute; bottom: 80px; left: 50%; transform: translateX(-50%); background: rgba(220, 53, 69, 0.95); color: white; padding: 12px 24px; border-radius: 8px; font-size: 13px; z-index: 19999; display: none; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.6); }
 
 #btn-color { 
-    position: absolute; 
-    top: 6px; 
-    right: 8px; 
+    position: absolute !important; 
+    top: 6px !important; 
+    right: 8px !important; 
     width: 36px !important; 
     height: 36px !important; 
     min-width: 36px !important;
     min-height: 36px !important;
     max-width: 36px !important;
     max-height: 36px !important;
-    border-radius: 50%; 
-    background-color: #3b82f6; 
+    border-radius: 50% !important; 
+    background-color: #3b82f6 !important; 
     cursor: pointer; 
     z-index: 15002; 
-    opacity: 1; 
-    border: 2px solid #ffffff; 
-    box-shadow: 0 0 8px rgba(0,0,0,0.8); 
+    border: 2px solid #ffffff !important; 
     display: flex !important; 
-    justify-content: center;
-    align-items: center;
+    justify-content: center !important;
+    align-items: center !important;
 }
 #menu-colores { 
     display: none; 
@@ -279,40 +313,17 @@ html, body {
     align-items: center;
     gap: 10px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.6);
-    backdrop-filter: blur(5px);
 }
 #panel-sensibilidad label { font-size: 12px; white-space: nowrap; }
 #panel-sensibilidad input[type=range] { width: 110px; accent-color: #3b82f6; }
 
-#video-camara { 
-    position: absolute; 
-    top: 0; 
-    left: 0; 
-    width: 100vw; 
-    height: 100vh; 
-    object-fit: cover; 
-    z-index: 1; 
-    background-color: #000; 
-    transform-origin: center center;
-}
-#canvas-camara-ia { 
-    position: absolute; 
-    top: 0; 
-    left: 0; 
-    width: 100vw; 
-    height: 100vh; 
-    object-fit: cover; 
-    z-index: 2; 
-    display: none; 
-    transform-origin: center center;
-}
+#video-camara { position: absolute; top: 0; left: 0; width: 100vw; height: 100vh; object-fit: cover; z-index: 1; background-color: #000; transform-origin: center center; }
+#canvas-camara-ia { position: absolute; top: 0; left: 0; width: 100vw; height: 100vh; object-fit: cover; z-index: 2; display: none; transform-origin: center center; }
 #video-multimedia, #imagen-fuente-oculta { display: none; }
 
 #capa-efecto-container { position: absolute; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 10; pointer-events: none; }
+#canvas-overlay { width: 100vw; height: 100vh; max-width: 100%; max-height: 100%; object-fit: contain; pointer-events: auto; touch-action: none; }
 
-#canvas-overlay { width: 100vw; height: 100vh; max-width: 100%; max-height: 100%; object-fit: contain; pointer-events: auto; touch-action: none; cursor: default; }
-
-/* CAPAS INDEPENDIENTES Y PROTEGIDAS CONTRA SOLAPAMIENTO */
 .chroma-layer-extra {
     position: absolute;
     top: 120px;
@@ -343,7 +354,6 @@ html, body {
     font-weight: bold;
     font-size: 15px;
     cursor: pointer;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.6);
     z-index: 25;
 }
 .chroma-layer-extra.selected .btn-close-layer { display: block; }
@@ -352,18 +362,16 @@ html, body {
 <body>
 <div id="pantalla-inicio">
     <h2 style="color: #fff; margin-bottom: 5px;">Chroma Cam FX</h2>
-    <p style="color: #bfdbfe; font-size: 13px; margin-top: 0; font-weight: bold;">Chroma Studio FX - Versión Azul Océano Estable</p>
+    <p style="color: #bfdbfe; font-size: 13px; margin-top: 0; font-weight: bold;">Chroma Studio FX - Versión Verde Actualizada</p>
     <input type="email" id="input-email-usuario" class="input-login" placeholder="correo@gmail.com" value="adr8617@gmail.com">
-    
     <button id="btn-iniciar" type="button" onclick="verificarAccesoSuperusuario(event)">TOCA AQUÍ PARA INICIAR</button>
-    
     <p id="mensaje-error"></p>
 </div>
 
 <div id="modal-2fa">
     <div id="contenido-2fa">
         <h3>🚨 Alerta de Seguridad</h3>
-        <p>Se ha intentado activar el modo Superusuario desde un <strong>dispositivo o IP no registrado</strong>.<br><br>¿Autorizas el acceso para este nuevo teléfono?</p>
+        <p>Se ha intentado activar el modo Superusuario desde un dispositivo o IP no registrado.<br><br>¿Autorizas el acceso?</p>
         <button id="btn-aprobar-dispositivo" class="btn-2fa">Sí, soy yo (Autorizar)</button>
         <button id="btn-rechazar-dispositivo" class="btn-2fa">Bloquear</button>
     </div>
@@ -372,12 +380,11 @@ html, body {
 <div id="modal-ayuda">
     <div id="contenido-ayuda">
         <h3>📖 Manual de Ayuda y Funcionalidades</h3>
-        <p>Bienvenido al sistema <strong>Chroma Cam FX</strong>. Guía rápida:</p>
+        <p>Guía rápida Chroma Cam FX:</p>
         <ul>
-            <li><strong>🎯 Botón Centrar:</strong> Trae de vuelta al centro el efecto seleccionado.</li>
-            <li><strong>🎨 Botón de Color:</strong> Cambia el filtro de croma (Verde, Azul, Negro).</li>
-            <li><strong>⚙️ Menú de Efectos:</strong> Agrega o descarga efectos acumulativos independientes.</li>
-            <li><strong>🔴 Grabar Video:</strong> Captura tu composición perfectamente sin alteraciones.</li>
+            <li><strong>⚙️ Menú de Efectos:</strong> Selecciona múltiples efectos con casillas y ábrelos simultáneamente.</li>
+            <li><strong>🎯 Botón Centrar:</strong> Trae de vuelta al centro el efecto activo.</li>
+            <li><strong>🔴 Grabar Video:</strong> Captura cámara y audio limpio sin chasquidos.</li>
         </ul>
         <button id="btn-cerrar-ayuda" class="btn-cerrar-modal">Cerrar Ayuda</button>
     </div>
@@ -385,9 +392,8 @@ html, body {
 
 <div id="modal-terminos">
     <div id="contenido-modal">
-        <h3>📄 Términos, Privacidad y Licencias</h3>
-        <p><strong>Privacidad:</strong> Chroma Cam FX procesa las imágenes 100% de manera local en tu teléfono.</p>
-        <p><strong>Créditos:</strong> Utiliza Google MediaPipe Selfie Segmentation (Licencia Apache 2.0).</p>
+        <h3>📄 Términos y Privacidad</h3>
+        <p>Procesamiento 100% local en tu dispositivo con Google MediaPipe.</p>
         <button id="btn-cerrar-terminos" class="btn-cerrar-modal">Entendido</button>
     </div>
 </div>
@@ -399,28 +405,31 @@ html, body {
         <div id="btn-menu-circular" class="btn-flotante control-ocultable" data-control="item">
             <span id="tooltip-texto">Menú de Efectos</span>
         </div>
-        <div id="btn-camara-ia" class="btn-flotante control-ocultable" title="Activar/Desactivar Croma IA en Cámara" data-control="item"></div>
+        <div id="btn-camara-ia" class="btn-flotante control-ocultable" title="Croma IA Cámara" data-control="item"></div>
         <div id="btn-mover-efecto" class="btn-flotante control-ocultable" title="Mover y Escalar" data-control="item"></div>
         <div id="btn-cambiar-camara" class="btn-flotante control-ocultable" title="Cambiar Cámara" data-control="item"></div>
-        <div id="btn-centrar-imagen" class="btn-flotante control-ocultable" title="Centrar Imagen Perdida"></div>
+        <div id="btn-centrar-imagen" class="btn-flotante control-ocultable" title="Centrar Imagen"></div>
         <div id="btn-toggle-interfaz" class="btn-flotante" title="Ocultar/Mostrar Controles"></div>
-        <div id="btn-ayuda" class="btn-flotante control-ocultable" title="Ayuda y Manual" data-control="item"></div>
-        <div id="btn-terminos" class="btn-flotante control-ocultable" title="Términos y Privacidad" data-control="item"></div>
+        <div id="btn-ayuda" class="btn-flotante control-ocultable" title="Ayuda"></div>
+        <div id="btn-terminos" class="btn-flotante control-ocultable" title="Términos"></div>
         <div id="btn-grabar" title="Grabar Video"></div>
     </div>
 
-    <!-- Menú modal flotante centrado -->
+    <!-- Menú Modal con Selector de Casillas Múltiples y Opciones Claras -->
     <div id="selector-video-wrapper">
         <h4 style="color: #3b82f6; margin: 0 0 5px 0; text-align: center; font-size: 15px;">📁 Selector de Efectos</h4>
-        <select id="selector-video"></select>
-        <button id="btn-descargar-demo" class="btn-accion-menu">📥 Descargar Demo</button>
-        <button id="btn-agregar-archivo" class="btn-accion-menu">➕ Agregar archivo local</button>
-        <button id="btn-borrar-item" class="btn-accion-menu">🗑️ Borrar seleccionado</button>
+        <div id="contenedor-lista-checkboxes"></div>
+        
+        <button id="btn-abrir-seleccionados" class="btn-accion-menu">✅ OK, seleccionado(s)</button>
+        <button id="btn-abrir-agregar" class="btn-accion-menu">➕ Abrir y agregar a la lista</button>
+        <button id="btn-descargar-demo" class="btn-accion-menu">📥 Descargar Demo GitHub</button>
+        <button id="btn-agregar-archivo" class="btn-accion-menu">📂 Agregar archivo local</button>
+        <button id="btn-borrar-item" class="btn-accion-menu">🗑️ Borrar seleccionados de la lista</button>
     </div>
 
     <input type="file" id="input-archivo-oculto" accept="video/mp4,image/gif,image/webp,image/*">
 
-    <div id="btn-color" title="Seleccionar Color de Croma"></div>
+    <div id="btn-color" title="Color de Croma"></div>
     <div id="menu-colores">
         <div class="opcion-color" data-color="verde" style="background-color: #00ff00;" title="Verde"></div>
         <div class="opcion-color" data-color="azul" style="background-color: #0000ff;" title="Azul"></div>
@@ -520,7 +529,7 @@ const btnIniciar = document.getElementById('btn-iniciar');
 const inputEmailUsuario = document.getElementById('input-email-usuario');
 const pantallaInicio = document.getElementById('pantalla-inicio');
 const panelControles = document.getElementById('panel-controles');
-const selectorVideo = document.getElementById('selector-video');
+const contenedorListaCheckboxes = document.getElementById('contenedor-lista-checkboxes');
 const mensajeError = document.getElementById('mensaje-error');
 const avisoPremium = document.getElementById('aviso-premium');
 const modal2fa = document.getElementById('modal-2fa');
@@ -529,10 +538,13 @@ const btnRechazarDispositivo = document.getElementById('btn-rechazar-dispositivo
 
 const btnMenuCircular = document.getElementById('btn-menu-circular');
 const selectorVideoWrapper = document.getElementById('selector-video-wrapper');
+const btnAbrirSeleccionados = document.getElementById('btn-abrir-seleccionados');
+const btnAbrirAgregar = document.getElementById('btn-abrir-agregar');
 const btnDescargarDemo = document.getElementById('btn-descargar-demo');
 const btnAgregarArchivo = document.getElementById('btn-agregar-archivo');
 const btnBorrarItem = document.getElementById('btn-borrar-item');
 const inputArchivoOculto = document.getElementById('input-archivo-oculto');
+
 const btnCamaraIA = document.getElementById('btn-camara-ia');
 const btnMoverEfecto = document.getElementById('btn-mover-efecto');
 const btnCentrarImagen = document.getElementById('btn-centrar-imagen');
@@ -557,24 +569,14 @@ const controlesOcultables = document.querySelectorAll('.control-ocultable');
 let colorFiltro = 'verde'; 
 let modoCamaraIA = false;
 let selfieSegmentation = null;
-
-let procesando = false;
-let tipoActual = 'video';
-let animacionGifId = null;
-
 let modoMoverActivo = false;
-let posX = 0, posY = 0, escalaActual = 1;
-let arrastrando = false;
-let startX = 0, startY = 0;
 let distanciaInicialPellizco = 0;
-
 let layerCounter = 0;
 let activeLayer = null;
 
 let mediaRecorder;
 let fragmentosVideo = [];
 let estaGrabando = false;
-
 let listaCamaras = [];
 let indiceCamaraActual = 0;
 let interfazOculta = false;
@@ -595,25 +597,18 @@ function inicializarIA() {
 
 function onResultadosIA(results) {
     if (!modoCamaraIA) return;
-
     canvasCamaraIA.width = videoCamara.videoWidth || 1280;
     canvasCamaraIA.height = videoCamara.videoHeight || 720;
-
     ctxCamaraIA.save();
     ctxCamaraIA.clearRect(0, 0, canvasCamaraIA.width, canvasCamaraIA.height);
-
     ctxCamaraIA.drawImage(results.segmentationMask, 0, 0, canvasCamaraIA.width, canvasCamaraIA.height);
-
     ctxCamaraIA.globalCompositeOperation = 'source-out';
     if (colorFiltro === 'verde') ctxCamaraIA.fillStyle = '#00FF00';
     else if (colorFiltro === 'azul') ctxCamaraIA.fillStyle = '#0000FF';
     else ctxCamaraIA.fillStyle = '#111111';
-
     ctxCamaraIA.fillRect(0, 0, canvasCamaraIA.width, canvasCamaraIA.height);
-
     ctxCamaraIA.globalCompositeOperation = 'destination-over';
     ctxCamaraIA.drawImage(results.image, 0, 0, canvasCamaraIA.width, canvasCamaraIA.height);
-
     ctxCamaraIA.restore();
 }
 
@@ -621,9 +616,7 @@ async function procesarFrameCamaraIA() {
     if (modoCamaraIA && selfieSegmentation && videoCamara.readyState >= 2) {
         await selfieSegmentation.send({ image: videoCamara });
     }
-    if (modoCamaraIA) {
-        requestAnimationFrame(procesarFrameCamaraIA);
-    }
+    if (modoCamaraIA) requestAnimationFrame(procesarFrameCamaraIA);
 }
 
 btnCamaraIA.addEventListener('click', (e) => {
@@ -631,7 +624,6 @@ btnCamaraIA.addEventListener('click', (e) => {
     modoCamaraIA = !modoCamaraIA;
     btnCamaraIA.classList.toggle('activo', modoCamaraIA);
     canvasCamaraIA.style.display = modoCamaraIA ? 'block' : 'none';
-
     if (modoCamaraIA) {
         if (!selfieSegmentation) inicializarIA();
         procesarFrameCamaraIA();
@@ -640,42 +632,47 @@ btnCamaraIA.addEventListener('click', (e) => {
 
 btnTerminos.addEventListener('click', (e) => { e.stopPropagation(); modalTerminos.style.display = 'flex'; });
 btnCerrarTerminos.addEventListener('click', () => { modalTerminos.style.display = 'none'; });
-
 btnAyuda.addEventListener('click', (e) => { e.stopPropagation(); modalAyuda.style.display = 'flex'; });
 btnCerrarAyuda.addEventListener('click', () => { modalAyuda.style.display = 'none'; });
 
 btnToggleInterfaz.addEventListener('click', (e) => {
     e.stopPropagation();
     interfazOculta = !interfazOculta;
-    
-    controlesOcultables.forEach(el => {
-        el.style.display = interfazOculta ? 'none' : 'flex';
-    });
-
+    controlesOcultables.forEach(el => { el.style.display = interfazOculta ? 'none' : 'flex'; });
     btnToggleInterfaz.classList.toggle('oculto', interfazOculta);
     btnColor.style.display = interfazOculta ? 'none' : 'flex';
-    btnColor.style.pointerEvents = interfazOculta ? 'none' : 'auto';
-    
     if (interfazOculta) {
         selectorVideoWrapper.style.display = 'none';
         menuColores.style.display = 'none';
     }
 });
 
-function actualizarSelect() {
-    selectorVideo.innerHTML = "";
-    listaMultimedia.forEach((item) => {
-        let option = document.createElement('option');
-        option.value = item.archivo;
-        option.setAttribute('data-tipo', item.tipo);
-        option.innerText = item.nombre;
-        selectorVideo.appendChild(option);
+/* RENDERIZAR LISTA CON CHECKBOXES MÚLTIPLES */
+function actualizarListaCheckboxes() {
+    contenedorListaCheckboxes.innerHTML = "";
+    listaMultimedia.forEach((item, index) => {
+        const label = document.createElement('label');
+        label.className = 'item-checkbox-label';
+        
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.value = index;
+        checkbox.dataset.archivo = item.archivo;
+        checkbox.dataset.tipo = item.tipo;
+        
+        const span = document.createElement('span');
+        span.innerText = item.nombre;
+        
+        label.appendChild(checkbox);
+        label.appendChild(span);
+        contenedorListaCheckboxes.appendChild(label);
     });
 }
 
 btnMenuCircular.addEventListener('click', (e) => {
     e.stopPropagation();
     forzarDesbloqueoAudio();
+    actualizarListaCheckboxes();
     const estaVisible = selectorVideoWrapper.style.display === 'flex';
     selectorVideoWrapper.style.display = estaVisible ? 'none' : 'flex';
     btnMenuCircular.classList.toggle('activo-tactil', !estaVisible);
@@ -694,6 +691,36 @@ document.addEventListener('click', (e) => {
 
 selectorVideoWrapper.addEventListener('click', (e) => e.stopPropagation());
 
+/* BOTÓN 1: ABRIR SOLO LOS SELECCIONADOS EN LAS CASILLAS */
+btnAbrirSeleccionados.addEventListener('click', (e) => {
+    e.stopPropagation();
+    forzarDesbloqueoAudio();
+    const checks = contenedorListaCheckboxes.querySelectorAll('input[type="checkbox"]:checked');
+    if (checks.length === 0) {
+        alert("Selecciona al menos una casilla de la lista.");
+        return;
+    }
+    checks.forEach(chk => {
+        addChromaLayerExtra(chk.dataset.archivo, chk.dataset.tipo);
+    });
+    selectorVideoWrapper.style.display = 'none';
+});
+
+/* BOTÓN 2: ABRIR Y AGREGAR A LA LISTA PERMANENTE */
+btnAbrirAgregar.addEventListener('click', (e) => {
+    e.stopPropagation();
+    forzarDesbloqueoAudio();
+    const checks = contenedorListaCheckboxes.querySelectorAll('input[type="checkbox"]:checked');
+    if (checks.length === 0) {
+        alert("Selecciona al menos un elemento para abrir y agregar.");
+        return;
+    }
+    checks.forEach(chk => {
+        addChromaLayerExtra(chk.dataset.archivo, chk.dataset.tipo);
+    });
+    selectorVideoWrapper.style.display = 'none';
+});
+
 btnDescargarDemo.addEventListener('click', async (e) => {
     e.stopPropagation();
     forzarDesbloqueoAudio();
@@ -707,16 +734,14 @@ btnDescargarDemo.addEventListener('click', async (e) => {
 
         listaMultimedia.push({ nombre: "Demo: Espíritu Espectral (GitHub)", archivo: urlBlobLocal, tipo: "video" });
         guardarBaseDatos(listaMultimedia);
-        actualizarSelect();
-        selectorVideo.selectedIndex = selectorVideo.options.length - 1;
-        
+        actualizarListaCheckboxes();
         addChromaLayerExtra(urlBlobLocal, "video");
-        btnDescargarDemo.innerText = "📥 Descargar Demo";
+        btnDescargarDemo.innerText = "📥 Descargar Demo GitHub";
         selectorVideoWrapper.style.display = 'none';
         alert("¡Efecto de demostración descargado e integrado!");
     } catch (err) {
-        btnDescargarDemo.innerText = "📥 Descargar Demo";
-        alert("Error: No se pudo descargar desde GitHub. Verifica tu conexión.");
+        btnDescargarDemo.innerText = "📥 Descargar Demo GitHub";
+        alert("Error: No se pudo descargar desde GitHub.");
     }
 });
 
@@ -733,16 +758,25 @@ btnAgregarArchivo.addEventListener('click', (e) => {
 
 btnBorrarItem.addEventListener('click', (e) => {
     e.stopPropagation();
-    const indexSeleccionado = selectorVideo.selectedIndex;
-    if (listaMultimedia.length <= 1) { alert("No puedes borrar el elemento predeterminado."); return; }
-    if (indexSeleccionado >= 0) {
-        if (confirm(`¿Deseas eliminar este efecto?`)) {
-            listaMultimedia.splice(indexSeleccionado, 1);
-            guardarBaseDatos(listaMultimedia);
-            actualizarSelect();
-            selectorVideo.selectedIndex = 0;
-            selectorVideoWrapper.style.display = 'none';
-        }
+    const checks = contenedorListaCheckboxes.querySelectorAll('input[type="checkbox"]:checked');
+    if (checks.length === 0) {
+        alert("Selecciona las casillas de los elementos que deseas borrar.");
+        return;
+    }
+    if (listaMultimedia.length <= 1) {
+        alert("No puedes borrar todos los elementos. Debe quedar al menos uno.");
+        return;
+    }
+    if (confirm(`¿Deseas eliminar los ${checks.length} elementos seleccionados?`)) {
+        const indicesABorrar = Array.from(checks).map(c => parseInt(c.value)).sort((a,b) => b-a);
+        indicesABorrar.forEach(idx => {
+            if (listaMultimedia.length > 1) {
+                listaMultimedia.splice(idx, 1);
+            }
+        });
+        guardarBaseDatos(listaMultimedia);
+        actualizarListaCheckboxes();
+        selectorVideoWrapper.style.display = 'none';
     }
 });
 
@@ -759,19 +793,14 @@ inputArchivoOculto.addEventListener('change', (e) => {
     const urlLocal = URL.createObjectURL(archivo);
     listaMultimedia.push({ nombre: descripcionCustom, archivo: urlLocal, tipo: tipoDetectado });
     guardarBaseDatos(listaMultimedia);
-    actualizarSelect();
-    selectorVideo.selectedIndex = selectorVideo.options.length - 1;
-    
+    actualizarListaCheckboxes();
     addChromaLayerExtra(urlLocal, tipoDetectado);
     selectorVideoWrapper.style.display = 'none';
 });
 
 btnMoverEfecto.addEventListener('click', (e) => {
     e.stopPropagation();
-    if (!esSuperUsuario) {
-        mostrarAviso();
-        return;
-    }
+    if (!esSuperUsuario) { mostrarAviso(); return; }
     modoMoverActivo = !modoMoverActivo;
     btnMoverEfecto.classList.toggle('activo', modoMoverActivo);
 });
@@ -800,13 +829,10 @@ function calcularDistanciaTactil(t1, t2) {
 
 function aplicarZoomCamaraPrincipal(factor) {
     let nuevoZoom = zoomCamaraActual * factor;
-
     if (zoomCamaraSoportadoNativo && trackCamaraActual) {
         nuevoZoom = Math.min(Math.max(minZoomCamara, nuevoZoom), maxZoomCamara);
         zoomCamaraActual = nuevoZoom;
-        trackCamaraActual.applyConstraints({
-            advanced: [{ zoom: zoomCamaraActual }]
-        }).catch(e => console.warn("Fallback a Zoom CSS:", e));
+        trackCamaraActual.applyConstraints({ advanced: [{ zoom: zoomCamaraActual }] }).catch(() => {});
     } else {
         nuevoZoom = Math.min(Math.max(1.0, nuevoZoom), 3.5);
         zoomCamaraActual = nuevoZoom;
@@ -819,7 +845,6 @@ canvas.addEventListener('touchstart', (e) => {
     forzarDesbloqueoAudio();
     if (e.touches.length === 2) {
         distanciaInicialPellizco = calcularDistanciaTactil(e.touches[0], e.touches[1]);
-        arrastrando = false;
         e.preventDefault();
     }
 }, { passive: false });
@@ -829,12 +854,8 @@ canvas.addEventListener('touchmove', (e) => {
         const distanciaActual = calcularDistanciaTactil(e.touches[0], e.touches[1]);
         if (distanciaInicialPellizco > 0) {
             let factor = distanciaActual / distanciaInicialPellizco;
-
             if (activeLayer) {
-                if (!esSuperUsuario) {
-                    mostrarAviso("función zoom deshabilitada en versiones de prueba");
-                    return;
-                }
+                if (!esSuperUsuario) { mostrarAviso("función zoom deshabilitada"); return; }
                 let nuevaEscala = parseFloat(activeLayer.dataset.scale) * factor;
                 if (nuevaEscala >= 0.3 && nuevaEscala <= 4.0) {
                     activeLayer.dataset.scale = nuevaEscala;
@@ -855,9 +876,7 @@ canvas.addEventListener('touchend', (e) => {
 });
 
 toleranceRange.addEventListener('input', function() {
-    if (activeLayer && activeLayer.reprocessChroma) {
-        activeLayer.reprocessChroma();
-    }
+    if (activeLayer && activeLayer.reprocessChroma) activeLayer.reprocessChroma();
 });
 
 function deselectAllLayers() {
@@ -878,13 +897,9 @@ function addChromaLayerExtra(sourceUrl, tipo) {
     layerDiv.className = 'chroma-layer-extra selected';
     layerDiv.id = 'layer-' + layerCounter;
 
-    // Desplazamiento inteligente automático según la cantidad de capas para evitar solapamiento exacto
     const offsetCount = document.querySelectorAll('.chroma-layer-extra').length;
-    const initialLeft = 60 + (offsetCount * 30);
-    const initialTop = 100 + (offsetCount * 30);
-
-    layerDiv.style.left = initialLeft + 'px';
-    layerDiv.style.top = initialTop + 'px';
+    layerDiv.style.left = (60 + (offsetCount * 30)) + 'px';
+    layerDiv.style.top = (100 + (offsetCount * 30)) + 'px';
 
     const escalaInicial = 1.0;
     const baseAncho = 380;
@@ -894,7 +909,6 @@ function addChromaLayerExtra(sourceUrl, tipo) {
 
     const canvasExtra = document.createElement('canvas');
     const ctxExtra = canvasExtra.getContext('2d', { willReadFrequently: true });
-
     let videoElementRef = null;
 
     const closeBtn = document.createElement('div');
@@ -902,7 +916,6 @@ function addChromaLayerExtra(sourceUrl, tipo) {
     closeBtn.innerText = '✕';
     closeBtn.onclick = function(e) {
         e.stopPropagation();
-
         if (videoElementRef) {
             videoElementRef.pause();
             videoElementRef.muted = true;
@@ -910,7 +923,6 @@ function addChromaLayerExtra(sourceUrl, tipo) {
             videoElementRef.removeAttribute('src');
             videoElementRef.load();
         }
-
         layerDiv.remove();
         if (activeLayer === layerDiv) activeLayer = null;
     };
@@ -919,17 +931,14 @@ function addChromaLayerExtra(sourceUrl, tipo) {
         const img = new Image();
         img.crossOrigin = 'Anonymous';
         img.src = sourceUrl;
-
         layerDiv.reprocessChroma = function() {
             if (!img.complete) return;
             canvasExtra.width = img.width || 450;
             canvasExtra.height = img.height || 450;
             ctxExtra.drawImage(img, 0, 0, canvasExtra.width, canvasExtra.height);
-
             const tolerance = parseFloat(toleranceRange.value);
             const imgData = ctxExtra.getImageData(0, 0, canvasExtra.width, canvasExtra.height);
             const data = imgData.data;
-
             for (let i = 0; i < data.length; i += 4) {
                 const r = data[i], g = data[i + 1], b = data[i + 2];
                 if (colorFiltro === 'verde') {
@@ -942,11 +951,7 @@ function addChromaLayerExtra(sourceUrl, tipo) {
             }
             ctxExtra.putImageData(imgData, 0, 0);
         };
-
-        img.onload = function() {
-            layerDiv.reprocessChroma();
-        };
-
+        img.onload = () => layerDiv.reprocessChroma();
         layerDiv.appendChild(closeBtn);
         layerDiv.appendChild(canvasExtra);
     } else {
@@ -957,13 +962,8 @@ function addChromaLayerExtra(sourceUrl, tipo) {
         vExtra.muted = false;
         vExtra.volume = 1.0;
         vExtra.playsInline = true;
-
         videoElementRef = vExtra;
-
-        vExtra.play().catch(() => {
-            vExtra.muted = true;
-            vExtra.play();
-        });
+        vExtra.play().catch(() => { vExtra.muted = true; vExtra.play(); });
 
         let renderingVideo = true;
         function processVideoFrame() {
@@ -972,11 +972,9 @@ function addChromaLayerExtra(sourceUrl, tipo) {
                 canvasExtra.width = vExtra.videoWidth || 450;
                 canvasExtra.height = vExtra.videoHeight || 450;
                 ctxExtra.drawImage(vExtra, 0, 0, canvasExtra.width, canvasExtra.height);
-
                 const tolerance = parseFloat(toleranceRange.value);
                 const imgData = ctxExtra.getImageData(0, 0, canvasExtra.width, canvasExtra.height);
                 const data = imgData.data;
-
                 for (let i = 0; i < data.length; i += 4) {
                     const r = data[i], g = data[i + 1], b = data[i + 2];
                     if (colorFiltro === 'verde') {
@@ -991,10 +989,7 @@ function addChromaLayerExtra(sourceUrl, tipo) {
             }
             requestAnimationFrame(processVideoFrame);
         }
-        vExtra.addEventListener('loadeddata', () => {
-            processVideoFrame();
-        });
-
+        vExtra.addEventListener('loadeddata', processVideoFrame);
         layerDiv.appendChild(closeBtn);
         layerDiv.appendChild(canvasExtra);
     }
@@ -1010,32 +1005,14 @@ function makeInteractableLayer(element) {
     let initialPinchDistance = null;
     let initialScale = 1;
 
-    element.addEventListener('click', function(e) {
-        e.stopPropagation();
-        selectLayer(element);
-    });
-
-    element.addEventListener('dblclick', function(e) {
-        e.stopPropagation();
-        let escalaActualLayer = parseFloat(element.dataset.scale || 1.0);
-        let nuevaEscala = escalaActualLayer < 1.5 ? 2.0 : 1.0;
-        element.dataset.scale = nuevaEscala;
-        const baseWidth = parseFloat(element.dataset.baseWidth || 380);
-        element.style.width = (baseWidth * nuevaEscala) + 'px';
-        if (element.reprocessChroma) element.reprocessChroma();
-    });
-
+    element.addEventListener('click', (e) => { e.stopPropagation(); selectLayer(element); });
     element.addEventListener('touchstart', handleStart, {passive: false});
     element.addEventListener('mousedown', handleStart);
 
     function handleStart(e) {
         selectLayer(element);
-
         if (e.touches && e.touches.length === 2) {
-            if (!esSuperUsuario) {
-                mostrarAviso("función zoom deshabilitada en versiones de prueba");
-                return;
-            }
+            if (!esSuperUsuario) return;
             isDraggingLayer = false;
             initialPinchDistance = calcularDistanciaTactil(e.touches[0], e.touches[1]);
             initialScale = parseFloat(element.dataset.scale);
@@ -1043,12 +1020,9 @@ function makeInteractableLayer(element) {
             isDraggingLayer = true;
             const clientX = e.touches ? e.touches[0].clientX : e.clientX;
             const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-            startXLayer = clientX;
-            startYLayer = clientY;
-            initialLeft = element.offsetLeft;
-            initialTop = element.offsetTop;
+            startXLayer = clientX; startYLayer = clientY;
+            initialLeft = element.offsetLeft; initialTop = element.offsetTop;
         }
-
         document.addEventListener('touchmove', handleMove, {passive: false});
         document.addEventListener('mousemove', handleMove);
         document.addEventListener('touchend', handleEnd);
@@ -1057,35 +1031,22 @@ function makeInteractableLayer(element) {
 
     function handleMove(e) {
         if (e.touches && e.touches.length === 2 && initialPinchDistance) {
-            if (!esSuperUsuario) {
-                mostrarAviso("función zoom deshabilitada en versiones de prueba");
-                return;
-            }
             e.preventDefault();
             const currentDistance = calcularDistanciaTactil(e.touches[0], e.touches[1]);
-            const scaleFactor = currentDistance / initialPinchDistance;
-            let newScale = Math.min(Math.max(0.3, initialScale * scaleFactor), 4.0);
-            
+            let newScale = Math.min(Math.max(0.3, initialScale * (currentDistance / initialPinchDistance)), 4.0);
             element.dataset.scale = newScale;
-            const baseWidth = parseFloat(element.dataset.baseWidth);
-            element.style.width = (baseWidth * newScale) + 'px';
+            element.style.width = (parseFloat(element.dataset.baseWidth) * newScale) + 'px';
         } else if (isDraggingLayer) {
             const clientX = e.touches ? e.touches[0].clientX : e.clientX;
             const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-            
-            let nuevaLeft = initialLeft + (clientX - startXLayer);
-            let nuevaTop = initialTop + (clientY - startYLayer);
-
-            element.style.left = nuevaLeft + 'px';
-            element.style.top = nuevaTop + 'px';
+            element.style.left = (initialLeft + (clientX - startXLayer)) + 'px';
+            element.style.top = (initialTop + (clientY - startYLayer)) + 'px';
         }
     }
 
     function handleEnd(e) {
         isDraggingLayer = false;
-        if (e.touches && e.touches.length < 2) {
-            initialPinchDistance = null;
-        }
+        if (e.touches && e.touches.length < 2) initialPinchDistance = null;
     }
 }
 
@@ -1094,7 +1055,7 @@ function mostrarNotificacionFlotante(texto) {
     if (!notif) {
         notif = document.createElement('div');
         notif.id = 'notif-guardado-exitoso';
-        notif.style.cssText = "position:fixed; top:20px; left:50%; transform:translateX(-50%); background:#3b82f6; color:white; padding:12px 24px; border-radius:10px; z-index:999999; font-weight:bold; box-shadow:0 4px 15px rgba(0,0,0,0.5); font-size:14px; text-align:center;";
+        notif.style.cssText = "position:fixed; top:20px; left:50%; transform:translateX(-50%); background:#28a745; color:white; padding:12px 24px; border-radius:10px; z-index:999999; font-weight:bold; box-shadow:0 4px 15px rgba(0,0,0,0.5); font-size:14px; text-align:center;";
         document.body.appendChild(notif);
     }
     notif.innerText = texto;
@@ -1102,6 +1063,7 @@ function mostrarNotificacionFlotante(texto) {
     setTimeout(() => { notif.style.display = 'none'; }, 3500);
 }
 
+/* CORRECCIÓN ROBUSTA DE AUDIO Y GRABACIÓN (SIN CHASQUIDOS NI SILENCIOS) */
 btnGrabar.addEventListener('click', () => {
     forzarDesbloqueoAudio();
     if (!estaGrabando) { 
@@ -1118,7 +1080,6 @@ btnGrabar.addEventListener('click', () => {
         function dibujarFrameParaGrabacion() {
             if (!grabandoActivo) return;
             const fuenteCamara = modoCamaraIA ? canvasCamaraIA : videoCamara;
-            
             ctxGrabacion.drawImage(fuenteCamara, 0, 0, canvasGrabacion.width, canvasGrabacion.height);
             ctxGrabacion.drawImage(canvas, 0, 0, canvasGrabacion.width, canvasGrabacion.height);
 
@@ -1129,13 +1090,9 @@ btnGrabar.addEventListener('click', () => {
                     const baseW = parseFloat(layer.dataset.baseWidth || 380);
                     const renderW = baseW * escala * escalaX;
                     const renderH = (c.height / c.width) * renderW;
-                    const posX = layer.offsetLeft * escalaX;
-                    const posY = layer.offsetTop * escalaY;
-
-                    ctxGrabacion.drawImage(c, posX, posY, renderW, renderH);
+                    ctxGrabacion.drawImage(c, layer.offsetLeft * escalaX, layer.offsetTop * escalaY, renderW, renderH);
                 }
             });
-
             requestAnimationFrame(dibujarFrameParaGrabacion);
         }
         dibujarFrameParaGrabacion();
@@ -1146,27 +1103,29 @@ btnGrabar.addEventListener('click', () => {
         try {
             const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
             const dest = audioCtx.createMediaStreamDestination();
+            
+            // Audio de la cámara (micrófono)
             const streamCamara = videoCamara.srcObject;
             if (streamCamara && streamCamara.getAudioTracks().length > 0) {
                 const fuenteMic = audioCtx.createMediaStreamSource(streamCamara);
                 fuenteMic.connect(dest);
             }
             
+            // Audio de los videos superpuestos activos
             document.querySelectorAll('.chroma-layer-extra video').forEach(v => {
-                if (!v.paused) {
+                if (!v.paused && !v.muted) {
                     const fuenteVideo = audioCtx.createMediaElementSource(v);
                     fuenteVideo.connect(dest);
-                    fuenteVideo.connect(audioCtx.destination);
                 }
             });
 
             if (dest.stream.getAudioTracks().length > 0) {
                 tracksCombinados.push(dest.stream.getAudioTracks()[0]);
             }
-        } catch (err) { console.warn("AudioContext error:", err); }
+        } catch (err) { console.warn("Aviso de audio:", err); }
 
         const streamFinal = new MediaStream(tracksCombinados);
-        try { mediaRecorder = new MediaRecorder(streamFinal, { mimeType: 'video/webm; codecs=vp9' }); } 
+        try { mediaRecorder = new MediaRecorder(streamFinal, { mimeType: 'video/webm; codecs=vp9,opus' }); } 
         catch (e) { mediaRecorder = new MediaRecorder(streamFinal); }
 
         mediaRecorder.ondataavailable = (event) => { if (event.data && event.data.size > 0) fragmentosVideo.push(event.data); };
@@ -1183,14 +1142,13 @@ btnGrabar.addEventListener('click', () => {
             setTimeout(() => { 
                 document.body.removeChild(a); 
                 window.URL.revokeObjectURL(urlBlob); 
-                mostrarNotificacionFlotante("✨ ¡Video guardado con éxito y escala preservada!");
+                mostrarNotificacionFlotante("✨ ¡Video guardado con éxito y audio nítido!");
             }, 100);
         };
 
         mediaRecorder.start();
         estaGrabando = true;
         btnGrabar.classList.add('grabando');
-
     } else { 
         if (mediaRecorder) mediaRecorder.stop();
         estaGrabando = false; 
@@ -1201,8 +1159,7 @@ btnGrabar.addEventListener('click', () => {
 btnColor.addEventListener('click', (e) => {
     e.stopPropagation();
     forzarDesbloqueoAudio();
-    const estaAbierto = menuColores.style.display === 'flex';
-    menuColores.style.display = estaAbierto ? 'none' : 'flex';
+    menuColores.style.display = menuColores.style.display === 'flex' ? 'none' : 'flex';
 });
 
 opcionesColor.forEach(opcion => {
@@ -1217,30 +1174,12 @@ opcionesColor.forEach(opcion => {
         colorFiltro = colorSeleccionado;
         btnColor.style.backgroundColor = getComputedStyle(e.target).backgroundColor;
         menuColores.style.display = 'none';
-
-        document.querySelectorAll('.chroma-layer-extra').forEach(l => {
-            if (l.reprocessChroma) l.reprocessChroma();
-        });
+        document.querySelectorAll('.chroma-layer-extra').forEach(l => { if (l.reprocessChroma) l.reprocessChroma(); });
     });
 });
 
-function cargarArchivoSeleccionado() {
-    if (selectorVideo.options.length === 0) return;
-    const selectedOption = selectorVideo.options[selectorVideo.selectedIndex];
-    const archivoUrl = selectedOption.value;
-    tipoActual = selectedOption.getAttribute('data-tipo');
-
-    addChromaLayerExtra(archivoUrl, tipoActual);
-}
-
-selectorVideo.addEventListener('change', cargarArchivoSeleccionado);
-
 function verificarAccesoSuperusuario(e) {
-    if (e) {
-        e.stopPropagation();
-        e.preventDefault();
-    }
-    
+    if (e) { e.stopPropagation(); e.preventDefault(); }
     pantallaInicio.style.display = 'none';
     panelControles.style.display = 'flex';
     btnColor.style.display = 'flex';
@@ -1281,20 +1220,14 @@ async function iniciarCamara(deviceIdEspecifico = null) {
     if (videoCamara.srcObject) {
         videoCamara.srcObject.getTracks().forEach(track => track.stop());
     }
-
-    let restriccionesVideo;
-    if (deviceIdEspecifico) {
-        restriccionesVideo = { deviceId: { exact: deviceIdEspecifico }, width: { ideal: 1920 }, height: { ideal: 1080 } };
-    } else {
-        let modoActualCamara = listaCamaras.length > 0 ? (indiceCamaraActual % 2 === 0 ? "user" : "environment") : "user";
-        restriccionesVideo = { facingMode: modoActualCamara, width: { ideal: 1920 }, height: { ideal: 1080 } };
-    }
+    let restriccionesVideo = deviceIdEspecifico ? 
+        { deviceId: { exact: deviceIdEspecifico }, width: { ideal: 1920 }, height: { ideal: 1080 } } : 
+        { facingMode: (listaCamaras.length > 0 && indiceCamaraActual % 2 !== 0) ? "environment" : "user", width: { ideal: 1920 }, height: { ideal: 1080 } };
 
     try {
         const stream = await navigator.mediaDevices.getUserMedia({ video: restriccionesVideo, audio: true });
         videoCamara.srcObject = stream;
         await videoCamara.play();
-
         trackCamaraActual = stream.getVideoTracks()[0];
         if (trackCamaraActual && typeof trackCamaraActual.getCapabilities === 'function') {
             const capabilities = trackCamaraActual.getCapabilities();
@@ -1303,24 +1236,14 @@ async function iniciarCamara(deviceIdEspecifico = null) {
                 minZoomCamara = capabilities.zoom.min || 1;
                 maxZoomCamara = capabilities.zoom.max || 1;
                 zoomCamaraActual = capabilities.zoom.step ? capabilities.zoom.min : 1;
-            } else {
-                zoomCamaraSoportadoNativo = false;
-                zoomCamaraActual = 1.0;
             }
-        } else {
-            zoomCamaraSoportadoNativo = false;
-            zoomCamaraActual = 1.0;
         }
-
     } catch (err) {
-        console.warn("Error en cámara, intentando fallback...", err);
         try {
             const streamFallback = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
             videoCamara.srcObject = streamFallback;
             await videoCamara.play();
-        } catch (e2) {
-            mensajeError.innerText = "Error crítico de cámara: " + e2.message;
-        }
+        } catch (e2) { mensajeError.innerText = "Error crítico de cámara: " + e2.message; }
     }
 }
 
@@ -1337,7 +1260,6 @@ btnCambiarCamara.addEventListener('click', async () => {
         indiceCamaraActual = (indiceCamaraActual + 1) % listaCamaras.length;
         await iniciarCamara(listaCamaras[indiceCamaraActual].deviceId);
     } else {
-        indiceCamaraActual++;
         await iniciarCamara();
     }
 });
@@ -1346,34 +1268,11 @@ async function lanzarAppDespuesDeInicio() {
     try {
         await detectarDispositivosCamara();
         await iniciarCamara();
-        
-        actualizarSelect();
-        if (esSuperUsuario) {
-            if (capaEfectoContainer.children.length <= 1) {
-                addChromaLayerExtra(listaMultimedia[0].archivo, listaMultimedia[0].tipo);
-            }
+        actualizarListaCheckboxes();
+        if (esSuperUsuario && capaEfectoContainer.children.length <= 1) {
+            addChromaLayerExtra(listaMultimedia[0].archivo, listaMultimedia[0].tipo);
         }
-    } catch (err) {
-        console.error("Error al iniciar la app:", err);
-    }
-}
-
-window.addEventListener('resize', () => {
-    if (videoMultimedia.videoWidth) {
-        canvas.width = videoMultimedia.videoWidth;
-        canvas.height = videoMultimedia.videoHeight;
-    } else if (imagenFuenteOculta.naturalWidth) {
-        canvas.width = imagenFuenteOculta.naturalWidth;
-        canvas.height = imagenFuenteOculta.naturalHeight;
-    }
-});
-
-if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-        navigator.serviceWorker.register('./sw.js')
-            .then(reg => console.log('Service Worker registrado:', reg.scope))
-            .catch(err => console.error('Error Service Worker:', err));
-    });
+    } catch (err) { console.error(err); }
 }
 </script>
 </body>
