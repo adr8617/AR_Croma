@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no, viewport-fit=cover">
-<title>Chroma Cam FX - Edición Rosa Definitiva</title>
+<title>Chroma Cam FX - Edición Rosa Integral</title>
 <link rel="manifest" href="manifest.json">
 
 <!-- Librerías de Segmentación por IA (Google MediaPipe - Licencia Apache 2.0) -->
@@ -341,7 +341,7 @@ body::before {
 <body>
 <div id="pantalla-inicio">
     <h2 style="color: #fff; margin-bottom: 5px;">Chroma Cam FX</h2>
-    <p style="color: #bfdbfe; font-size: 13px; margin-top: 0; font-weight: bold;">Chroma Studio FX - Edición Rosa Definitiva</p>
+    <p style="color: #bfdbfe; font-size: 13px; margin-top: 0; font-weight: bold;">Chroma Studio FX - Edición Rosa Integral</p>
     <input type="email" id="input-email-usuario" class="input-login" placeholder="correo@gmail.com" value="adr8617@gmail.com">
     <button id="btn-iniciar" type="button" onclick="verificarAccesoSuperusuario(event)">TOCA AQUÍ PARA INICIAR</button>
     <p id="mensaje-error"></p>
@@ -363,7 +363,7 @@ body::before {
         <ul>
             <li><strong>⚙️ Menú de Efectos:</strong> Selecciona múltiples casillas y ábrelos simultáneamente.</li>
             <li><strong>🎯 Botón Centrar:</strong> Trae de vuelta al centro el efecto activo.</li>
-            <li><strong>🔴 Grabar Video:</strong> Captura sincronizada de la cámara principal (micrófono y TV nítidos) y efectos superpuestos.</li>
+            <li><strong>🔴 Grabar Video:</strong> Captura sincronizada del micrófono de la cámara (voz y sonido ambiente de la tele) y efectos superpuestos.</li>
         </ul>
         <button id="btn-cerrar-ayuda" class="btn-cerrar-modal">Cerrar Ayuda</button>
     </div>
@@ -438,6 +438,7 @@ let audioContextGlobal = null;
 let masterDestinationNode = null; 
 let micSourceNodeGlobal = null;
 let micGainNodeGlobal = null;
+let micDestinationNodeGlobal = null;
 
 let trackCamaraActual = null;
 let zoomCamaraSoportadoNativo = false;
@@ -459,6 +460,7 @@ function forzarDesbloqueoAudio() {
     if (!audioContextGlobal) {
         audioContextGlobal = new (window.AudioContext || window.webkitAudioContext)();
         masterDestinationNode = audioContextGlobal.createMediaStreamDestination();
+        micDestinationNodeGlobal = audioContextGlobal.createMediaStreamDestination();
     }
     if (audioContextGlobal.state === 'suspended') {
         audioContextGlobal.resume();
@@ -1063,7 +1065,7 @@ function mostrarNotificacionFlotante(texto) {
     setTimeout(() => { notif.style.display = 'none'; }, 3500);
 }
 
-/* GRABACIÓN INTEGRAL CON AUDIO DE CÁMARA Y EFECTOS PERFECTAMENTE SINCRONIZADOS */
+/* GRABACIÓN INTEGRAL: MEZCLA PERFECTA DE MICRÓFONO (TV/VOZ) Y EFECTOS */
 btnGrabar.addEventListener('click', () => {
     forzarDesbloqueoAudio();
     if (!estaGrabando) { 
@@ -1102,25 +1104,24 @@ btnGrabar.addEventListener('click', () => {
         const tracksCombinados = [...streamCanvasUnificado.getVideoTracks()];
 
         try {
-            if (audioContextGlobal && masterDestinationNode) {
-                // 1. Añadir audio de los videos de efectos superpuestos
+            if (audioContextGlobal && masterDestinationNode && micDestinationNodeGlobal) {
+                // 1. Añadir el audio de los efectos (La Llorona)
                 if (masterDestinationNode.stream.getAudioTracks().length > 0) {
                     tracksCombinados.push(masterDestinationNode.stream.getAudioTracks()[0]);
                 }
 
-                // 2. Añadir audio limpio del micrófono de la cámara principal mediante nodo de ganancia dedicado
+                // 2. Añadir el audio del micrófono (voz y sonido de la televisión de fondo)
                 const streamCamara = videoCamara.srcObject;
                 if (streamCamara && streamCamara.getAudioTracks().length > 0) {
                     if (!micSourceNodeGlobal) {
                         micSourceNodeGlobal = audioContextGlobal.createMediaStreamSource(streamCamara);
                         micGainNodeGlobal = audioContextGlobal.createGain();
-                        micGainNodeGlobal.gain.value = 1.0; // Volumen completo del micrófono
+                        micGainNodeGlobal.gain.value = 1.0; 
                         micSourceNodeGlobal.connect(micGainNodeGlobal);
+                        micGainNodeGlobal.connect(micDestinationNodeGlobal);
                     }
-                    const destMic = audioContextGlobal.createMediaStreamDestination();
-                    micGainNodeGlobal.connect(destMic);
-                    if (destMic.stream.getAudioTracks().length > 0) {
-                        tracksCombinados.push(destMic.stream.getAudioTracks()[0]);
+                    if (micDestinationNodeGlobal.stream.getAudioTracks().length > 0) {
+                        tracksCombinados.push(micDestinationNodeGlobal.stream.getAudioTracks()[0]);
                     }
                 }
             }
@@ -1144,7 +1145,7 @@ btnGrabar.addEventListener('click', () => {
             setTimeout(() => { 
                 document.body.removeChild(a); 
                 window.URL.revokeObjectURL(urlBlob); 
-                mostrarNotificacionFlotante("✨ ¡Video guardado con éxito y audio de cámara y efectos nítidos!");
+                mostrarNotificacionFlotante("✨ ¡Video guardado con audio de TV/micrófono y efectos!");
             }, 100);
         };
 
