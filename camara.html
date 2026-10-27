@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no, viewport-fit=cover">
-<title>Chroma Cam FX - Edición Naranja v7</title>
+<title>Chroma Cam FX - Edición Naranja Holográfica v8</title>
 <link rel="manifest" href="manifest.json">
 
 <!-- Librerías de Segmentación por IA (Google MediaPipe - Licencia Apache 2.0) -->
@@ -183,9 +183,9 @@ body::before {
 }
 #btn-camara-ia::after { content: "📷"; font-size: 12px; }
 
-/* BOTÓN TOGGLE INTERFAZ (OJITO / CHANGUITO) */
+/* BOTÓN TOGGLE INTERFAZ (OJITO 👁️ / CHANGUITO 🐒) */
 #btn-toggle-interfaz::after { content: "👁️"; font-size: 13px; }
-#btn-toggle-interfaz.oculto::after { content: "⚙️"; font-size: 13px; }
+#btn-toggle-interfaz.oculto::after { content: "🐒"; font-size: 13px; }
 
 #btn-ayuda::after { content: "❓"; font-size: 13px; }
 #btn-terminos::after { content: "📄"; font-size: 13px; }
@@ -423,7 +423,7 @@ body::before {
 <body>
 <div id="pantalla-inicio">
     <h2 style="color: #fff; margin-bottom: 5px;">Chroma Cam FX</h2>
-    <p style="color: #fdba74; font-size: 13px; margin-top: 0; font-weight: bold;">Chroma Studio FX - Edición Naranja v7</p>
+    <p style="color: #fdba74; font-size: 13px; margin-top: 0; font-weight: bold;">Chroma Studio FX - Edición Naranja Holográfica v8</p>
     <input type="email" id="input-email-usuario" class="input-login" placeholder="correo@gmail.com" value="adr8617@gmail.com">
     <button id="btn-iniciar" type="button" onclick="verificarAccesoSuperusuario(event)">TOCA AQUÍ PARA INICIAR</button>
     <p id="mensaje-error"></p>
@@ -501,8 +501,8 @@ body::before {
     <!-- Input oculto para manejo de archivos -->
     <input type="file" id="input-archivo-oculto" accept="video/mp4,image/gif,image/webp,image/*">
 
-    <!-- Botón de Croma Superior -->
-    <div id="btn-color" class="croma-verde" title="Color de Croma"></div>
+    <!-- Botón de Croma Superior (Ocultable también para el ventilador holográfico) -->
+    <div id="btn-color" class="croma-verde control-ocultable" title="Color de Croma"></div>
     <div id="menu-colores">
         <div class="opcion-color" data-color="verde" style="background-color: #00ff00;" title="Verde"></div>
         <div class="opcion-color" data-color="azul" style="background-color: #0000ff;" title="Azul"></div>
@@ -627,7 +627,7 @@ function obtenerArchivoDeDB(id) {
 }
 
 function obtenerBaseDatos() {
-    const guardado = localStorage.getItem('efectos_ar_db_v7');
+    const guardado = localStorage.getItem('efectos_ar_db_v8');
     if (guardado) {
         try { 
             const parsed = JSON.parse(guardado); 
@@ -638,7 +638,7 @@ function obtenerBaseDatos() {
     return MULTIMEDIA_DEFAULT;
 }
 
-function guardarBaseDatos(db) { localStorage.setItem('efectos_ar_db_v7', JSON.stringify(db)); }
+function guardarBaseDatos(db) { localStorage.setItem('efectos_ar_db_v8', JSON.stringify(db)); }
 let listaMultimedia = obtenerBaseDatos();
 
 const videoCamara = document.getElementById('video-camara');
@@ -691,7 +691,7 @@ const labelSensibilidad = document.getElementById('label-sensibilidad');
 
 const btnCambiarCamara = document.getElementById('btn-cambiar-camara');
 const btnToggleInterfaz = document.getElementById('btn-toggle-interfaz');
-const controlesOcultables = document.querySelectorAll('.control-ocultable');
+const panelSensibilidad = document.getElementById('panel-sensibilidad');
 
 let colorFiltro = 'verde'; 
 let modoCamaraIA = false;
@@ -771,15 +771,21 @@ btnCerrarTerminos.addEventListener('click', () => { modalTerminos.style.display 
 btnAyuda.addEventListener('click', (e) => { e.stopPropagation(); modalAyuda.style.display = 'flex'; });
 btnCerrarAyuda.addEventListener('click', () => { modalAyuda.style.display = 'none'; });
 
-// LÓGICA DEL OJITO / CHANGUITO: Oculta los controles y deja fijo únicamente el botón de grabar
+// LÓGICA PERFECTA PARA EL VENTILADOR HOLOGRÁFICO: 
+// El ojito oculta TODO el panel superior, el botón de menú, el selector de croma y la sensibilidad,
+// dejando ÚNICAMENTE visible el botón de grabar (🔴) y convirtiéndose en changuito (🐒).
+// Al presionar el changuito, se restaura todo y regresa a ser el ojito (👁️).
 btnToggleInterfaz.addEventListener('click', (e) => {
     e.stopPropagation();
     interfazOculta = !interfazOculta;
-    controlesOcultables.forEach(el => { 
-        el.style.display = interfazOculta ? 'none' : 'flex'; 
+    
+    const elementosAOcultar = [panelControles, btnMenuCircular, btnColor, panelSensibilidad];
+    elementosAOcultar.forEach(el => {
+        if (el) el.style.display = interfazOculta ? 'none' : 'flex';
     });
+
     btnToggleInterfaz.classList.toggle('oculto', interfazOculta);
-    btnColor.style.display = interfazOculta ? 'none' : 'flex';
+    
     if (interfazOculta) {
         selectorVideoWrapper.style.display = 'none';
         menuColores.style.display = 'none';
@@ -1303,7 +1309,7 @@ btnGrabar.addEventListener('click', () => {
             const a = document.createElement('a');
             a.style.display = 'none';
             a.href = urlBlob;
-            a.download = `ChromaCam_NaranjaPericial_${Date.now()}.webm`;
+            a.download = `ChromaCam_Holograma_${Date.now()}.webm`;
             document.body.appendChild(a);
             a.click();
             setTimeout(() => { 
@@ -1340,19 +1346,19 @@ opcionesColor.forEach(opcion => {
 
         if (colorSeleccionado === 'verde') {
             labelSensibilidad.innerText = "Sensibilidad Verde:";
-            document.getElementById('panel-sensibilidad').style.display = 'flex';
+            panelSensibilidad.style.display = 'flex';
         } else if (colorSeleccionado === 'azul') {
             labelSensibilidad.innerText = "Sensibilidad Azul:";
-            document.getElementById('panel-sensibilidad').style.display = 'flex';
+            panelSensibilidad.style.display = 'flex';
         } else if (colorSeleccionado === 'blanco') {
             labelSensibilidad.innerText = "Sensibilidad Blanco:";
-            document.getElementById('panel-sensibilidad').style.display = 'flex';
+            panelSensibilidad.style.display = 'flex';
         } else if (colorSeleccionado === 'negro') {
             labelSensibilidad.innerText = "Sensibilidad Negro:";
-            document.getElementById('panel-sensibilidad').style.display = 'flex';
+            panelSensibilidad.style.display = 'flex';
         } else if (colorSeleccionado === 'transparente') {
             btnColor.innerHTML = '🚫';
-            document.getElementById('panel-sensibilidad').style.display = 'none'; 
+            panelSensibilidad.style.display = 'none'; 
         }
 
         menuColores.style.display = 'none';
@@ -1377,7 +1383,7 @@ async function verificarAccesoSuperusuario(e) {
     if (SUPER_USUARIOS.includes(emailIngresado)) {
         const deviceIdActual = obtenerDispositivoId();
         const dispositivosAutorizadosKey = `auth_devs_${emailIngresado}`;
-        let dispositivosGuardados = JSON.parse(localStorage.getItem(dispositivosAutorizadosKey) || "[]");
+        let dispositivosGuardados = JSON.parse(localStorage.getItem(disposivosAutorizadosKey) || "[]");
 
         if (dispositivosGuardados.includes(deviceIdActual)) {
             esSuperUsuario = true;
