@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no, viewport-fit=cover">
-<title>Chroma Cam FX - Edición Roja Absoluta</title>
+<title>Chroma Cam FX - Edición Oro Pericial</title>
 <link rel="manifest" href="manifest.json">
 
 <!-- Librerías de Segmentación por IA (Google MediaPipe - Licencia Apache 2.0) -->
@@ -31,17 +31,17 @@ html, body {
     overscroll-behavior: none;
 }
 
-/* Indicador visual color ROJO al cargar para confirmar cambio */
+/* Indicador visual color DORADO al cargar */
 body::before {
     content: "";
     position: fixed;
     top: 0; left: 0; right: 0; bottom: 0;
-    border: 6px solid #dc3545;
+    border: 6px solid #ffc107;
     z-index: 9999999;
     pointer-events: none;
-    animation: desvanecerBordeRojo 2.5s forwards;
+    animation: desvanecerBordeDorado 2.5s forwards;
 }
-@keyframes desvanecerBordeRojo {
+@keyframes desvanecerBordeDorado {
     0% { opacity: 1; }
     70% { opacity: 1; }
     100% { opacity: 0; }
@@ -74,8 +74,8 @@ body::before {
 }
 
 #btn-iniciar { 
-    background-color: #dc3545; 
-    color: #fff; 
+    background-color: #ffc107; 
+    color: #000; 
     font-weight: bold; 
     font-size: 16px; 
     border: none;
@@ -86,7 +86,7 @@ body::before {
     min-width: 280px;
     height: 54px;
     cursor: pointer; 
-    box-shadow: 0 4px 15px rgba(220,53,69,0.5); 
+    box-shadow: 0 4px 15px rgba(255,193,7,0.5); 
     display: flex;
     justify-content: center;
     align-items: center;
@@ -108,18 +108,18 @@ body::before {
     z-index: 1000000;
 }
 
-#mensaje-error { color: #fca5a5; text-align: center; max-width: 80%; font-size: 14px; font-weight: bold; background: rgba(0,0,0,0.6); padding: 5px; border-radius: 4px; }
+#mensaje-error { color: #fde047; text-align: center; max-width: 80%; font-size: 14px; font-weight: bold; background: rgba(0,0,0,0.6); padding: 5px; border-radius: 4px; }
 
 #modal-2fa { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.9); z-index: 20000; display: none; justify-content: center; align-items: center; padding: 20px; box-sizing: border-box; }
-#contenido-2fa { background: #1c1c1c; color: #fff; padding: 25px; border-radius: 12px; max-width: 400px; width: 100%; text-align: center; border: 1px solid #dc3545; }
-#contenido-2fa h3 { color: #dc3545; margin-top: 0; }
+#contenido-2fa { background: #1c1c1c; color: #fff; padding: 25px; border-radius: 12px; max-width: 400px; width: 100%; text-align: center; border: 1px solid #ffc107; }
+#contenido-2fa h3 { color: #ffc107; margin-top: 0; }
 .btn-2fa { padding: 10px 20px; border-radius: 6px; border: none; font-weight: bold; cursor: pointer; margin: 10px 5px; }
 #btn-aprobar-dispositivo { background: #28a745; color: white; }
 #btn-rechazar-dispositivo { background: #dc3545; color: white; }
 
 #modal-terminos, #modal-ayuda { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 10000; display: none; justify-content: center; align-items: center; padding: 20px; box-sizing: border-box; }
 #contenido-modal, #contenido-ayuda { background: #1c1c1c; color: #fff; padding: 25px; border-radius: 12px; max-width: 500px; width: 100%; max-height: 85vh; overflow-y: auto; font-size: 13px; line-height: 1.5; border: 1px solid #444; }
-.btn-cerrar-modal { background: #dc3545; color: white; border: none; padding: 8px 16px; border-radius: 6px; margin-top: 15px; cursor: pointer; font-weight: bold; float: right; }
+.btn-cerrar-modal { background: #ffc107; color: #000; border: none; padding: 8px 16px; border-radius: 6px; margin-top: 15px; cursor: pointer; font-weight: bold; float: right; }
 
 #panel-controles-izq {
     position: absolute;
@@ -167,19 +167,19 @@ body::before {
 
 #btn-menu-circular::after { content: "⚙️"; font-size: 13px; }
 #btn-mover-efecto::after { content: "✋"; font-size: 13px; }
-#btn-mover-efecto.activo { background-color: #dc3545 !important; border-color: #fff !important; }
+#btn-mover-efecto.activo { background-color: #ffc107 !important; border-color: #fff !important; }
 #btn-cambiar-camara::after { content: "🔄"; font-size: 13px; }
 #btn-centrar-imagen::after { content: "🎯"; font-size: 13px; }
 
 #btn-camara-ia { 
-    background: linear-gradient(135deg, #dc3545 0%, #991b1b 50%, #111111 100%) !important; 
+    background: linear-gradient(135deg, #ffc107 0%, #d97706 50%, #111111 100%) !important; 
     border: 1.5px solid #ffffff !important; 
     opacity: 0.6;
 }
 #btn-camara-ia.activo { 
     opacity: 1; 
-    box-shadow: 0 0 10px #dc3545;
-    border-color: #dc3545 !important;
+    box-shadow: 0 0 10px #ffc107;
+    border-color: #ffc107 !important;
 }
 #btn-camara-ia::after { content: "📷"; font-size: 12px; }
 
@@ -225,7 +225,7 @@ body::before {
     flex-direction: column; 
     gap: 12px; 
     z-index: 50000; 
-    border: 2px solid #dc3545;
+    border: 2px solid #ffc107;
 }
 
 #contenedor-lista-checkboxes {
@@ -251,7 +251,7 @@ body::before {
     border-radius: 4px;
 }
 .item-checkbox-label:hover { background: #222; }
-.item-checkbox-label input { accent-color: #dc3545; width: 16px; height: 16px; cursor: pointer; }
+.item-checkbox-label input { accent-color: #ffc107; width: 16px; height: 16px; cursor: pointer; }
 
 #input-archivo-oculto { display: none; }
 
@@ -264,8 +264,8 @@ body::before {
 
 #btn-abrir-archivo-solo {
     flex: 1;
-    background: #dc3545;
-    color: white;
+    background: #ffc107;
+    color: #000;
     border: none;
     padding: 10px;
     border-radius: 8px;
@@ -289,7 +289,7 @@ body::before {
     white-space: nowrap;
 }
 .contenedor-checkbox-add input {
-    accent-color: #dc3545;
+    accent-color: #ffc107;
     width: 15px;
     height: 15px;
     cursor: pointer;
@@ -302,7 +302,7 @@ body::before {
 
 #aviso-premium { position: absolute; bottom: 80px; left: 50%; transform: translateX(-50%); background: rgba(220, 53, 69, 0.95); color: white; padding: 12px 24px; border-radius: 8px; font-size: 13px; z-index: 19999; display: none; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.6); }
 
-/* Botón de croma en la esquina superior derecha con actualización dinámica impecable */
+/* CLASES DE ALTA ESPECIFICIDAD PARA EL BOTÓN DE CROMA SUPERIOR DERECHO */
 #btn-color { 
     position: absolute !important; 
     top: 6px !important; right: 6px !important; 
@@ -310,7 +310,6 @@ body::before {
     min-width: 33px !important; min-height: 33px !important;
     max-width: 33px !important; max-height: 33px !important;
     border-radius: 50% !important; 
-    background-color: #00ff00 !important; 
     cursor: pointer; 
     z-index: 15002; 
     border: 2px solid #ffffff !important; 
@@ -320,6 +319,13 @@ body::before {
     flex-shrink: 0 !important;
     flex-grow: 0 !important;
 }
+
+/* Forzamos el color real con reglas directas que no pueden ser pisadas */
+#btn-color.croma-verde { background-color: #00ff00 !important; }
+#btn-color.croma-azul { background-color: #0000ff !important; }
+#btn-color.croma-negro { background-color: #111111 !important; }
+#btn-color.croma-transparente { background-color: #333333 !important; }
+
 #menu-colores { 
     display: none; 
     position: absolute; 
@@ -349,7 +355,7 @@ body::before {
     box-shadow: 0 4px 12px rgba(0,0,0,0.6);
 }
 #panel-sensibilidad label { font-size: 12px; white-space: nowrap; }
-#panel-sensibilidad input[type=range] { width: 110px; accent-color: #dc3545; }
+#panel-sensibilidad input[type=range] { width: 110px; accent-color: #ffc107; }
 
 #video-camara { position: absolute; top: 0; left: 0; width: 100vw; height: 100vh; object-fit: cover; z-index: 1; background-color: #000; transform-origin: center center; }
 #canvas-camara-ia { position: absolute; top: 0; left: 0; width: 100vw; height: 100vh; object-fit: cover; z-index: 2; display: none; transform-origin: center center; }
@@ -369,7 +375,7 @@ body::before {
     border: 2px transparent dashed;
     width: 380px;
 }
-.chroma-layer-extra.selected { border-color: #dc3545; }
+.chroma-layer-extra.selected { border-color: #ffc107; }
 .chroma-layer-extra canvas, .chroma-layer-extra video { display: block; width: 100%; height: auto; }
 
 .btn-close-layer {
@@ -393,7 +399,7 @@ body::before {
 <body>
 <div id="pantalla-inicio">
     <h2 style="color: #fff; margin-bottom: 5px;">Chroma Cam FX</h2>
-    <p style="color: #fca5a5; font-size: 13px; margin-top: 0; font-weight: bold;">Chroma Studio FX - Edición Roja Absoluta</p>
+    <p style="color: #fde047; font-size: 13px; margin-top: 0; font-weight: bold;">Chroma Studio FX - Edición Oro Pericial</p>
     <input type="email" id="input-email-usuario" class="input-login" placeholder="correo@gmail.com" value="adr8617@gmail.com">
     <button id="btn-iniciar" type="button" onclick="verificarAccesoSuperusuario(event)">TOCA AQUÍ PARA INICIAR</button>
     <p id="mensaje-error"></p>
@@ -415,7 +421,7 @@ body::before {
         <ul>
             <li><strong>⚙️ Menú de Efectos:</strong> Selecciona múltiples casillas y ábrelos simultáneamente.</li>
             <li><strong>📂 Abrir y casilla Add:</strong> Abre un archivo local y márcale "Add" si deseas guardarlo permanentemente en la lista.</li>
-            <li><strong>🎨 Botón Croma:</strong> Cambia instantáneamente de color (Verde, Azul, Negro o Sin Croma) reflejándose de forma precisa en el botón superior derecho.</li>
+            <li><strong>🎨 Botón Croma:</strong> Cambia instantáneamente de color (Verde, Azul, Negro o Sin Croma) reflejándose con total precisión de color en el botón superior derecho.</li>
         </ul>
         <button id="btn-cerrar-ayuda" class="btn-cerrar-modal">Cerrar Ayuda</button>
     </div>
@@ -451,7 +457,7 @@ body::before {
 
     <!-- Menú Modal con Selector de Casillas Múltiples y Opción Dividida de Abrir con Add -->
     <div id="selector-video-wrapper">
-        <h4 style="color: #dc3545; margin: 0 0 5px 0; text-align: center; font-size: 15px;">📁 Selector de Efectos</h4>
+        <h4 style="color: #ffc107; margin: 0 0 5px 0; text-align: center; font-size: 15px;">📁 Selector de Efectos</h4>
         <div id="contenedor-lista-checkboxes"></div>
         
         <button id="btn-abrir-seleccionados" class="btn-accion-menu">✅ OK, seleccionado(s)</button>
@@ -471,8 +477,8 @@ body::before {
     <!-- Input oculto para manejo de archivos -->
     <input type="file" id="input-archivo-oculto" accept="video/mp4,image/gif,image/webp,image/*">
 
-    <!-- Botón de Croma Superior (Garantizado sincronizado) -->
-    <div id="btn-color" title="Color de Croma"></div>
+    <!-- Botón de Croma Superior (Garantizado sincronizado por clases CSS) -->
+    <div id="btn-color" class="croma-verde" title="Color de Croma"></div>
     <div id="menu-colores">
         <div class="opcion-color" data-color="verde" style="background-color: #00ff00;" title="Verde"></div>
         <div class="opcion-color" data-color="azul" style="background-color: #0000ff;" title="Azul"></div>
@@ -1113,7 +1119,7 @@ function mostrarNotificacionFlotante(texto) {
     if (!notif) {
         notif = document.createElement('div');
         notif.id = 'notif-guardado-exitoso';
-        notif.style.cssText = "position:fixed; top:20px; left:50%; transform:translateX(-50%); background:#dc3545; color:white; padding:12px 24px; border-radius:10px; z-index:999999; font-weight:bold; box-shadow:0 4px 15px rgba(0,0,0,0.5); font-size:14px; text-align:center;";
+        notif.style.cssText = "position:fixed; top:20px; left:50%; transform:translateX(-50%); background:#ffc107; color:#000; padding:12px 24px; border-radius:10px; z-index:999999; font-weight:bold; box-shadow:0 4px 15px rgba(0,0,0,0.5); font-size:14px; text-align:center;";
         document.body.appendChild(notif);
     }
     notif.innerText = texto;
@@ -1188,7 +1194,7 @@ btnGrabar.addEventListener('click', () => {
             const a = document.createElement('a');
             a.style.display = 'none';
             a.href = urlBlob;
-            a.download = `ChromaCam_Roja_${Date.now()}.webm`;
+            a.download = `ChromaCam_Oro_${Date.now()}.webm`;
             document.body.appendChild(a);
             a.click();
             setTimeout(() => { 
@@ -1220,24 +1226,20 @@ opcionesColor.forEach(opcion => {
         const colorSeleccionado = e.target.getAttribute('data-color');
         colorFiltro = colorSeleccionado;
         
-        // SINCRONIZACIÓN PERFECTA Y DIRECTA DEL BOTÓN SUPERIOR DERECHO
+        // CORRECCIÓN TÉCNICA DEFINITIVA: Limpiamos clases y aplicamos la clase exacta por alta especificidad
+        btnColor.className = "croma-" + colorSeleccionado;
+        btnColor.innerHTML = '';
+
         if (colorSeleccionado === 'verde') {
-            btnColor.style.backgroundColor = '#00ff00';
-            btnColor.innerHTML = '';
             labelSensibilidad.innerText = "Sensibilidad Verde:";
             document.getElementById('panel-sensibilidad').style.display = 'flex';
         } else if (colorSeleccionado === 'azul') {
-            btnColor.style.backgroundColor = '#0000ff';
-            btnColor.innerHTML = '';
             labelSensibilidad.innerText = "Sensibilidad Azul:";
             document.getElementById('panel-sensibilidad').style.display = 'flex';
         } else if (colorSeleccionado === 'negro') {
-            btnColor.style.backgroundColor = '#111';
-            btnColor.innerHTML = '';
             labelSensibilidad.innerText = "Sensibilidad Negro:";
             document.getElementById('panel-sensibilidad').style.display = 'flex';
         } else if (colorSeleccionado === 'transparente') {
-            btnColor.style.backgroundColor = '#333';
             btnColor.innerHTML = '🚫';
             document.getElementById('panel-sensibilidad').style.display = 'none'; 
         }
@@ -1256,8 +1258,8 @@ function verificarAccesoSuperusuario(e) {
     activarPantallaCompletaInmersiva();
     forzarDesbloqueoAudio();
 
-    // Inicializar visualmente el botón de color en verde por defecto al arrancar
-    btnColor.style.backgroundColor = '#00ff00';
+    // Inicialización explícita en verde por defecto
+    btnColor.className = "croma-verde";
     btnColor.innerHTML = '';
 
     const emailIngresado = inputEmailUsuario.value.trim().toLowerCase();
