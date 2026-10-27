@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no, viewport-fit=cover">
-<title>Chroma Cam FX - Edición Rosa Holográfica</title>
+<title>Chroma Cam FX - Edición Roja Holográfica</title>
 <link rel="manifest" href="manifest.json">
 
 <!-- Librerías de Segmentación por IA (Google MediaPipe - Licencia Apache 2.0) -->
@@ -31,17 +31,17 @@ html, body {
     overscroll-behavior: none;
 }
 
-/* Indicador visual color ROSA al cargar */
+/* Indicador visual color ROJO al cargar */
 body::before {
     content: "";
     position: fixed;
     top: 0; left: 0; right: 0; bottom: 0;
-    border: 6px solid #ec4899;
+    border: 6px solid #ef4444;
     z-index: 9999999;
     pointer-events: none;
-    animation: desvanecerBordeRosa 2.5s forwards;
+    animation: desvanecerBordeRojo 2.5s forwards;
 }
-@keyframes desvanecerBordeRosa {
+@keyframes desvanecerBordeRojo {
     0% { opacity: 1; }
     70% { opacity: 1; }
     100% { opacity: 0; }
@@ -74,7 +74,7 @@ body::before {
 }
 
 #btn-iniciar { 
-    background-color: #ec4899; 
+    background-color: #ef4444; 
     color: #fff; 
     font-weight: bold; 
     font-size: 16px; 
@@ -86,7 +86,7 @@ body::before {
     min-width: 280px;
     height: 54px;
     cursor: pointer; 
-    box-shadow: 0 4px 15px rgba(236,72,153,0.5); 
+    box-shadow: 0 4px 15px rgba(239,68,68,0.5); 
     display: flex;
     justify-content: center;
     align-items: center;
@@ -108,19 +108,20 @@ body::before {
     z-index: 1000000;
 }
 
-#mensaje-error { color: #f472b6; text-align: center; max-width: 80%; font-size: 14px; font-weight: bold; background: rgba(0,0,0,0.6); padding: 5px; border-radius: 4px; }
+#mensaje-error { color: #fca5a5; text-align: center; max-width: 80%; font-size: 14px; font-weight: bold; background: rgba(0,0,0,0.6); padding: 5px; border-radius: 4px; }
 
 #modal-2fa { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.9); z-index: 20000; display: none; justify-content: center; align-items: center; padding: 20px; box-sizing: border-box; }
-#contenido-2fa { background: #1c1c1c; color: #fff; padding: 25px; border-radius: 12px; max-width: 400px; width: 100%; text-align: center; border: 1px solid #ec4899; }
-#contenido-2fa h3 { color: #ec4899; margin-top: 0; }
+#contenido-2fa { background: #1c1c1c; color: #fff; padding: 25px; border-radius: 12px; max-width: 400px; width: 100%; text-align: center; border: 1px solid #ef4444; }
+#contenido-2fa h3 { color: #ef4444; margin-top: 0; }
 .btn-2fa { padding: 10px 20px; border-radius: 6px; border: none; font-weight: bold; cursor: pointer; margin: 10px 5px; }
 #btn-aprobar-dispositivo { background: #28a745; color: white; }
 #btn-rechazar-dispositivo { background: #dc3545; color: white; }
 
 #modal-terminos, #modal-ayuda { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 10000; display: none; justify-content: center; align-items: center; padding: 20px; box-sizing: border-box; }
 #contenido-modal, #contenido-ayuda { background: #1c1c1c; color: #fff; padding: 25px; border-radius: 12px; max-width: 500px; width: 100%; max-height: 85vh; overflow-y: auto; font-size: 13px; line-height: 1.5; border: 1px solid #444; }
-.btn-cerrar-modal { background: #ec4899; color: #fff; border: none; padding: 8px 16px; border-radius: 6px; margin-top: 15px; cursor: pointer; font-weight: bold; float: right; }
+.btn-cerrar-modal { background: #ef4444; color: #fff; border: none; padding: 8px 16px; border-radius: 6px; margin-top: 15px; cursor: pointer; font-weight: bold; float: right; }
 
+/* Panel izquierdo: Engranaje, Botón Grabar y Botón Ojo/Changuito (fijos y accesibles) */
 #panel-controles-izq {
     position: absolute;
     top: 6px; left: 6px;
@@ -132,7 +133,7 @@ body::before {
 
 #panel-controles { 
     position: absolute; 
-    top: 6px; left: 82px; right: 46px; 
+    top: 6px; left: 120px; right: 46px; 
     z-index: 15000; 
     display: flex; 
     gap: 3px; 
@@ -167,25 +168,29 @@ body::before {
 
 #btn-menu-circular::after { content: "⚙️"; font-size: 13px; }
 #btn-mover-efecto::after { content: "✋"; font-size: 13px; }
-#btn-mover-efecto.activo { background-color: #ec4899 !important; border-color: #fff !important; color: #fff !important; }
+#btn-mover-efecto.activo { background-color: #ef4444 !important; border-color: #fff !important; color: #fff !important; }
 #btn-cambiar-camara::after { content: "🔄"; font-size: 13px; }
 #btn-centrar-imagen::after { content: "🎯"; font-size: 13px; }
 
 #btn-camara-ia { 
-    background: linear-gradient(135deg, #ec4899 0%, #be185d 50%, #111111 100%) !important; 
+    background: linear-gradient(135deg, #ef4444 0%, #991b1b 50%, #111111 100%) !important; 
     border: 1.5px solid #ffffff !important; 
     opacity: 0.6;
 }
 #btn-camara-ia.activo { 
     opacity: 1; 
-    box-shadow: 0 0 10px #ec4899;
-    border-color: #ec4899 !important;
+    box-shadow: 0 0 10px #ef4444;
+    border-color: #ef4444 !important;
 }
 #btn-camara-ia::after { content: "📷"; font-size: 12px; }
 
 /* BOTÓN TOGGLE INTERFAZ (OJITO 👁️ / CHANGUITO 🐒) */
 #btn-toggle-interfaz::after { content: "👁️"; font-size: 13px; }
 #btn-toggle-interfaz.oculto::after { content: "🐒"; font-size: 13px; }
+#btn-toggle-interfaz {
+    background-color: rgba(0, 0, 0, 0.75) !important;
+    border: 1.5px solid #fff !important;
+}
 
 #btn-ayuda::after { content: "❓"; font-size: 13px; }
 #btn-terminos::after { content: "📄"; font-size: 13px; }
@@ -227,7 +232,7 @@ body::before {
     flex-direction: column; 
     gap: 12px; 
     z-index: 50000; 
-    border: 2px solid #ec4899;
+    border: 2px solid #ef4444;
 }
 
 #contenedor-lista-checkboxes {
@@ -253,7 +258,7 @@ body::before {
     border-radius: 4px;
 }
 .item-checkbox-label:hover { background: #222; }
-.item-checkbox-label input { accent-color: #ec4899; width: 16px; height: 16px; cursor: pointer; }
+.item-checkbox-label input { accent-color: #ef4444; width: 16px; height: 16px; cursor: pointer; }
 
 #input-archivo-oculto { display: none; }
 
@@ -266,7 +271,7 @@ body::before {
 
 #btn-abrir-archivo-solo {
     flex: 1;
-    background: #ec4899;
+    background: #ef4444;
     color: #fff;
     border: none;
     padding: 10px;
@@ -291,7 +296,7 @@ body::before {
     white-space: nowrap;
 }
 .contenedor-checkbox-add input {
-    accent-color: #ec4899;
+    accent-color: #ef4444;
     width: 15px;
     height: 15px;
     cursor: pointer;
@@ -342,7 +347,7 @@ body::before {
 }
 .opcion-color { width: 28px; height: 28px; border-radius: 50%; cursor: pointer; border: 2px solid #fff; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: bold; color: #fff; }
 
-/* PANEL DE SENSIBILIDAD EN ROSA */
+/* PANEL DE SENSIBILIDAD EN ROJO */
 #panel-sensibilidad {
     position: fixed;
     bottom: 20px; left: 50%;
@@ -356,9 +361,9 @@ body::before {
     align-items: center;
     gap: 8px;
     box-shadow: 0 4px 15px rgba(0,0,0,0.7);
-    border: 1px solid rgba(236,72,153,0.5);
+    border: 1px solid rgba(239,68,68,0.5);
 }
-#panel-sensibilidad label { font-size: 11px; white-space: nowrap; font-weight: bold; color: #ec4899; }
+#panel-sensibilidad label { font-size: 11px; white-space: nowrap; font-weight: bold; color: #ef4444; }
 
 .contenedor-slider-escala {
     display: flex;
@@ -369,7 +374,7 @@ body::before {
 .simbolo-indicador {
     font-size: 14px;
     font-weight: bold;
-    color: #ec4899;
+    color: #ef4444;
     user-select: none;
     width: 14px;
     text-align: center;
@@ -377,7 +382,7 @@ body::before {
 
 #panel-sensibilidad input[type=range] { 
     width: 110px; 
-    accent-color: #ec4899; 
+    accent-color: #ef4444; 
     cursor: pointer;
 }
 
@@ -399,7 +404,7 @@ body::before {
     border: 2px transparent dashed;
     width: 380px;
 }
-.chroma-layer-extra.selected { border-color: #ec4899; }
+.chroma-layer-extra.selected { border-color: #ef4444; }
 .chroma-layer-extra canvas, .chroma-layer-extra video { display: block; width: 100%; height: auto; }
 
 .btn-close-layer {
@@ -423,7 +428,7 @@ body::before {
 <body>
 <div id="pantalla-inicio">
     <h2 style="color: #fff; margin-bottom: 5px;">Chroma Cam FX</h2>
-    <p style="color: #f472b6; font-size: 13px; margin-top: 0; font-weight: bold;">Chroma Studio FX - Edición Rosa Holográfica</p>
+    <p style="color: #fca5a5; font-size: 13px; margin-top: 0; font-weight: bold;">Chroma Studio FX - Edición Roja Holográfica</p>
     <input type="email" id="input-email-usuario" class="input-login" placeholder="correo@gmail.com" value="adr8617@gmail.com">
     <button id="btn-iniciar" type="button" onclick="verificarAccesoSuperusuario(event)">TOCA AQUÍ PARA INICIAR</button>
     <p id="mensaje-error"></p>
@@ -462,26 +467,26 @@ body::before {
 <div id="contenedor-principal">
     <div id="aviso-premium">⚠️ Función bloqueada en modo básico.</div>
 
-    <!-- Controles izquierdos fijos: Menú de efectos, Botón Grabar -->
+    <!-- Controles izquierdos fijos: Engranaje, Botón Grabar y Botón Ojo/Changuito (permanecen visibles) -->
     <div id="panel-controles-izq">
-        <div id="btn-menu-circular" class="btn-flotante control-ocultable" data-control="item"></div>
+        <div id="btn-menu-circular" class="btn-flotante control-inseparable" title="Menú de Efectos"></div>
         <div id="btn-grabar" title="Grabar Video"></div>
+        <div id="btn-toggle-interfaz" class="btn-flotante control-inseparable" title="Ocultar/Mostrar Controles"></div>
     </div>
 
-    <!-- Panel superior deslizable acotado (Incluyendo el botón ojito/changuito) -->
+    <!-- Panel superior deslizable acotado (Se oculta al presionar el ojito) -->
     <div id="panel-controles">
-        <div id="btn-camara-ia" class="btn-flotante control-ocultable" title="Croma IA Cámara" data-control="item"></div>
-        <div id="btn-mover-efecto" class="btn-flotante control-ocultable" title="Mover y Escalar" data-control="item"></div>
-        <div id="btn-cambiar-camara" class="btn-flotante control-ocultable" title="Cambiar Cámara" data-control="item"></div>
+        <div id="btn-camara-ia" class="btn-flotante control-ocultable" title="Croma IA Cámara"></div>
+        <div id="btn-mover-efecto" class="btn-flotante control-ocultable" title="Mover y Escalar"></div>
+        <div id="btn-cambiar-camara" class="btn-flotante control-ocultable" title="Cambiar Cámara"></div>
         <div id="btn-centrar-imagen" class="btn-flotante control-ocultable" title="Centrar Imagen"></div>
-        <div id="btn-toggle-interfaz" class="btn-flotante" title="Ocultar/Mostrar Controles"></div>
         <div id="btn-ayuda" class="btn-flotante control-ocultable" title="Ayuda"></div>
         <div id="btn-terminos" class="btn-flotante control-ocultable" title="Términos"></div>
     </div>
 
     <!-- Menú Modal con Selector de Casillas Múltiples y Opción Dividida de Abrir con Add -->
     <div id="selector-video-wrapper">
-        <h4 style="color: #ec4899; margin: 0 0 5px 0; text-align: center; font-size: 15px;">📁 Selector de Efectos</h4>
+        <h4 style="color: #ef4444; margin: 0 0 5px 0; text-align: center; font-size: 15px;">📁 Selector de Efectos</h4>
         <div id="contenedor-lista-checkboxes"></div>
         
         <button id="btn-abrir-seleccionados" class="btn-accion-menu">✅ OK, seleccionado(s)</button>
@@ -627,7 +632,7 @@ function obtenerArchivoDeDB(id) {
 }
 
 function obtenerBaseDatos() {
-    const guardado = localStorage.getItem('efectos_ar_db_v11');
+    const guardado = localStorage.getItem('efectos_ar_db_v13');
     if (guardado) {
         try { 
             const parsed = JSON.parse(guardado); 
@@ -638,7 +643,7 @@ function obtenerBaseDatos() {
     return MULTIMEDIA_DEFAULT;
 }
 
-function guardarBaseDatos(db) { localStorage.setItem('efectos_ar_db_v11', JSON.stringify(db)); }
+function guardarBaseDatos(db) { localStorage.setItem('efectos_ar_db_v13', JSON.stringify(db)); }
 let listaMultimedia = obtenerBaseDatos();
 
 const videoCamara = document.getElementById('video-camara');
@@ -771,15 +776,17 @@ btnCerrarTerminos.addEventListener('click', () => { modalTerminos.style.display 
 btnAyuda.addEventListener('click', (e) => { e.stopPropagation(); modalAyuda.style.display = 'flex'; });
 btnCerrarAyuda.addEventListener('click', () => { modalAyuda.style.display = 'none'; });
 
-// LÓGICA DEL OJITO / CHANGUITO PARA EL VENTILADOR HOLOGRÁFICO:
+/* LÓGICA DEL OJITO / CHANGUITO:
+   - Oculta el panel superior, el selector de croma y la sensibilidad.
+   - Deja visibles permanentemente los botones de la izquierda (engranaje, grabar y ojito/changuito).
+*/
 btnToggleInterfaz.addEventListener('click', (e) => {
     e.stopPropagation();
     interfazOculta = !interfazOculta;
     
-    const elementosAOcultar = [panelControles, btnMenuCircular, btnColor, panelSensibilidad];
-    elementosAOcultar.forEach(el => {
-        if (el) el.style.display = interfazOculta ? 'none' : 'flex';
-    });
+    if (panelControles) panelControles.style.display = interfazOculta ? 'none' : 'flex';
+    if (btnColor) btnColor.style.display = interfazOculta ? 'none' : 'flex';
+    if (panelSensibilidad) panelSensibilidad.style.display = interfazOculta ? 'none' : 'flex';
 
     btnToggleInterfaz.classList.toggle('oculto', interfazOculta);
     
@@ -1231,7 +1238,7 @@ function mostrarNotificacionFlotante(texto) {
     if (!notif) {
         notif = document.createElement('div');
         notif.id = 'notif-guardado-exitoso';
-        notif.style.cssText = "position:fixed; top:20px; left:50%; transform:translateX(-50%); background:#ec4899; color:#fff; padding:12px 24px; border-radius:10px; z-index:999999; font-weight:bold; box-shadow:0 4px 15px rgba(0,0,0,0.5); font-size:14px; text-align:center;";
+        notif.style.cssText = "position:fixed; top:20px; left:50%; transform:translateX(-50%); background:#ef4444; color:#fff; padding:12px 24px; border-radius:10px; z-index:999999; font-weight:bold; box-shadow:0 4px 15px rgba(0,0,0,0.5); font-size:14px; text-align:center;";
         document.body.appendChild(notif);
     }
     notif.innerText = texto;
@@ -1306,7 +1313,7 @@ btnGrabar.addEventListener('click', () => {
             const a = document.createElement('a');
             a.style.display = 'none';
             a.href = urlBlob;
-            a.download = `ChromaCam_RosaHolograma_${Date.now()}.webm`;
+            a.download = `ChromaCam_RojoHolograma_${Date.now()}.webm`;
             document.body.appendChild(a);
             a.click();
             setTimeout(() => { 
