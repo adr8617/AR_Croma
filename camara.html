@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no, viewport-fit=cover">
-<title>Chroma Cam FX - Edición Amarilla Pericial</title>
+<title>Chroma Cam FX - Edición Azul Pericial</title>
 <link rel="manifest" href="manifest.json">
 
 <!-- Librerías de Segmentación por IA (Google MediaPipe - Licencia Apache 2.0) -->
@@ -31,17 +31,17 @@ html, body {
     overscroll-behavior: none;
 }
 
-/* Indicador visual color AMARILLO al cargar */
+/* Indicador visual color AZUL al cargar */
 body::before {
     content: "";
     position: fixed;
     top: 0; left: 0; right: 0; bottom: 0;
-    border: 6px solid #ffd700;
+    border: 6px solid #007bff;
     z-index: 9999999;
     pointer-events: none;
-    animation: desvanecerBordeAmarillo 2.5s forwards;
+    animation: desvanecerBordeAzul 2.5s forwards;
 }
-@keyframes desvanecerBordeAmarillo {
+@keyframes desvanecerBordeAzul {
     0% { opacity: 1; }
     70% { opacity: 1; }
     100% { opacity: 0; }
@@ -74,8 +74,8 @@ body::before {
 }
 
 #btn-iniciar { 
-    background-color: #ffd700; 
-    color: #000; 
+    background-color: #007bff; 
+    color: #fff; 
     font-weight: bold; 
     font-size: 16px; 
     border: none;
@@ -86,7 +86,7 @@ body::before {
     min-width: 280px;
     height: 54px;
     cursor: pointer; 
-    box-shadow: 0 4px 15px rgba(255,215,0,0.5); 
+    box-shadow: 0 4px 15px rgba(0,123,255,0.5); 
     display: flex;
     justify-content: center;
     align-items: center;
@@ -108,20 +108,19 @@ body::before {
     z-index: 1000000;
 }
 
-#mensaje-error { color: #ffd700; text-align: center; max-width: 80%; font-size: 14px; font-weight: bold; background: rgba(0,0,0,0.6); padding: 5px; border-radius: 4px; }
+#mensaje-error { color: #93c5fd; text-align: center; max-width: 80%; font-size: 14px; font-weight: bold; background: rgba(0,0,0,0.6); padding: 5px; border-radius: 4px; }
 
 #modal-2fa { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.9); z-index: 20000; display: none; justify-content: center; align-items: center; padding: 20px; box-sizing: border-box; }
-#contenido-2fa { background: #1c1c1c; color: #fff; padding: 25px; border-radius: 12px; max-width: 400px; width: 100%; text-align: center; border: 1px solid #ffd700; }
-#contenido-2fa h3 { color: #ffd700; margin-top: 0; }
+#contenido-2fa { background: #1c1c1c; color: #fff; padding: 25px; border-radius: 12px; max-width: 400px; width: 100%; text-align: center; border: 1px solid #007bff; }
+#contenido-2fa h3 { color: #007bff; margin-top: 0; }
 .btn-2fa { padding: 10px 20px; border-radius: 6px; border: none; font-weight: bold; cursor: pointer; margin: 10px 5px; }
 #btn-aprobar-dispositivo { background: #28a745; color: white; }
 #btn-rechazar-dispositivo { background: #dc3545; color: white; }
 
 #modal-terminos, #modal-ayuda { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 10000; display: none; justify-content: center; align-items: center; padding: 20px; box-sizing: border-box; }
 #contenido-modal, #contenido-ayuda { background: #1c1c1c; color: #fff; padding: 25px; border-radius: 12px; max-width: 500px; width: 100%; max-height: 85vh; overflow-y: auto; font-size: 13px; line-height: 1.5; border: 1px solid #444; }
-.btn-cerrar-modal { background: #ffd700; color: #000; border: none; padding: 8px 16px; border-radius: 6px; margin-top: 15px; cursor: pointer; font-weight: bold; float: right; }
+.btn-cerrar-modal { background: #007bff; color: white; border: none; padding: 8px 16px; border-radius: 6px; margin-top: 15px; cursor: pointer; font-weight: bold; float: right; }
 
-/* Grupo izquierdo fijo: Selector de efectos y botón Grabar */
 #panel-controles-izq {
     position: absolute;
     top: 6px; left: 6px;
@@ -131,7 +130,6 @@ body::before {
     align-items: center;
 }
 
-/* Panel superior ajustado en una sola línea compacta */
 #panel-controles { 
     position: absolute; 
     top: 6px; left: 82px; right: 46px; 
@@ -146,7 +144,6 @@ body::before {
 }
 #panel-controles::-webkit-scrollbar { display: none; }
 
-/* Botones ligeramente optimizados de tamaño (33px) para garantizar una sola línea */
 .btn-flotante { 
     width: 33px !important; 
     height: 33px !important; 
@@ -170,19 +167,19 @@ body::before {
 
 #btn-menu-circular::after { content: "⚙️"; font-size: 13px; }
 #btn-mover-efecto::after { content: "✋"; font-size: 13px; }
-#btn-mover-efecto.activo { background-color: #ffd700 !important; border-color: #000 !important; color: #000 !important; }
+#btn-mover-efecto.activo { background-color: #007bff !important; border-color: #fff !important; }
 #btn-cambiar-camara::after { content: "🔄"; font-size: 13px; }
 #btn-centrar-imagen::after { content: "🎯"; font-size: 13px; }
 
 #btn-camara-ia { 
-    background: linear-gradient(135deg, #ffd700 0%, #b8860b 50%, #111111 100%) !important; 
+    background: linear-gradient(135deg, #007bff 0%, #1d4ed8 50%, #111111 100%) !important; 
     border: 1.5px solid #ffffff !important; 
     opacity: 0.6;
 }
 #btn-camara-ia.activo { 
     opacity: 1; 
-    box-shadow: 0 0 10px #ffd700;
-    border-color: #ffd700 !important;
+    box-shadow: 0 0 10px #007bff;
+    border-color: #007bff !important;
 }
 #btn-camara-ia::after { content: "📷"; font-size: 12px; }
 
@@ -230,7 +227,7 @@ body::before {
     flex-direction: column; 
     gap: 12px; 
     z-index: 50000; 
-    border: 2px solid #ffd700;
+    border: 2px solid #007bff;
 }
 
 #contenedor-lista-checkboxes {
@@ -256,14 +253,14 @@ body::before {
     border-radius: 4px;
 }
 .item-checkbox-label:hover { background: #222; }
-.item-checkbox-label input { accent-color: #ffd700; width: 16px; height: 16px; cursor: pointer; }
+.item-checkbox-label input { accent-color: #007bff; width: 16px; height: 16px; cursor: pointer; }
 
 #input-archivo-oculto { display: none; }
 
 .btn-accion-menu { color: white; border: none; padding: 10px; border-radius: 8px; font-size: 13px; cursor: pointer; text-align: center; font-weight: bold; width: 100%; }
 #btn-abrir-seleccionados { background: #28a745; }
-#btn-abrir-agregar { background: #ffd700; color: #000; }
-#btn-descargar-demo { background: #007bff; }
+#btn-abrir-agregar { background: #007bff; }
+#btn-descargar-demo { background: #1d4ed8; }
 #btn-borrar-item { background: #6c2222; }
 
 #aviso-premium { position: absolute; bottom: 80px; left: 50%; transform: translateX(-50%); background: rgba(220, 53, 69, 0.95); color: white; padding: 12px 24px; border-radius: 8px; font-size: 13px; z-index: 19999; display: none; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.6); }
@@ -275,7 +272,7 @@ body::before {
     min-width: 33px !important; min-height: 33px !important;
     max-width: 33px !important; max-height: 33px !important;
     border-radius: 50% !important; 
-    background-color: #ffd700 !important; 
+    background-color: #00ff00 !important; /* Inicia correctamente en verde */
     cursor: pointer; 
     z-index: 15002; 
     border: 2px solid #ffffff !important; 
@@ -297,7 +294,7 @@ body::before {
     gap: 10px; 
     border: 1px solid #444;
 }
-.opcion-color { width: 28px; height: 28px; border-radius: 50%; cursor: pointer; border: 2px solid #fff; }
+.opcion-color { width: 28px; height: 28px; border-radius: 50%; cursor: pointer; border: 2px solid #fff; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: bold; color: #fff; }
 
 #panel-sensibilidad {
     position: fixed;
@@ -314,7 +311,7 @@ body::before {
     box-shadow: 0 4px 12px rgba(0,0,0,0.6);
 }
 #panel-sensibilidad label { font-size: 12px; white-space: nowrap; }
-#panel-sensibilidad input[type=range] { width: 110px; accent-color: #ffd700; }
+#panel-sensibilidad input[type=range] { width: 110px; accent-color: #007bff; }
 
 #video-camara { position: absolute; top: 0; left: 0; width: 100vw; height: 100vh; object-fit: cover; z-index: 1; background-color: #000; transform-origin: center center; }
 #canvas-camara-ia { position: absolute; top: 0; left: 0; width: 100vw; height: 100vh; object-fit: cover; z-index: 2; display: none; transform-origin: center center; }
@@ -334,7 +331,7 @@ body::before {
     border: 2px transparent dashed;
     width: 380px;
 }
-.chroma-layer-extra.selected { border-color: #ffd700; }
+.chroma-layer-extra.selected { border-color: #007bff; }
 .chroma-layer-extra canvas, .chroma-layer-extra video { display: block; width: 100%; height: auto; }
 
 .btn-close-layer {
@@ -358,7 +355,7 @@ body::before {
 <body>
 <div id="pantalla-inicio">
     <h2 style="color: #fff; margin-bottom: 5px;">Chroma Cam FX</h2>
-    <p style="color: #ffd700; font-size: 13px; margin-top: 0; font-weight: bold;">Chroma Studio FX - Edición Amarilla Pericial</p>
+    <p style="color: #93c5fd; font-size: 13px; margin-top: 0; font-weight: bold;">Chroma Studio FX - Edición Azul Pericial</p>
     <input type="email" id="input-email-usuario" class="input-login" placeholder="correo@gmail.com" value="adr8617@gmail.com">
     <button id="btn-iniciar" type="button" onclick="verificarAccesoSuperusuario(event)">TOCA AQUÍ PARA INICIAR</button>
     <p id="mensaje-error"></p>
@@ -379,7 +376,7 @@ body::before {
         <p>Guía rápida Chroma Cam FX:</p>
         <ul>
             <li><strong>⚙️ Menú de Efectos:</strong> Selecciona múltiples casillas y ábrelos simultáneamente.</li>
-            <li><strong>➕ Abrir y agregar a la lista:</strong> Abre archivos locales y los guarda permanentemente como acceso rápido.</li>
+            <li><strong>🟢 Selector de Croma:</strong> Cambia entre croma Verde, Azul, Negro o el nuevo modo Transparente (Sin Croma).</li>
             <li><strong>🔴 Grabar Video:</strong> Captura sincronizada con audio unificado (Micrófono + TV + Efectos).</li>
         </ul>
         <button id="btn-cerrar-ayuda" class="btn-cerrar-modal">Cerrar Ayuda</button>
@@ -416,7 +413,7 @@ body::before {
 
     <!-- Menú Modal con Selector de Casillas Múltiples -->
     <div id="selector-video-wrapper">
-        <h4 style="color: #ffd700; margin: 0 0 5px 0; text-align: center; font-size: 15px;">📁 Selector de Efectos</h4>
+        <h4 style="color: #007bff; margin: 0 0 5px 0; text-align: center; font-size: 15px;">📁 Selector de Efectos</h4>
         <div id="contenedor-lista-checkboxes"></div>
         
         <button id="btn-abrir-seleccionados" class="btn-accion-menu">✅ OK, seleccionado(s)</button>
@@ -428,15 +425,17 @@ body::before {
     <!-- Input oculto para manejo de archivos -->
     <input type="file" id="input-archivo-oculto" accept="video/mp4,image/gif,image/webp,image/*">
 
+    <!-- Botón de Croma (Inicia correctamente en verde y muestra menú con opción transparente) -->
     <div id="btn-color" title="Color de Croma"></div>
     <div id="menu-colores">
         <div class="opcion-color" data-color="verde" style="background-color: #00ff00;" title="Verde"></div>
         <div class="opcion-color" data-color="azul" style="background-color: #0000ff;" title="Azul"></div>
         <div class="opcion-color" data-color="negro" style="background-color: #111; border: 1px solid #777;" title="Negro"></div>
+        <div class="opcion-color" data-color="transparente" style="background-color: #333; border: 2px dashed #fff;" title="Sin Croma">🚫</div>
     </div>
 
     <div id="panel-sensibilidad" class="control-ocultable">
-        <label for="toleranceRange">Sensibilidad Verde:</label>
+        <label id="label-sensibilidad" for="toleranceRange">Sensibilidad Verde:</label>
         <input type="range" id="toleranceRange" min="0.5" max="2.2" step="0.05" value="1.0">
     </div>
 
@@ -563,6 +562,7 @@ const btnColor = document.getElementById('btn-color');
 const menuColores = document.getElementById('menu-colores');
 const opcionesColor = document.querySelectorAll('.opcion-color');
 const toleranceRange = document.getElementById('toleranceRange');
+const labelSensibilidad = document.getElementById('label-sensibilidad');
 
 const btnCambiarCamara = document.getElementById('btn-cambiar-camara');
 const btnToggleInterfaz = document.getElementById('btn-toggle-interfaz');
@@ -925,6 +925,10 @@ function addChromaLayerExtra(sourceUrl, tipo) {
             canvasExtra.width = img.width || 450;
             canvasExtra.height = img.height || 450;
             ctxExtra.drawImage(img, 0, 0, canvasExtra.width, canvasExtra.height);
+            
+            // Si el modo es transparente (sin croma), no alteramos los pixeles
+            if (colorFiltro === 'transparente') return;
+
             const tolerance = parseFloat(toleranceRange.value);
             const imgData = ctxExtra.getImageData(0, 0, canvasExtra.width, canvasExtra.height);
             const data = imgData.data;
@@ -932,9 +936,9 @@ function addChromaLayerExtra(sourceUrl, tipo) {
                 const r = data[i], g = data[i + 1], b = data[i + 2];
                 if (colorFiltro === 'verde') {
                     if (g > 60 && g > r * (1.8 - (tolerance * 0.4)) && g > b * (1.8 - (tolerance * 0.4))) data[i + 3] = 0;
-                } else if (colorFiltro === 'azul' && esSuperUsuario) {
+                } else if (colorFiltro === 'azul') {
                     if (b > 60 && b > r * (1.8 - (tolerance * 0.4)) && b > g * (1.8 - (tolerance * 0.4))) data[i + 3] = 0;
-                } else if (colorFiltro === 'negro' && esSuperUsuario) {
+                } else if (colorFiltro === 'negro') {
                     if (r < 50 && g < 50 && b < 50) data[i + 3] = 0;
                 }
             }
@@ -977,20 +981,23 @@ function addChromaLayerExtra(sourceUrl, tipo) {
                 canvasExtra.width = vExtra.videoWidth || 450;
                 canvasExtra.height = vExtra.videoHeight || 450;
                 ctxExtra.drawImage(vExtra, 0, 0, canvasExtra.width, canvasExtra.height);
-                const tolerance = parseFloat(toleranceRange.value);
-                const imgData = ctxExtra.getImageData(0, 0, canvasExtra.width, canvasExtra.height);
-                const data = imgData.data;
-                for (let i = 0; i < data.length; i += 4) {
-                    const r = data[i], g = data[i + 1], b = data[i + 2];
-                    if (colorFiltro === 'verde') {
-                        if (g > 60 && g > r * (1.8 - (tolerance * 0.4)) && g > b * (1.8 - (tolerance * 0.4))) data[i + 3] = 0;
-                    } else if (colorFiltro === 'azul' && esSuperUsuario) {
-                        if (b > 60 && b > r * (1.8 - (tolerance * 0.4)) && b > g * (1.8 - (tolerance * 0.4))) data[i + 3] = 0;
-                    } else if (colorFiltro === 'negro' && esSuperUsuario) {
-                        if (r < 50 && g < 50 && b < 50) data[i + 3] = 0;
+                
+                if (colorFiltro !== 'transparente') {
+                    const tolerance = parseFloat(toleranceRange.value);
+                    const imgData = ctxExtra.getImageData(0, 0, canvasExtra.width, canvasExtra.height);
+                    const data = imgData.data;
+                    for (let i = 0; i < data.length; i += 4) {
+                        const r = data[i], g = data[i + 1], b = data[i + 2];
+                        if (colorFiltro === 'verde') {
+                            if (g > 60 && g > r * (1.8 - (tolerance * 0.4)) && g > b * (1.8 - (tolerance * 0.4))) data[i + 3] = 0;
+                        } else if (colorFiltro === 'azul') {
+                            if (b > 60 && b > r * (1.8 - (tolerance * 0.4)) && b > g * (1.8 - (tolerance * 0.4))) data[i + 3] = 0;
+                        } else if (colorFiltro === 'negro') {
+                            if (r < 50 && g < 50 && b < 50) data[i + 3] = 0;
+                        }
                     }
+                    ctxExtra.putImageData(imgData, 0, 0);
                 }
-                ctxExtra.putImageData(imgData, 0, 0);
             }
             requestAnimationFrame(processVideoFrame);
         }
@@ -1060,7 +1067,7 @@ function mostrarNotificacionFlotante(texto) {
     if (!notif) {
         notif = document.createElement('div');
         notif.id = 'notif-guardado-exitoso';
-        notif.style.cssText = "position:fixed; top:20px; left:50%; transform:translateX(-50%); background:#ffd700; color:#000; padding:12px 24px; border-radius:10px; z-index:999999; font-weight:bold; box-shadow:0 4px 15px rgba(0,0,0,0.5); font-size:14px; text-align:center;";
+        notif.style.cssText = "position:fixed; top:20px; left:50%; transform:translateX(-50%); background:#007bff; color:white; padding:12px 24px; border-radius:10px; z-index:999999; font-weight:bold; box-shadow:0 4px 15px rgba(0,0,0,0.5); font-size:14px; text-align:center;";
         document.body.appendChild(notif);
     }
     notif.innerText = texto;
@@ -1068,7 +1075,6 @@ function mostrarNotificacionFlotante(texto) {
     setTimeout(() => { notif.style.display = 'none'; }, 3500);
 }
 
-/* GRABACIÓN PERICIAL UNIFICADA: MEZCLA MAESTRA DE MICRÓFONO Y EFECTOS EN EL MISMO BUS */
 btnGrabar.addEventListener('click', () => {
     forzarDesbloqueoAudio();
     if (!estaGrabando) { 
@@ -1136,7 +1142,7 @@ btnGrabar.addEventListener('click', () => {
             const a = document.createElement('a');
             a.style.display = 'none';
             a.href = urlBlob;
-            a.download = `ChromaCam_Amarilla_${Date.now()}.webm`;
+            a.download = `ChromaCam_Azul_${Date.now()}.webm`;
             document.body.appendChild(a);
             a.click();
             setTimeout(() => { 
@@ -1166,13 +1172,26 @@ opcionesColor.forEach(opcion => {
     opcion.addEventListener('click', (e) => {
         e.stopPropagation();
         const colorSeleccionado = e.target.getAttribute('data-color');
-        if (!esSuperUsuario && colorSeleccionado !== 'verde') {
-            mostrarAviso();
-            menuColores.style.display = 'none';
-            return;
-        }
         colorFiltro = colorSeleccionado;
-        btnColor.style.backgroundColor = getComputedStyle(e.target).backgroundColor;
+        
+        // Actualizamos el color visual del botón flotante principal
+        if (colorSeleccionado === 'verde') {
+            btnColor.style.backgroundColor = '#00ff00';
+            labelSensibilidad.innerText = "Sensibilidad Verde:";
+            document.getElementById('panel-sensibilidad').style.display = 'flex';
+        } else if (colorSeleccionado === 'azul') {
+            btnColor.style.backgroundColor = '#0000ff';
+            labelSensibilidad.innerText = "Sensibilidad Azul:";
+            document.getElementById('panel-sensibilidad').style.display = 'flex';
+        } else if (colorSeleccionado === 'negro') {
+            btnColor.style.backgroundColor = '#111';
+            labelSensibilidad.innerText = "Sensibilidad Negro:";
+            document.getElementById('panel-sensibilidad').style.display = 'flex';
+        } else if (colorSeleccionado === 'transparente') {
+            btnColor.style.backgroundColor = '#333';
+            document.getElementById('panel-sensibilidad').style.display = 'none'; // Sin croma no necesita sensibilidad
+        }
+
         menuColores.style.display = 'none';
         document.querySelectorAll('.chroma-layer-extra').forEach(l => { if (l.reprocessChroma) l.reprocessChroma(); });
     });
