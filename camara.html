@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no, viewport-fit=cover">
-<title>Chroma Cam FX - Edición Blanca Pericial</title>
+<title>Chroma Cam FX - Edición Púrpura Pericial</title>
 <link rel="manifest" href="manifest.json">
 
 <!-- Librerías de Segmentación por IA (Google MediaPipe - Licencia Apache 2.0) -->
@@ -31,17 +31,17 @@ html, body {
     overscroll-behavior: none;
 }
 
-/* Indicador visual color BLANCO de nueva versión pericial al cargar */
+/* Indicador visual color PÚRPURA al cargar */
 body::before {
     content: "";
     position: fixed;
     top: 0; left: 0; right: 0; bottom: 0;
-    border: 6px solid #ffffff;
+    border: 6px solid #8a2be2;
     z-index: 9999999;
     pointer-events: none;
-    animation: desvanecerBordeBlanco 2.5s forwards;
+    animation: desvanecerBordePurpura 2.5s forwards;
 }
-@keyframes desvanecerBordeBlanco {
+@keyframes desvanecerBordePurpura {
     0% { opacity: 1; }
     70% { opacity: 1; }
     100% { opacity: 0; }
@@ -123,15 +123,17 @@ body::before {
 
 #panel-controles { 
     position: absolute; 
-    top: 6px; left: 8px; right: 52px; 
+    top: 6px; left: 6px; right: 48px; 
     z-index: 15000; 
     display: flex; 
-    gap: 6px; 
+    gap: 4px; 
     align-items: center; 
-    flex-wrap: wrap; 
-    max-width: calc(100vw - 60px);
+    flex-wrap: nowrap; 
+    overflow-x: auto;
+    padding-bottom: 4px;
 }
 
+/* Control estricto de dimensiones para evitar reescales indeseados */
 .btn-flotante { 
     width: 36px !important; 
     height: 36px !important; 
@@ -214,7 +216,7 @@ body::before {
     flex-direction: column; 
     gap: 12px; 
     z-index: 50000; 
-    border: 2px solid #3b82f6;
+    border: 2px solid #8a2be2;
 }
 
 #contenedor-lista-checkboxes {
@@ -240,13 +242,13 @@ body::before {
     border-radius: 4px;
 }
 .item-checkbox-label:hover { background: #222; }
-.item-checkbox-label input { accent-color: #3b82f6; width: 16px; height: 16px; cursor: pointer; }
+.item-checkbox-label input { accent-color: #8a2be2; width: 16px; height: 16px; cursor: pointer; }
 
 #input-archivo-oculto { display: none; }
 
 .btn-accion-menu { color: white; border: none; padding: 10px; border-radius: 8px; font-size: 13px; cursor: pointer; text-align: center; font-weight: bold; width: 100%; }
 #btn-abrir-seleccionados { background: #28a745; }
-#btn-abrir-agregar { background: #1d4ed8; }
+#btn-abrir-agregar { background: #8a2be2; }
 #btn-descargar-demo { background: #007bff; }
 #btn-agregar-archivo { background: #374151; }
 #btn-borrar-item { background: #6c2222; }
@@ -255,7 +257,7 @@ body::before {
 
 #btn-color { 
     position: absolute !important; 
-    top: 6px !important; right: 8px !important; 
+    top: 6px !important; right: 6px !important; 
     width: 36px !important; height: 36px !important; 
     min-width: 36px !important; min-height: 36px !important;
     max-width: 36px !important; max-height: 36px !important;
@@ -267,11 +269,13 @@ body::before {
     display: flex !important; 
     justify-content: center !important;
     align-items: center !important;
+    flex-shrink: 0 !important;
+    flex-grow: 0 !important;
 }
 #menu-colores { 
     display: none; 
     position: absolute; 
-    top: 50px; right: 8px; 
+    top: 50px; right: 6px; 
     background: rgba(0,0,0,0.95); 
     padding: 10px; 
     border-radius: 8px; 
@@ -317,7 +321,7 @@ body::before {
     border: 2px transparent dashed;
     width: 380px;
 }
-.chroma-layer-extra.selected { border-color: #3b82f6; }
+.chroma-layer-extra.selected { border-color: #8a2be2; }
 .chroma-layer-extra canvas, .chroma-layer-extra video { display: block; width: 100%; height: auto; }
 
 .btn-close-layer {
@@ -341,7 +345,7 @@ body::before {
 <body>
 <div id="pantalla-inicio">
     <h2 style="color: #fff; margin-bottom: 5px;">Chroma Cam FX</h2>
-    <p style="color: #ffffff; font-size: 13px; margin-top: 0; font-weight: bold;">Chroma Studio FX - Edición Blanca Pericial</p>
+    <p style="color: #ffffff; font-size: 13px; margin-top: 0; font-weight: bold;">Chroma Studio FX - Edición Púrpura Pericial</p>
     <input type="email" id="input-email-usuario" class="input-login" placeholder="correo@gmail.com" value="adr8617@gmail.com">
     <button id="btn-iniciar" type="button" onclick="verificarAccesoSuperusuario(event)">TOCA AQUÍ PARA INICIAR</button>
     <p id="mensaje-error"></p>
@@ -361,9 +365,9 @@ body::before {
         <h3>📖 Manual de Ayuda y Funcionalidades</h3>
         <p>Guía rápida Chroma Cam FX:</p>
         <ul>
-            <li><strong>⚙️ Menú de Efectos:</strong> Selecciona múltiples casillas y ábrelos simultáneamente.</li>
-            <li><strong>🎯 Botón Centrar:</strong> Trae de vuelta al centro el efecto activo.</li>
-            <li><strong>🔴 Grabar Video:</strong> Captura pericial sincronizada (mezcla en bus maestro de micrófono + TV + efectos).</li>
+            <li><strong>⚙️ Menú de Efectos:</strong> Selecciona múltiples casillas y ábrelos simultáneamente o agrega accesos rápidos.</li>
+            <li><strong>➕ Abrir y agregar a la lista:</strong> Abre directamente tus archivos locales y los guarda permanentemente en la lista como acceso rápido.</li>
+            <li><strong>🔴 Grabar Video:</strong> Captura sincronizada con audio unificado (Micrófono + TV + Efectos).</li>
         </ul>
         <button id="btn-cerrar-ayuda" class="btn-cerrar-modal">Cerrar Ayuda</button>
     </div>
@@ -394,18 +398,18 @@ body::before {
         <div id="btn-grabar" title="Grabar Video"></div>
     </div>
 
-    <!-- Menú Modal con Selector de Casillas Múltiples y Opciones Claras -->
+    <!-- Menú Modal con Selector de Casillas Múltiples y Opción Funcional de Abrir y Agregar -->
     <div id="selector-video-wrapper">
-        <h4 style="color: #3b82f6; margin: 0 0 5px 0; text-align: center; font-size: 15px;">📁 Selector de Efectos</h4>
+        <h4 style="color: #8a2be2; margin: 0 0 5px 0; text-align: center; font-size: 15px;">📁 Selector de Efectos</h4>
         <div id="contenedor-lista-checkboxes"></div>
         
         <button id="btn-abrir-seleccionados" class="btn-accion-menu">✅ OK, seleccionado(s)</button>
         <button id="btn-abrir-agregar" class="btn-accion-menu">➕ Abrir y agregar a la lista</button>
         <button id="btn-descargar-demo" class="btn-accion-menu">📥 Descargar Demo GitHub</button>
-        <button id="btn-agregar-archivo" class="btn-accion-menu">📂 Agregar archivo local</button>
         <button id="btn-borrar-item" class="btn-accion-menu">🗑️ Borrar seleccionados de la lista</button>
     </div>
 
+    <!-- Input oculto único para manejo de archivos -->
     <input type="file" id="input-archivo-oculto" accept="video/mp4,image/gif,image/webp,image/*">
 
     <div id="btn-color" title="Color de Croma"></div>
@@ -458,7 +462,6 @@ function forzarDesbloqueoAudio() {
     activarPantallaCompletaInmersiva();
     if (!audioContextGlobal) {
         audioContextGlobal = new (window.AudioContext || window.webkitAudioContext)();
-        // Creamos un destino de MediaStream unificado maestro
         masterDestinationNode = audioContextGlobal.createMediaStreamDestination();
     }
     if (audioContextGlobal.state === 'suspended') {
@@ -525,7 +528,6 @@ const selectorVideoWrapper = document.getElementById('selector-video-wrapper');
 const btnAbrirSeleccionados = document.getElementById('btn-abrir-seleccionados');
 const btnAbrirAgregar = document.getElementById('btn-abrir-agregar');
 const btnDescargarDemo = document.getElementById('btn-descargar-demo');
-const btnAgregarArchivo = document.getElementById('btn-agregar-archivo');
 const btnBorrarItem = document.getElementById('btn-borrar-item');
 const inputArchivoOculto = document.getElementById('input-archivo-oculto');
 
@@ -688,18 +690,16 @@ btnAbrirSeleccionados.addEventListener('click', (e) => {
     selectorVideoWrapper.style.display = 'none';
 });
 
+/* BOTÓN "ABRIR Y AGREGAR A LA LISTA": LANZA EL EXPLORADOR DE ARCHIVOS Y LO GUARDA EN LA BD */
 btnAbrirAgregar.addEventListener('click', (e) => {
     e.stopPropagation();
     forzarDesbloqueoAudio();
-    const checks = contenedorListaCheckboxes.querySelectorAll('input[type="checkbox"]:checked');
-    if (checks.length === 0) {
-        alert("Selecciona al menos un elemento para abrir y agregar.");
+    if (!esSuperUsuario && listaMultimedia.length >= 2) {
+        mostrarAviso();
+        selectorVideoWrapper.style.display = 'none';
         return;
     }
-    checks.forEach(chk => {
-        addChromaLayerExtra(chk.dataset.archivo, chk.dataset.tipo);
-    });
-    selectorVideoWrapper.style.display = 'none';
+    inputArchivoOculto.click();
 });
 
 btnDescargarDemo.addEventListener('click', async (e) => {
@@ -724,17 +724,6 @@ btnDescargarDemo.addEventListener('click', async (e) => {
         btnDescargarDemo.innerText = "📥 Descargar Demo GitHub";
         alert("Error: No se pudo descargar desde GitHub.");
     }
-});
-
-btnAgregarArchivo.addEventListener('click', (e) => {
-    e.stopPropagation();
-    forzarDesbloqueoAudio();
-    if (!esSuperUsuario && listaMultimedia.length >= 2) {
-        mostrarAviso();
-        selectorVideoWrapper.style.display = 'none';
-        return;
-    }
-    inputArchivoOculto.click();
 });
 
 btnBorrarItem.addEventListener('click', (e) => {
@@ -768,7 +757,7 @@ inputArchivoOculto.addEventListener('change', (e) => {
     const esGif = nombreArchivo.toLowerCase().endsWith('.gif') || archivo.type === 'image/gif';
     const esImagen = archivo.type.startsWith('image/') && !esGif;
     const tipoDetectado = esGif ? 'gif' : (esImagen ? 'imagen' : 'video');
-    let descripcionCustom = prompt("Escribe el nombre descriptivo para este efecto:", nombreArchivo);
+    let descripcionCustom = prompt("Escribe el nombre descriptivo para este acceso rápido (ej. Imagen Lobo):", nombreArchivo);
     if (!descripcionCustom || descripcionCustom.trim() === "") descripcionCustom = nombreArchivo;
 
     const urlLocal = URL.createObjectURL(archivo);
@@ -1056,7 +1045,7 @@ function mostrarNotificacionFlotante(texto) {
     if (!notif) {
         notif = document.createElement('div');
         notif.id = 'notif-guardado-exitoso';
-        notif.style.cssText = "position:fixed; top:20px; left:50%; transform:translateX(-50%); background:#ffffff; color:#000; padding:12px 24px; border-radius:10px; z-index:999999; font-weight:bold; box-shadow:0 4px 15px rgba(0,0,0,0.5); font-size:14px; text-align:center;";
+        notif.style.cssText = "position:fixed; top:20px; left:50%; transform:translateX(-50%); background:#8a2be2; color:white; padding:12px 24px; border-radius:10px; z-index:999999; font-weight:bold; box-shadow:0 4px 15px rgba(0,0,0,0.5); font-size:14px; text-align:center;";
         document.body.appendChild(notif);
     }
     notif.innerText = texto;
@@ -1104,7 +1093,6 @@ btnGrabar.addEventListener('click', () => {
 
         try {
             if (audioContextGlobal && masterDestinationNode) {
-                // 1. Conectamos el micrófono de la cámara (voz + TV de fondo) directamente al bus maestro si no estaba conectado
                 const streamCamara = videoCamara.srcObject;
                 if (streamCamara && streamCamara.getAudioTracks().length > 0) {
                     if (!micSourceNodeGlobal) {
@@ -1112,12 +1100,9 @@ btnGrabar.addEventListener('click', () => {
                         micGainNodeGlobal = audioContextGlobal.createGain();
                         micGainNodeGlobal.gain.value = 1.0; 
                         micSourceNodeGlobal.connect(micGainNodeGlobal);
-                        // ¡LA CLAVE PERICIAL!: Enrutamos el micrófono directo al masterDestinationNode compartido
                         micGainNodeGlobal.connect(masterDestinationNode);
                     }
                 }
-
-                // 2. Tomamos la pista de audio unificada resultante del bus maestro (que ya contiene micrófono, TV y efectos mezclados sin pérdidas)
                 if (masterDestinationNode.stream.getAudioTracks().length > 0) {
                     tracksCombinados.push(masterDestinationNode.stream.getAudioTracks()[0]);
                 }
@@ -1136,13 +1121,13 @@ btnGrabar.addEventListener('click', () => {
             const a = document.createElement('a');
             a.style.display = 'none';
             a.href = urlBlob;
-            a.download = `ChromaCam_Pericial_${Date.now()}.webm`;
+            a.download = `ChromaCam_Purpura_${Date.now()}.webm`;
             document.body.appendChild(a);
             a.click();
             setTimeout(() => { 
                 document.body.removeChild(a); 
                 window.URL.revokeObjectURL(urlBlob); 
-                mostrarNotificacionFlotante("✨ ¡Video pericial guardado con audio unificado (TV + Micrófono + Efectos)!");
+                mostrarNotificacionFlotante("✨ ¡Video guardado con éxito!");
             }, 100);
         };
 
