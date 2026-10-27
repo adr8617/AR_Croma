@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no, viewport-fit=cover">
-<title>Chroma Cam FX - Edición Oro Verde Pericial</title>
+<title>Chroma Cam FX - Edición Oro Verde Pericial v6</title>
 <link rel="manifest" href="manifest.json">
 
 <!-- Librerías de Segmentación por IA (Google MediaPipe - Licencia Apache 2.0) -->
@@ -421,7 +421,7 @@ body::before {
 <body>
 <div id="pantalla-inicio">
     <h2 style="color: #fff; margin-bottom: 5px;">Chroma Cam FX</h2>
-    <p style="color: #bef264; font-size: 13px; margin-top: 0; font-weight: bold;">Chroma Studio FX - Edición Oro Verde Pericial</p>
+    <p style="color: #bef264; font-size: 13px; margin-top: 0; font-weight: bold;">Chroma Studio FX - Edición Oro Verde Pericial v6</p>
     <input type="email" id="input-email-usuario" class="input-login" placeholder="correo@gmail.com" value="adr8617@gmail.com">
     <button id="btn-iniciar" type="button" onclick="verificarAccesoSuperusuario(event)">TOCA AQUÍ PARA INICIAR</button>
     <p id="mensaje-error"></p>
@@ -499,13 +499,13 @@ body::before {
     <!-- Input oculto para manejo de archivos -->
     <input type="file" id="input-archivo-oculto" accept="video/mp4,image/gif,image/webp,image/*">
 
-    <!-- Menú de Colores con el Blanco como Antepenúltimo, Negro Penúltimo y Sin Croma al Final -->
+    <!-- Botón de Croma Superior -->
     <div id="btn-color" class="croma-verde" title="Color de Croma"></div>
     <div id="menu-colores">
         <div class="opcion-color" data-color="verde" style="background-color: #00ff00;" title="Verde"></div>
         <div class="opcion-color" data-color="azul" style="background-color: #0000ff;" title="Azul"></div>
-        <div class="opcion-color" data-color="blanco" style="background-color: #ffffff; border: 1px solid #777;" title="Blanco (Antepenúltimo)"></div>
-        <div class="opcion-color" data-color="negro" style="background-color: #111; border: 1px solid #777;" title="Negro (Penúltimo)"></div>
+        <div class="opcion-color" data-color="blanco" style="background-color: #ffffff; border: 1px solid #777;" title="Blanco"></div>
+        <div class="opcion-color" data-color="negro" style="background-color: #111; border: 1px solid #777;" title="Negro"></div>
         <div class="opcion-color" data-color="transparente" style="background-color: #333; border: 2px dashed #fff;" title="Sin Croma">🚫</div>
     </div>
 
@@ -727,37 +727,53 @@ function onResultadosIA(results) {
     
     ctxCamaraIA.save();
     ctxCamaraIA.clearRect(0, 0, canvasCamaraIA.width, canvasCamaraIA.height);
-    ctxCamaraIA.drawImage(results.segmentationMask, 0, 0, canvasCamaraIA.width, canvasCamaraIA.height);
-    
-    ctxCamaraIA.globalCompositeOperation = 'source-out';
-    
-    if (colorFiltro === 'verde') ctxCamaraIA.fillStyle = '#00FF00';
-    else if (colorFiltro === 'azul') ctxCamaraIA.fillStyle = '#0000FF';
-    else if (colorFiltro === 'blanco') ctxCamaraIA.fillStyle = '#FFFFFF';
-    else ctxCamaraIA.fillStyle = '#111111';
-    
-    ctxCamaraIA.fillRect(0, 0, canvasCamaraIA.width, canvasCamaraIA.height);
-    
-    // Sensibilidad aplicada a la cámara principal
+
+    // 1. Dibujamos primero la imagen base de la cámara
+    ctxCamaraIA.drawImage(results.image, 0, 0, canvasCamaraIA.width, canvasCamaraIA.height);
+
+    // 2. Extraemos los datos de píxeles para aplicar croma y sensibilidad de forma directa
     const tolerance = parseFloat(toleranceRange.value);
     const frameData = ctxCamaraIA.getImageData(0, 0, canvasCamaraIA.width, canvasCamaraIA.height);
     const pixels = frameData.data;
-    
+
+    // Obtenemos también la máscara de segmentación para saber dónde está el usuario y dónde el fondo
+    const tempCanvas = document.createElement('canvas');
+    tempCanvas.width = canvasCamaraIA.width;
+    tempCanvas.height = canvasCamaraIA.height;
+    const tempCtx = tempCanvas.getContext('2d');
+    tempCtx.drawImage(results.segmentationMask, 0, 0, tempCanvas.width, tempCanvas.height);
+    const maskData = tempCtx.getImageData(0, 0, tempCanvas.width, tempCanvas.height).data;
+
     for (let i = 0; i < pixels.length; i += 4) {
         const r = pixels[i], g = pixels[i + 1], b = pixels[i + 2];
-        if (colorFiltro === 'blanco') {
-            const umbralBlanco = Math.floor(230 - (tolerance * 40));
-            if (r > umbralBlanco && g > umbralBlanco && b > umbralBlanco) pixels[i + 3] = 0;
-        } else if (colorFiltro === 'verde') {
-            if (g > 60 && g > r * (1.8 - (tolerance * 0.4)) && g > b * (1.8 - (tolerance * 0.4))) pixels[i + 3] = 0;
-        } else if (colorFiltro === 'azul') {
-            if (b > 60 && b > r * (1.8 - (tolerance * 0.4)) && b > g * (1.8 - (tolerance * 0.4))) pixels[i + 3] = 0;
+        const alphaMask = maskData[i]; // Intensidad de la máscara de MediaPipe
+
+        let esFondo = (alphaMask < 128); // Si no es el usuario detectado por IA
+
+        if (!esFondo) {
+            // Si el usuario está aquí, aplicamos el filtro de croma seleccionado con su sensibilidad
+            if (colorFiltro === 'verde') {
+                if (g > 60 && g > r * (1.8 - (tolerance * 0.4)) && g > b * (1.8 - (tolerance * 0.4))) {
+                    pixels[i + 3] = 0; // Transparente
+                }
+            } else if (colorFiltro === 'azul') {
+                if (b > 60 && b > r * (1.8 - (tolerance * 0.4)) && b > g * (1.8 - (tolerance * 0.4))) {
+                    pixels[i + 3] = 0;
+                }
+            } else if (colorFiltro === 'blanco') {
+                const umbralBlanco = Math.floor(230 - (tolerance * 40));
+                if (r > umbralBlanco && g > umbralBlanco && b > umbralBlanco) {
+                    pixels[i + 3] = 0;
+                }
+            } else if (colorFiltro === 'negro') {
+                if (r < 50 && g < 50 && b < 50) {
+                    pixels[i + 3] = 0;
+                }
+            }
         }
     }
-    ctxCamaraIA.putImageData(frameData, 0, 0);
 
-    ctxCamaraIA.globalCompositeOperation = 'destination-over';
-    ctxCamaraIA.drawImage(results.image, 0, 0, canvasCamaraIA.width, canvasCamaraIA.height);
+    ctxCamaraIA.putImageData(frameData, 0, 0);
     ctxCamaraIA.restore();
 }
 
