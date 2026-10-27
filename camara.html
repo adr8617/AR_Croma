@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no, viewport-fit=cover">
-<title>Chroma Cam FX - Edición Roja Pericial</title>
+<title>Chroma Cam FX - Edición Roja Absoluta</title>
 <link rel="manifest" href="manifest.json">
 
 <!-- Librerías de Segmentación por IA (Google MediaPipe - Licencia Apache 2.0) -->
@@ -31,7 +31,7 @@ html, body {
     overscroll-behavior: none;
 }
 
-/* Indicador visual color ROJO al cargar */
+/* Indicador visual color ROJO al cargar para confirmar cambio */
 body::before {
     content: "";
     position: fixed;
@@ -302,6 +302,7 @@ body::before {
 
 #aviso-premium { position: absolute; bottom: 80px; left: 50%; transform: translateX(-50%); background: rgba(220, 53, 69, 0.95); color: white; padding: 12px 24px; border-radius: 8px; font-size: 13px; z-index: 19999; display: none; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.6); }
 
+/* Botón de croma en la esquina superior derecha con actualización dinámica impecable */
 #btn-color { 
     position: absolute !important; 
     top: 6px !important; right: 6px !important; 
@@ -392,7 +393,7 @@ body::before {
 <body>
 <div id="pantalla-inicio">
     <h2 style="color: #fff; margin-bottom: 5px;">Chroma Cam FX</h2>
-    <p style="color: #fca5a5; font-size: 13px; margin-top: 0; font-weight: bold;">Chroma Studio FX - Edición Roja Pericial</p>
+    <p style="color: #fca5a5; font-size: 13px; margin-top: 0; font-weight: bold;">Chroma Studio FX - Edición Roja Absoluta</p>
     <input type="email" id="input-email-usuario" class="input-login" placeholder="correo@gmail.com" value="adr8617@gmail.com">
     <button id="btn-iniciar" type="button" onclick="verificarAccesoSuperusuario(event)">TOCA AQUÍ PARA INICIAR</button>
     <p id="mensaje-error"></p>
@@ -414,7 +415,7 @@ body::before {
         <ul>
             <li><strong>⚙️ Menú de Efectos:</strong> Selecciona múltiples casillas y ábrelos simultáneamente.</li>
             <li><strong>📂 Abrir y casilla Add:</strong> Abre un archivo local y márcale "Add" si deseas guardarlo permanentemente en la lista.</li>
-            <li><strong>🎨 Botón Croma:</strong> Cambia instantáneamente de color (Verde, Azul, Negro o Sin Croma).</li>
+            <li><strong>🎨 Botón Croma:</strong> Cambia instantáneamente de color (Verde, Azul, Negro o Sin Croma) reflejándose de forma precisa en el botón superior derecho.</li>
         </ul>
         <button id="btn-cerrar-ayuda" class="btn-cerrar-modal">Cerrar Ayuda</button>
     </div>
@@ -437,7 +438,7 @@ body::before {
         <div id="btn-grabar" title="Grabar Video"></div>
     </div>
 
-    <!-- Panel superior deslizable compacto en una sola línea -->
+    <!-- Panel superior deslizable acotado -->
     <div id="panel-controles">
         <div id="btn-camara-ia" class="btn-flotante control-ocultable" title="Croma IA Cámara" data-control="item"></div>
         <div id="btn-mover-efecto" class="btn-flotante control-ocultable" title="Mover y Escalar" data-control="item"></div>
@@ -470,7 +471,7 @@ body::before {
     <!-- Input oculto para manejo de archivos -->
     <input type="file" id="input-archivo-oculto" accept="video/mp4,image/gif,image/webp,image/*">
 
-    <!-- Botón de Croma Superior (Sincronizado correctamente) -->
+    <!-- Botón de Croma Superior (Garantizado sincronizado) -->
     <div id="btn-color" title="Color de Croma"></div>
     <div id="menu-colores">
         <div class="opcion-color" data-color="verde" style="background-color: #00ff00;" title="Verde"></div>
@@ -1219,7 +1220,7 @@ opcionesColor.forEach(opcion => {
         const colorSeleccionado = e.target.getAttribute('data-color');
         colorFiltro = colorSeleccionado;
         
-        // Actualización rigurosa y directa del botón flotante superior de croma
+        // SINCRONIZACIÓN PERFECTA Y DIRECTA DEL BOTÓN SUPERIOR DERECHO
         if (colorSeleccionado === 'verde') {
             btnColor.style.backgroundColor = '#00ff00';
             btnColor.innerHTML = '';
@@ -1255,7 +1256,7 @@ function verificarAccesoSuperusuario(e) {
     activarPantallaCompletaInmersiva();
     forzarDesbloqueoAudio();
 
-    // Inicializar visualmente el botón de color en verde por defecto
+    // Inicializar visualmente el botón de color en verde por defecto al arrancar
     btnColor.style.backgroundColor = '#00ff00';
     btnColor.innerHTML = '';
 
