@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no, viewport-fit=cover">
-<title>Chroma Cam FX - Edición Azul Pericial</title>
+<title>Chroma Cam FX - Edición Púrpura Definitiva</title>
 <link rel="manifest" href="manifest.json">
 
 <!-- Librerías de Segmentación por IA (Google MediaPipe - Licencia Apache 2.0) -->
@@ -31,17 +31,17 @@ html, body {
     overscroll-behavior: none;
 }
 
-/* Indicador visual color AZUL al cargar */
+/* Indicador visual color PÚRPURA al cargar */
 body::before {
     content: "";
     position: fixed;
     top: 0; left: 0; right: 0; bottom: 0;
-    border: 6px solid #007bff;
+    border: 6px solid #8a2be2;
     z-index: 9999999;
     pointer-events: none;
-    animation: desvanecerBordeAzul 2.5s forwards;
+    animation: desvanecerBordePurpura 2.5s forwards;
 }
-@keyframes desvanecerBordeAzul {
+@keyframes desvanecerBordePurpura {
     0% { opacity: 1; }
     70% { opacity: 1; }
     100% { opacity: 0; }
@@ -74,7 +74,7 @@ body::before {
 }
 
 #btn-iniciar { 
-    background-color: #007bff; 
+    background-color: #8a2be2; 
     color: #fff; 
     font-weight: bold; 
     font-size: 16px; 
@@ -86,7 +86,7 @@ body::before {
     min-width: 280px;
     height: 54px;
     cursor: pointer; 
-    box-shadow: 0 4px 15px rgba(0,123,255,0.5); 
+    box-shadow: 0 4px 15px rgba(138,43,226,0.5); 
     display: flex;
     justify-content: center;
     align-items: center;
@@ -108,18 +108,18 @@ body::before {
     z-index: 1000000;
 }
 
-#mensaje-error { color: #93c5fd; text-align: center; max-width: 80%; font-size: 14px; font-weight: bold; background: rgba(0,0,0,0.6); padding: 5px; border-radius: 4px; }
+#mensaje-error { color: #d8b4fe; text-align: center; max-width: 80%; font-size: 14px; font-weight: bold; background: rgba(0,0,0,0.6); padding: 5px; border-radius: 4px; }
 
 #modal-2fa { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.9); z-index: 20000; display: none; justify-content: center; align-items: center; padding: 20px; box-sizing: border-box; }
-#contenido-2fa { background: #1c1c1c; color: #fff; padding: 25px; border-radius: 12px; max-width: 400px; width: 100%; text-align: center; border: 1px solid #007bff; }
-#contenido-2fa h3 { color: #007bff; margin-top: 0; }
+#contenido-2fa { background: #1c1c1c; color: #fff; padding: 25px; border-radius: 12px; max-width: 400px; width: 100%; text-align: center; border: 1px solid #8a2be2; }
+#contenido-2fa h3 { color: #8a2be2; margin-top: 0; }
 .btn-2fa { padding: 10px 20px; border-radius: 6px; border: none; font-weight: bold; cursor: pointer; margin: 10px 5px; }
 #btn-aprobar-dispositivo { background: #28a745; color: white; }
 #btn-rechazar-dispositivo { background: #dc3545; color: white; }
 
 #modal-terminos, #modal-ayuda { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 10000; display: none; justify-content: center; align-items: center; padding: 20px; box-sizing: border-box; }
 #contenido-modal, #contenido-ayuda { background: #1c1c1c; color: #fff; padding: 25px; border-radius: 12px; max-width: 500px; width: 100%; max-height: 85vh; overflow-y: auto; font-size: 13px; line-height: 1.5; border: 1px solid #444; }
-.btn-cerrar-modal { background: #007bff; color: white; border: none; padding: 8px 16px; border-radius: 6px; margin-top: 15px; cursor: pointer; font-weight: bold; float: right; }
+.btn-cerrar-modal { background: #8a2be2; color: white; border: none; padding: 8px 16px; border-radius: 6px; margin-top: 15px; cursor: pointer; font-weight: bold; float: right; }
 
 #panel-controles-izq {
     position: absolute;
@@ -167,19 +167,19 @@ body::before {
 
 #btn-menu-circular::after { content: "⚙️"; font-size: 13px; }
 #btn-mover-efecto::after { content: "✋"; font-size: 13px; }
-#btn-mover-efecto.activo { background-color: #007bff !important; border-color: #fff !important; }
+#btn-mover-efecto.activo { background-color: #8a2be2 !important; border-color: #fff !important; }
 #btn-cambiar-camara::after { content: "🔄"; font-size: 13px; }
 #btn-centrar-imagen::after { content: "🎯"; font-size: 13px; }
 
 #btn-camara-ia { 
-    background: linear-gradient(135deg, #007bff 0%, #1d4ed8 50%, #111111 100%) !important; 
+    background: linear-gradient(135deg, #8a2be2 0%, #4c1d95 50%, #111111 100%) !important; 
     border: 1.5px solid #ffffff !important; 
     opacity: 0.6;
 }
 #btn-camara-ia.activo { 
     opacity: 1; 
-    box-shadow: 0 0 10px #007bff;
-    border-color: #007bff !important;
+    box-shadow: 0 0 10px #8a2be2;
+    border-color: #8a2be2 !important;
 }
 #btn-camara-ia::after { content: "📷"; font-size: 12px; }
 
@@ -211,8 +211,6 @@ body::before {
 #btn-grabar.grabando::after { content: "⏹️"; font-size: 10px; }
 @keyframes parpadeo { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
 
-#tooltip-texto { position: absolute; left: 45px; top: 50%; transform: translateY(-50%); background: rgba(0, 0, 0, 0.85); color: #fff; padding: 6px 12px; border-radius: 6px; font-size: 12px; white-space: nowrap; pointer-events: none; opacity: 0; visibility: hidden; transition: opacity 0.2s; }
-
 #selector-video-wrapper { 
     display: none; 
     position: fixed; 
@@ -227,11 +225,11 @@ body::before {
     flex-direction: column; 
     gap: 12px; 
     z-index: 50000; 
-    border: 2px solid #007bff;
+    border: 2px solid #8a2be2;
 }
 
 #contenedor-lista-checkboxes {
-    max-height: 180px;
+    max-height: 160px;
     overflow-y: auto;
     background: #111;
     border: 1px solid #555;
@@ -253,14 +251,53 @@ body::before {
     border-radius: 4px;
 }
 .item-checkbox-label:hover { background: #222; }
-.item-checkbox-label input { accent-color: #007bff; width: 16px; height: 16px; cursor: pointer; }
+.item-checkbox-label input { accent-color: #8a2be2; width: 16px; height: 16px; cursor: pointer; }
 
 #input-archivo-oculto { display: none; }
 
+.contenedor-fila-abrir {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    width: 100%;
+}
+
+#btn-abrir-archivo-solo {
+    flex: 1;
+    background: #8a2be2;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 8px;
+    font-size: 13px;
+    cursor: pointer;
+    text-align: center;
+    font-weight: bold;
+}
+
+.contenedor-checkbox-add {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    background: #1e1e1e;
+    padding: 6px 10px;
+    border-radius: 8px;
+    border: 1px solid #555;
+    color: #fff;
+    font-size: 12px;
+    cursor: pointer;
+    white-space: nowrap;
+}
+.contenedor-checkbox-add input {
+    accent-color: #8a2be2;
+    width: 15px;
+    height: 15px;
+    cursor: pointer;
+}
+
 .btn-accion-menu { color: white; border: none; padding: 10px; border-radius: 8px; font-size: 13px; cursor: pointer; text-align: center; font-weight: bold; width: 100%; }
 #btn-abrir-seleccionados { background: #28a745; }
-#btn-abrir-agregar { background: #007bff; }
-#btn-descargar-demo { background: #1d4ed8; }
+#btn-descargar-demo { background: #007bff; }
 #btn-borrar-item { background: #6c2222; }
 
 #aviso-premium { position: absolute; bottom: 80px; left: 50%; transform: translateX(-50%); background: rgba(220, 53, 69, 0.95); color: white; padding: 12px 24px; border-radius: 8px; font-size: 13px; z-index: 19999; display: none; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.6); }
@@ -272,7 +309,7 @@ body::before {
     min-width: 33px !important; min-height: 33px !important;
     max-width: 33px !important; max-height: 33px !important;
     border-radius: 50% !important; 
-    background-color: #00ff00 !important; /* Inicia correctamente en verde */
+    background-color: #00ff00 !important; 
     cursor: pointer; 
     z-index: 15002; 
     border: 2px solid #ffffff !important; 
@@ -311,7 +348,7 @@ body::before {
     box-shadow: 0 4px 12px rgba(0,0,0,0.6);
 }
 #panel-sensibilidad label { font-size: 12px; white-space: nowrap; }
-#panel-sensibilidad input[type=range] { width: 110px; accent-color: #007bff; }
+#panel-sensibilidad input[type=range] { width: 110px; accent-color: #8a2be2; }
 
 #video-camara { position: absolute; top: 0; left: 0; width: 100vw; height: 100vh; object-fit: cover; z-index: 1; background-color: #000; transform-origin: center center; }
 #canvas-camara-ia { position: absolute; top: 0; left: 0; width: 100vw; height: 100vh; object-fit: cover; z-index: 2; display: none; transform-origin: center center; }
@@ -331,7 +368,7 @@ body::before {
     border: 2px transparent dashed;
     width: 380px;
 }
-.chroma-layer-extra.selected { border-color: #007bff; }
+.chroma-layer-extra.selected { border-color: #8a2be2; }
 .chroma-layer-extra canvas, .chroma-layer-extra video { display: block; width: 100%; height: auto; }
 
 .btn-close-layer {
@@ -355,7 +392,7 @@ body::before {
 <body>
 <div id="pantalla-inicio">
     <h2 style="color: #fff; margin-bottom: 5px;">Chroma Cam FX</h2>
-    <p style="color: #93c5fd; font-size: 13px; margin-top: 0; font-weight: bold;">Chroma Studio FX - Edición Azul Pericial</p>
+    <p style="color: #d8b4fe; font-size: 13px; margin-top: 0; font-weight: bold;">Chroma Studio FX - Edición Púrpura Definitiva</p>
     <input type="email" id="input-email-usuario" class="input-login" placeholder="correo@gmail.com" value="adr8617@gmail.com">
     <button id="btn-iniciar" type="button" onclick="verificarAccesoSuperusuario(event)">TOCA AQUÍ PARA INICIAR</button>
     <p id="mensaje-error"></p>
@@ -376,8 +413,8 @@ body::before {
         <p>Guía rápida Chroma Cam FX:</p>
         <ul>
             <li><strong>⚙️ Menú de Efectos:</strong> Selecciona múltiples casillas y ábrelos simultáneamente.</li>
-            <li><strong>🟢 Selector de Croma:</strong> Cambia entre croma Verde, Azul, Negro o el nuevo modo Transparente (Sin Croma).</li>
-            <li><strong>🔴 Grabar Video:</strong> Captura sincronizada con audio unificado (Micrófono + TV + Efectos).</li>
+            <li><strong>📂 Abrir y casilla Add:</strong> Abre un archivo local y márcale "Add" si deseas guardarlo permanentemente en la lista.</li>
+            <li><strong>🎨 Botón Croma:</strong> Cambia instantáneamente de color (Verde, Azul, Negro o Sin Croma).</li>
         </ul>
         <button id="btn-cerrar-ayuda" class="btn-cerrar-modal">Cerrar Ayuda</button>
     </div>
@@ -411,13 +448,21 @@ body::before {
         <div id="btn-terminos" class="btn-flotante control-ocultable" title="Términos"></div>
     </div>
 
-    <!-- Menú Modal con Selector de Casillas Múltiples -->
+    <!-- Menú Modal con Selector de Casillas Múltiples y Opción Dividida de Abrir con Add -->
     <div id="selector-video-wrapper">
-        <h4 style="color: #007bff; margin: 0 0 5px 0; text-align: center; font-size: 15px;">📁 Selector de Efectos</h4>
+        <h4 style="color: #8a2be2; margin: 0 0 5px 0; text-align: center; font-size: 15px;">📁 Selector de Efectos</h4>
         <div id="contenedor-lista-checkboxes"></div>
         
         <button id="btn-abrir-seleccionados" class="btn-accion-menu">✅ OK, seleccionado(s)</button>
-        <button id="btn-abrir-agregar" class="btn-accion-menu">➕ Abrir y agregar a la lista</button>
+        
+        <!-- Fila dividida: Botón Abrir y Checkbox Add -->
+        <div class="contenedor-fila-abrir">
+            <button id="btn-abrir-archivo-solo">📂 Abrir Archivo</button>
+            <label class="contenedor-checkbox-add">
+                <input type="checkbox" id="chk-add-list" checked> Add to list
+            </label>
+        </div>
+
         <button id="btn-descargar-demo" class="btn-accion-menu">📥 Descargar Demo GitHub</button>
         <button id="btn-borrar-item" class="btn-accion-menu">🗑️ Borrar seleccionados de la lista</button>
     </div>
@@ -425,7 +470,7 @@ body::before {
     <!-- Input oculto para manejo de archivos -->
     <input type="file" id="input-archivo-oculto" accept="video/mp4,image/gif,image/webp,image/*">
 
-    <!-- Botón de Croma (Inicia correctamente en verde y muestra menú con opción transparente) -->
+    <!-- Botón de Croma Superior (Sincronizado correctamente) -->
     <div id="btn-color" title="Color de Croma"></div>
     <div id="menu-colores">
         <div class="opcion-color" data-color="verde" style="background-color: #00ff00;" title="Verde"></div>
@@ -541,7 +586,8 @@ const btnRechazarDispositivo = document.getElementById('btn-rechazar-dispositivo
 const btnMenuCircular = document.getElementById('btn-menu-circular');
 const selectorVideoWrapper = document.getElementById('selector-video-wrapper');
 const btnAbrirSeleccionados = document.getElementById('btn-abrir-seleccionados');
-const btnAbrirAgregar = document.getElementById('btn-abrir-agregar');
+const btnAbrirArchivoSolo = document.getElementById('btn-abrir-archivo-solo');
+const chkAddList = document.getElementById('chk-add-list');
 const btnDescargarDemo = document.getElementById('btn-descargar-demo');
 const btnBorrarItem = document.getElementById('btn-borrar-item');
 const inputArchivoOculto = document.getElementById('input-archivo-oculto');
@@ -706,14 +752,9 @@ btnAbrirSeleccionados.addEventListener('click', (e) => {
     selectorVideoWrapper.style.display = 'none';
 });
 
-btnAbrirAgregar.addEventListener('click', (e) => {
+btnAbrirArchivoSolo.addEventListener('click', (e) => {
     e.stopPropagation();
     forzarDesbloqueoAudio();
-    if (!esSuperUsuario && listaMultimedia.length >= 2) {
-        mostrarAviso();
-        selectorVideoWrapper.style.display = 'none';
-        return;
-    }
     inputArchivoOculto.click();
 });
 
@@ -772,15 +813,21 @@ inputArchivoOculto.addEventListener('change', (e) => {
     const esGif = nombreArchivo.toLowerCase().endsWith('.gif') || archivo.type === 'image/gif';
     const esImagen = archivo.type.startsWith('image/') && !esGif;
     const tipoDetectado = esGif ? 'gif' : (esImagen ? 'imagen' : 'video');
-    let descripcionCustom = prompt("Escribe el nombre descriptivo para este acceso rápido (ej. Imagen Lobo):", nombreArchivo);
-    if (!descripcionCustom || descripcionCustom.trim() === "") descripcionCustom = nombreArchivo;
-
     const urlLocal = URL.createObjectURL(archivo);
-    listaMultimedia.push({ nombre: descripcionCustom, archivo: urlLocal, tipo: tipoDetectado });
-    guardarBaseDatos(listaMultimedia);
-    actualizarListaCheckboxes();
+
+    // Si el checkbox "Add to list" está activo, lo agregamos a la base de datos y lista
+    if (chkAddList.checked) {
+        let descripcionCustom = prompt("Escribe el nombre descriptivo para este acceso rápido en la lista:", nombreArchivo);
+        if (!descripcionCustom || descripcionCustom.trim() === "") descripcionCustom = nombreArchivo;
+
+        listaMultimedia.push({ nombre: descripcionCustom, archivo: urlLocal, tipo: tipoDetectado });
+        guardarBaseDatos(listaMultimedia);
+        actualizarListaCheckboxes();
+    }
+
     addChromaLayerExtra(urlLocal, tipoDetectado);
     selectorVideoWrapper.style.display = 'none';
+    inputArchivoOculto.value = ""; // Limpiar input
 });
 
 btnMoverEfecto.addEventListener('click', (e) => {
@@ -926,7 +973,6 @@ function addChromaLayerExtra(sourceUrl, tipo) {
             canvasExtra.height = img.height || 450;
             ctxExtra.drawImage(img, 0, 0, canvasExtra.width, canvasExtra.height);
             
-            // Si el modo es transparente (sin croma), no alteramos los pixeles
             if (colorFiltro === 'transparente') return;
 
             const tolerance = parseFloat(toleranceRange.value);
@@ -1067,7 +1113,7 @@ function mostrarNotificacionFlotante(texto) {
     if (!notif) {
         notif = document.createElement('div');
         notif.id = 'notif-guardado-exitoso';
-        notif.style.cssText = "position:fixed; top:20px; left:50%; transform:translateX(-50%); background:#007bff; color:white; padding:12px 24px; border-radius:10px; z-index:999999; font-weight:bold; box-shadow:0 4px 15px rgba(0,0,0,0.5); font-size:14px; text-align:center;";
+        notif.style.cssText = "position:fixed; top:20px; left:50%; transform:translateX(-50%); background:#8a2be2; color:white; padding:12px 24px; border-radius:10px; z-index:999999; font-weight:bold; box-shadow:0 4px 15px rgba(0,0,0,0.5); font-size:14px; text-align:center;";
         document.body.appendChild(notif);
     }
     notif.innerText = texto;
@@ -1142,7 +1188,7 @@ btnGrabar.addEventListener('click', () => {
             const a = document.createElement('a');
             a.style.display = 'none';
             a.href = urlBlob;
-            a.download = `ChromaCam_Azul_${Date.now()}.webm`;
+            a.download = `ChromaCam_Purpura_${Date.now()}.webm`;
             document.body.appendChild(a);
             a.click();
             setTimeout(() => { 
@@ -1174,22 +1220,26 @@ opcionesColor.forEach(opcion => {
         const colorSeleccionado = e.target.getAttribute('data-color');
         colorFiltro = colorSeleccionado;
         
-        // Actualizamos el color visual del botón flotante principal
+        // Actualizamos el color visual del botón flotante principal de croma perfectamente
         if (colorSeleccionado === 'verde') {
             btnColor.style.backgroundColor = '#00ff00';
+            btnColor.innerHTML = '';
             labelSensibilidad.innerText = "Sensibilidad Verde:";
             document.getElementById('panel-sensibilidad').style.display = 'flex';
         } else if (colorSeleccionado === 'azul') {
             btnColor.style.backgroundColor = '#0000ff';
+            btnColor.innerHTML = '';
             labelSensibilidad.innerText = "Sensibilidad Azul:";
             document.getElementById('panel-sensibilidad').style.display = 'flex';
         } else if (colorSeleccionado === 'negro') {
             btnColor.style.backgroundColor = '#111';
+            btnColor.innerHTML = '';
             labelSensibilidad.innerText = "Sensibilidad Negro:";
             document.getElementById('panel-sensibilidad').style.display = 'flex';
         } else if (colorSeleccionado === 'transparente') {
             btnColor.style.backgroundColor = '#333';
-            document.getElementById('panel-sensibilidad').style.display = 'none'; // Sin croma no necesita sensibilidad
+            btnColor.innerHTML = '🚫';
+            document.getElementById('panel-sensibilidad').style.display = 'none'; 
         }
 
         menuColores.style.display = 'none';
@@ -1262,7 +1312,7 @@ async function iniciarCamara(deviceIdEspecifico = null) {
         try {
             const streamFallback = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
             videoCamara.srcObject = streamFallback;
-            await videoCamara.play();
+            await videoCamual.play();
         } catch (e2) { mensajeError.innerText = "Error crítico de cámara: " + e2.message; }
     }
 }
