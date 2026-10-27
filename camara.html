@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no, viewport-fit=cover">
-<title>Chroma Cam FX - Edición Verde Pericial v8</title>
+<title>Chroma Cam FX - Edición Naranja Pericial</title>
 <link rel="manifest" href="manifest.json">
 
 <!-- Librerías de Segmentación por IA (Google MediaPipe - Licencia Apache 2.0) -->
@@ -31,17 +31,17 @@ html, body {
     overscroll-behavior: none;
 }
 
-/* Indicador visual color VERDE al cargar */
+/* Indicador visual color NARANJA al cargar */
 body::before {
     content: "";
     position: fixed;
     top: 0; left: 0; right: 0; bottom: 0;
-    border: 6px solid #10b981;
+    border: 6px solid #f97316;
     z-index: 9999999;
     pointer-events: none;
-    animation: desvanecerBordeVerde 2.5s forwards;
+    animation: desvanecerBordeNaranja 2.5s forwards;
 }
-@keyframes desvanecerBordeVerde {
+@keyframes desvanecerBordeNaranja {
     0% { opacity: 1; }
     70% { opacity: 1; }
     100% { opacity: 0; }
@@ -74,8 +74,8 @@ body::before {
 }
 
 #btn-iniciar { 
-    background-color: #10b981; 
-    color: #000; 
+    background-color: #f97316; 
+    color: #fff; 
     font-weight: bold; 
     font-size: 16px; 
     border: none;
@@ -86,7 +86,7 @@ body::before {
     min-width: 280px;
     height: 54px;
     cursor: pointer; 
-    box-shadow: 0 4px 15px rgba(16,185,129,0.5); 
+    box-shadow: 0 4px 15px rgba(249,115,22,0.5); 
     display: flex;
     justify-content: center;
     align-items: center;
@@ -108,18 +108,18 @@ body::before {
     z-index: 1000000;
 }
 
-#mensaje-error { color: #34d399; text-align: center; max-width: 80%; font-size: 14px; font-weight: bold; background: rgba(0,0,0,0.6); padding: 5px; border-radius: 4px; }
+#mensaje-error { color: #fdba74; text-align: center; max-width: 80%; font-size: 14px; font-weight: bold; background: rgba(0,0,0,0.6); padding: 5px; border-radius: 4px; }
 
 #modal-2fa { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.9); z-index: 20000; display: none; justify-content: center; align-items: center; padding: 20px; box-sizing: border-box; }
-#contenido-2fa { background: #1c1c1c; color: #fff; padding: 25px; border-radius: 12px; max-width: 400px; width: 100%; text-align: center; border: 1px solid #10b981; }
-#contenido-2fa h3 { color: #10b981; margin-top: 0; }
+#contenido-2fa { background: #1c1c1c; color: #fff; padding: 25px; border-radius: 12px; max-width: 400px; width: 100%; text-align: center; border: 1px solid #f97316; }
+#contenido-2fa h3 { color: #f97316; margin-top: 0; }
 .btn-2fa { padding: 10px 20px; border-radius: 6px; border: none; font-weight: bold; cursor: pointer; margin: 10px 5px; }
 #btn-aprobar-dispositivo { background: #28a745; color: white; }
 #btn-rechazar-dispositivo { background: #dc3545; color: white; }
 
 #modal-terminos, #modal-ayuda { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 10000; display: none; justify-content: center; align-items: center; padding: 20px; box-sizing: border-box; }
 #contenido-modal, #contenido-ayuda { background: #1c1c1c; color: #fff; padding: 25px; border-radius: 12px; max-width: 500px; width: 100%; max-height: 85vh; overflow-y: auto; font-size: 13px; line-height: 1.5; border: 1px solid #444; }
-.btn-cerrar-modal { background: #10b981; color: #000; border: none; padding: 8px 16px; border-radius: 6px; margin-top: 15px; cursor: pointer; font-weight: bold; float: right; }
+.btn-cerrar-modal { background: #f97316; color: #fff; border: none; padding: 8px 16px; border-radius: 6px; margin-top: 15px; cursor: pointer; font-weight: bold; float: right; }
 
 #panel-controles-izq {
     position: absolute;
@@ -167,19 +167,19 @@ body::before {
 
 #btn-menu-circular::after { content: "⚙️"; font-size: 13px; }
 #btn-mover-efecto::after { content: "✋"; font-size: 13px; }
-#btn-mover-efecto.activo { background-color: #10b981 !important; border-color: #fff !important; }
+#btn-mover-efecto.activo { background-color: #f97316 !important; border-color: #fff !important; }
 #btn-cambiar-camara::after { content: "🔄"; font-size: 13px; }
 #btn-centrar-imagen::after { content: "🎯"; font-size: 13px; }
 
 #btn-camara-ia { 
-    background: linear-gradient(135deg, #10b981 0%, #047857 50%, #111111 100%) !important; 
+    background: linear-gradient(135deg, #f97316 0%, #c2410c 50%, #111111 100%) !important; 
     border: 1.5px solid #ffffff !important; 
     opacity: 0.6;
 }
 #btn-camara-ia.activo { 
     opacity: 1; 
-    box-shadow: 0 0 10px #10b981;
-    border-color: #10b981 !important;
+    box-shadow: 0 0 10px #f97316;
+    border-color: #f97316 !important;
 }
 #btn-camara-ia::after { content: "📷"; font-size: 12px; }
 
@@ -225,7 +225,7 @@ body::before {
     flex-direction: column; 
     gap: 12px; 
     z-index: 50000; 
-    border: 2px solid #10b981;
+    border: 2px solid #f97316;
 }
 
 #contenedor-lista-checkboxes {
@@ -251,7 +251,7 @@ body::before {
     border-radius: 4px;
 }
 .item-checkbox-label:hover { background: #222; }
-.item-checkbox-label input { accent-color: #10b981; width: 16px; height: 16px; cursor: pointer; }
+.item-checkbox-label input { accent-color: #f97316; width: 16px; height: 16px; cursor: pointer; }
 
 #input-archivo-oculto { display: none; }
 
@@ -264,8 +264,8 @@ body::before {
 
 #btn-abrir-archivo-solo {
     flex: 1;
-    background: #10b981;
-    color: #000;
+    background: #f97316;
+    color: #fff;
     border: none;
     padding: 10px;
     border-radius: 8px;
@@ -289,7 +289,7 @@ body::before {
     white-space: nowrap;
 }
 .contenedor-checkbox-add input {
-    accent-color: #10b981;
+    accent-color: #f97316;
     width: 15px;
     height: 15px;
     cursor: pointer;
@@ -340,7 +340,7 @@ body::before {
 }
 .opcion-color { width: 28px; height: 28px; border-radius: 50%; cursor: pointer; border: 2px solid #fff; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: bold; color: #fff; }
 
-/* PANEL DE SENSIBILIDAD EN VERDE PERICIAL */
+/* PANEL DE SENSIBILIDAD EN NARANJA */
 #panel-sensibilidad {
     position: fixed;
     bottom: 20px; left: 50%;
@@ -354,9 +354,9 @@ body::before {
     align-items: center;
     gap: 8px;
     box-shadow: 0 4px 15px rgba(0,0,0,0.7);
-    border: 1px solid rgba(16,185,129,0.5);
+    border: 1px solid rgba(249,115,22,0.5);
 }
-#panel-sensibilidad label { font-size: 11px; white-space: nowrap; font-weight: bold; color: #10b981; }
+#panel-sensibilidad label { font-size: 11px; white-space: nowrap; font-weight: bold; color: #f97316; }
 
 .contenedor-slider-escala {
     display: flex;
@@ -367,7 +367,7 @@ body::before {
 .simbolo-indicador {
     font-size: 14px;
     font-weight: bold;
-    color: #10b981;
+    color: #f97316;
     user-select: none;
     width: 14px;
     text-align: center;
@@ -375,7 +375,7 @@ body::before {
 
 #panel-sensibilidad input[type=range] { 
     width: 110px; 
-    accent-color: #10b981; 
+    accent-color: #f97316; 
     cursor: pointer;
 }
 
@@ -397,7 +397,7 @@ body::before {
     border: 2px transparent dashed;
     width: 380px;
 }
-.chroma-layer-extra.selected { border-color: #10b981; }
+.chroma-layer-extra.selected { border-color: #f97316; }
 .chroma-layer-extra canvas, .chroma-layer-extra video { display: block; width: 100%; height: auto; }
 
 .btn-close-layer {
@@ -421,7 +421,7 @@ body::before {
 <body>
 <div id="pantalla-inicio">
     <h2 style="color: #fff; margin-bottom: 5px;">Chroma Cam FX</h2>
-    <p style="color: #34d399; font-size: 13px; margin-top: 0; font-weight: bold;">Chroma Studio FX - Edición Verde Pericial v8</p>
+    <p style="color: #fdba74; font-size: 13px; margin-top: 0; font-weight: bold;">Chroma Studio FX - Edición Naranja Pericial</p>
     <input type="email" id="input-email-usuario" class="input-login" placeholder="correo@gmail.com" value="adr8617@gmail.com">
     <button id="btn-iniciar" type="button" onclick="verificarAccesoSuperusuario(event)">TOCA AQUÍ PARA INICIAR</button>
     <p id="mensaje-error"></p>
@@ -479,7 +479,7 @@ body::before {
 
     <!-- Menú Modal con Selector de Casillas Múltiples y Opción Dividida de Abrir con Add -->
     <div id="selector-video-wrapper">
-        <h4 style="color: #10b981; margin: 0 0 5px 0; text-align: center; font-size: 15px;">📁 Selector de Efectos</h4>
+        <h4 style="color: #f97316; margin: 0 0 5px 0; text-align: center; font-size: 15px;">📁 Selector de Efectos</h4>
         <div id="contenedor-lista-checkboxes"></div>
         
         <button id="btn-abrir-seleccionados" class="btn-accion-menu">✅ OK, seleccionado(s)</button>
@@ -625,7 +625,7 @@ function obtenerArchivoDeDB(id) {
 }
 
 function obtenerBaseDatos() {
-    const guardado = localStorage.getItem('efectos_ar_db_v5');
+    const guardado = localStorage.getItem('efectos_ar_db_v6');
     if (guardado) {
         try { 
             const parsed = JSON.parse(guardado); 
@@ -636,7 +636,7 @@ function obtenerBaseDatos() {
     return MULTIMEDIA_DEFAULT;
 }
 
-function guardarBaseDatos(db) { localStorage.setItem('efectos_ar_db_v5', JSON.stringify(db)); }
+function guardarBaseDatos(db) { localStorage.setItem('efectos_ar_db_v6', JSON.stringify(db)); }
 let listaMultimedia = obtenerBaseDatos();
 
 const videoCamara = document.getElementById('video-camara');
@@ -720,6 +720,7 @@ function inicializarIA() {
     selfieSegmentation.onResults(onResultadosIA);
 }
 
+// CÁMARA PRINCIPAL: Recorte por IA con fondo sólido de color
 function onResultadosIA(results) {
     if (!modoCamaraIA) return;
     canvasCamaraIA.width = videoCamara.videoWidth || 1280;
@@ -727,48 +728,20 @@ function onResultadosIA(results) {
     
     ctxCamaraIA.save();
     ctxCamaraIA.clearRect(0, 0, canvasCamaraIA.width, canvasCamaraIA.height);
-
-    if (colorFiltro === 'transparente') {
-        ctxCamaraIA.drawImage(results.image, 0, 0, canvasCamaraIA.width, canvasCamaraIA.height);
-        ctxCamaraIA.restore();
-        return;
-    }
-
-    const w = canvasCamaraIA.width;
-    const h = canvasCamaraIA.height;
-
-    // Dibujamos la imagen limpia de la cámara y aplicamos el croma pericial unificado
-    ctxCamaraIA.drawImage(results.image, 0, 0, w, h);
-    const frameData = ctxCamaraIA.getImageData(0, 0, w, h);
-    const pixels = frameData.data;
-
-    const tolerance = parseFloat(toleranceRange.value);
-
-    for (let i = 0; i < pixels.length; i += 4) {
-        const r = pixels[i], g = pixels[i + 1], b = pixels[i + 2];
-
-        if (colorFiltro === 'verde') {
-            if (g > 60 && g > r * (1.8 - (tolerance * 0.4)) && g > b * (1.8 - (tolerance * 0.4))) {
-                pixels[i + 3] = 0;
-            }
-        } else if (colorFiltro === 'azul') {
-            if (b > 60 && b > r * (1.8 - (tolerance * 0.4)) && b > g * (1.8 - (tolerance * 0.4))) {
-                pixels[i + 3] = 0;
-            }
-        } else if (colorFiltro === 'blanco') {
-            const umbralBlanco = Math.floor(230 - (tolerance * 40));
-            if (r > umbralBlanco && g > umbralBlanco && b > umbralBlanco) {
-                pixels[i + 3] = 0;
-            }
-        } else if (colorFiltro === 'negro') {
-            const umbralNegro = Math.floor(50 * tolerance);
-            if (r < umbralNegro && g < umbralNegro && b < umbralNegro) {
-                pixels[i + 3] = 0;
-            }
-        }
-    }
-
-    ctxCamaraIA.putImageData(frameData, 0, 0);
+    
+    ctxCamaraIA.drawImage(results.segmentationMask, 0, 0, canvasCamaraIA.width, canvasCamaraIA.height);
+    
+    ctxCamaraIA.globalCompositeOperation = 'source-out';
+    if (colorFiltro === 'verde') ctxCamaraIA.fillStyle = '#00FF00';
+    else if (colorFiltro === 'azul') ctxCamaraIA.fillStyle = '#0000FF';
+    else if (colorFiltro === 'blanco') ctxCamaraIA.fillStyle = '#FFFFFF';
+    else if (colorFiltro === 'negro') ctxCamaraIA.fillStyle = '#000000';
+    else ctxCamaraIA.fillStyle = '#000000';
+    
+    ctxCamaraIA.fillRect(0, 0, canvasCamaraIA.width, canvasCamaraIA.height);
+    
+    ctxCamaraIA.globalCompositeOperation = 'destination-over';
+    ctxCamaraIA.drawImage(results.image, 0, 0, canvasCamaraIA.width, canvasCamaraIA.height);
     ctxCamaraIA.restore();
 }
 
@@ -784,7 +757,7 @@ btnCamaraIA.addEventListener('click', (e) => {
     modoCamaraIA = !modoCamaraIA;
     btnCamaraIA.classList.toggle('activo', modoCamaraIA);
     canvasCamaraIA.style.display = modoCamaraIA ? 'block' : 'none';
-    videoCamara.style.display = modoCamaraIA ? 'none' : 'block'; // Ocultamos el video nativo para evitar duplicados y mostrar el canvas de IA
+    videoCamara.style.display = modoCamaraIA ? 'none' : 'block';
     if (modoCamaraIA) {
         if (!selfieSegmentation) inicializarIA();
         procesarFrameCamaraIA();
@@ -796,7 +769,7 @@ btnCerrarTerminos.addEventListener('click', () => { modalTerminos.style.display 
 btnAyuda.addEventListener('click', (e) => { e.stopPropagation(); modalAyuda.style.display = 'flex'; });
 btnCerrarAyuda.addEventListener('click', () => { modalAyuda.style.display = 'none'; });
 
-// LÓGICA ORIGINAL DEL OJITO: Oculta los controles y deja accesibles el botón grabar y el menú circular (changuito)
+// LÓGICA DEL OJITO: Oculta los controles y deja accesibles el botón grabar y el menú circular (⚙️)
 btnToggleInterfaz.addEventListener('click', (e) => {
     e.stopPropagation();
     interfazOculta = !interfazOculta;
@@ -1055,6 +1028,7 @@ function selectLayer(layer) {
     activeLayer = layer;
 }
 
+// CAPAS FLOTANTES: Sensibilidad y croma por tolerancia en imágenes y videos añadidos
 function addChromaLayerExtra(sourceUrl, tipo) {
     forzarDesbloqueoAudio();
     layerCounter++;
@@ -1254,7 +1228,7 @@ function mostrarNotificacionFlotante(texto) {
     if (!notif) {
         notif = document.createElement('div');
         notif.id = 'notif-guardado-exitoso';
-        notif.style.cssText = "position:fixed; top:20px; left:50%; transform:translateX(-50%); background:#10b981; color:#000; padding:12px 24px; border-radius:10px; z-index:999999; font-weight:bold; box-shadow:0 4px 15px rgba(0,0,0,0.5); font-size:14px; text-align:center;";
+        notif.style.cssText = "position:fixed; top:20px; left:50%; transform:translateX(-50%); background:#f97316; color:#fff; padding:12px 24px; border-radius:10px; z-index:999999; font-weight:bold; box-shadow:0 4px 15px rgba(0,0,0,0.5); font-size:14px; text-align:center;";
         document.body.appendChild(notif);
     }
     notif.innerText = texto;
@@ -1329,7 +1303,7 @@ btnGrabar.addEventListener('click', () => {
             const a = document.createElement('a');
             a.style.display = 'none';
             a.href = urlBlob;
-            a.download = `ChromaCam_VerdePericial_${Date.now()}.webm`;
+            a.download = `ChromaCam_NaranjaPericial_${Date.now()}.webm`;
             document.body.appendChild(a);
             a.click();
             setTimeout(() => { 
