@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no, viewport-fit=cover">
-<title>Chroma Cam FX - Edición Oro Pericial</title>
+<title>Chroma Cam FX - Edición Oro Pericial v3</title>
 <link rel="manifest" href="manifest.json">
 
 <!-- Librerías de Segmentación por IA (Google MediaPipe - Licencia Apache 2.0) -->
@@ -340,13 +340,13 @@ body::before {
 }
 .opcion-color { width: 28px; height: 28px; border-radius: 50%; cursor: pointer; border: 2px solid #fff; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: bold; color: #fff; }
 
-/* DISEÑO ELEGANTE DE SENSIBILIDAD CON INDICADORES TRIANGULARES Y SÍMBOLOS MENOR/MAYOR */
+/* NUEVO DISEÑO ELEGANTE DE SENSIBILIDAD CON BARRITAS PROGRESIVAS */
 #panel-sensibilidad {
     position: fixed;
     bottom: 20px; left: 50%;
     transform: translateX(-50%);
     z-index: 15000;
-    background: rgba(0, 0, 0, 0.85);
+    background: rgba(0, 0, 0, 0.88);
     padding: 8px 16px;
     border-radius: 20px;
     color: white;
@@ -354,7 +354,7 @@ body::before {
     align-items: center;
     gap: 8px;
     box-shadow: 0 4px 15px rgba(0,0,0,0.7);
-    border: 1px solid rgba(255,193,7,0.4);
+    border: 1px solid rgba(255,193,7,0.5);
 }
 #panel-sensibilidad label { font-size: 11px; white-space: nowrap; font-weight: bold; color: #ffc107; }
 
@@ -364,35 +364,25 @@ body::before {
     gap: 6px;
 }
 
-.indicador-escala {
-    font-size: 12px;
-    font-weight: bold;
-    color: #ffc107;
-    user-select: none;
+.escala-barritas {
+    display: flex;
+    align-items: flex-end;
+    gap: 2px;
+    height: 12px;
 }
-
-/* Triángulo izquierdo pequeño (menor) */
-.triangulo-min {
-    width: 0;
-    height: 0;
-    border-top: 5px solid transparent;
-    border-bottom: 5px solid transparent;
-    border-right: 7px solid #ffc107;
+.escala-barritas span {
     display: inline-block;
+    background-color: #ffc107;
+    width: 2px;
+    border-radius: 1px;
 }
-
-/* Triángulo derecho grande (mayor) */
-.triangulo-max {
-    width: 0;
-    height: 0;
-    border-top: 7px solid transparent;
-    border-bottom: 7px solid transparent;
-    border-left: 10px solid #ffc107;
-    display: inline-block;
-}
+.escala-barritas span:nth-child(1) { height: 4px; }
+.escala-barritas span:nth-child(2) { height: 7px; }
+.escala-barritas span:nth-child(3) { height: 10px; }
+.escala-barritas span:nth-child(4) { height: 13px; }
 
 #panel-sensibilidad input[type=range] { 
-    width: 100px; 
+    width: 110px; 
     accent-color: #ffc107; 
     cursor: pointer;
 }
@@ -439,7 +429,7 @@ body::before {
 <body>
 <div id="pantalla-inicio">
     <h2 style="color: #fff; margin-bottom: 5px;">Chroma Cam FX</h2>
-    <p style="color: #fde047; font-size: 13px; margin-top: 0; font-weight: bold;">Chroma Studio FX - Edición Oro Pericial</p>
+    <p style="color: #fde047; font-size: 13px; margin-top: 0; font-weight: bold;">Chroma Studio FX - Edición Oro Pericial v3</p>
     <input type="email" id="input-email-usuario" class="input-login" placeholder="correo@gmail.com" value="adr8617@gmail.com">
     <button id="btn-iniciar" type="button" onclick="verificarAccesoSuperusuario(event)">TOCA AQUÍ PARA INICIAR</button>
     <p id="mensaje-error"></p>
@@ -460,8 +450,8 @@ body::before {
         <p>Guía rápida Chroma Cam FX:</p>
         <ul>
             <li><strong>⚙️ Menú de Efectos:</strong> Selecciona múltiples casillas y ábrelos simultáneamente.</li>
-            <li><strong>📂 Abrir y casilla Add:</strong> Abre un archivo local y márcale "Add" si deseas guardarlo permanentemente en la lista.</li>
-            <li><strong>🎨 Botón Croma:</strong> Cambia instantáneamente de color (Verde, Azul, Blanco, Negro o Sin Croma) reflejándose con total precisión en el botón superior derecho.</li>
+            <li><strong>📂 Abrir y casilla Add:</strong> Guarda archivos permanentemente en la base de datos local para que no caduquen al reiniciar.</li>
+            <li><strong>🎨 Botón Croma:</strong> Cambia instantáneamente de color (Verde, Azul, Blanco, Negro o Sin Croma).</li>
         </ul>
         <button id="btn-cerrar-ayuda" class="btn-cerrar-modal">Cerrar Ayuda</button>
     </div>
@@ -517,7 +507,7 @@ body::before {
     <!-- Input oculto para manejo de archivos -->
     <input type="file" id="input-archivo-oculto" accept="video/mp4,image/gif,image/webp,image/*">
 
-    <!-- Botón de Croma Superior (Garantizado sincronizado) -->
+    <!-- Botón de Croma Superior -->
     <div id="btn-color" class="croma-verde" title="Color de Croma"></div>
     <div id="menu-colores">
         <div class="opcion-color" data-color="verde" style="background-color: #00ff00;" title="Verde"></div>
@@ -527,13 +517,17 @@ body::before {
         <div class="opcion-color" data-color="transparente" style="background-color: #333; border: 2px dashed #fff;" title="Sin Croma">🚫</div>
     </div>
 
-    <!-- Panel de Sensibilidad con Indicadores Triangulares Elegantes -->
+    <!-- Panel de Sensibilidad con Indicador Progresivo de Menor a Mayor -->
     <div id="panel-sensibilidad" class="control-ocultable">
         <label id="label-sensibilidad" for="toleranceRange">Sensibilidad:</label>
         <div class="contenedor-slider-escala">
-            <span class="indicador-escala" title="Menor sensibilidad">◀</span>
+            <div class="escala-barritas" title="Menor sensibilidad">
+                <span></span><span></span><span></span><span></span>
+            </div>
             <input type="range" id="toleranceRange" min="0.5" max="2.2" step="0.05" value="1.0">
-            <span class="indicador-escala" title="Mayor sensibilidad">▶</span>
+            <div class="escala-barritas" title="Mayor sensibilidad" style="transform: scaleX(-1);">
+                <span></span><span></span><span></span><span></span>
+            </div>
         </div>
     </div>
 
@@ -603,16 +597,59 @@ function obtenerDispositivoId() {
 
 const MULTIMEDIA_DEFAULT = [{ nombre: "Efecto: Espíritu Espectral", archivo: "espiritu_espectral.mp4", tipo: "video" }];
 
+// Sistema de base de datos persistente con IndexedDB para evitar caducidad de archivos al reiniciar
+const DB_NAME = "ChromaCamDB";
+const STORE_NAME = "archivosMultimedia";
+let dbLocal = null;
+
+function inicializarIndexedDB() {
+    return new Promise((resolve) => {
+        const request = indexedDB.open(DB_NAME, 1);
+        request.onupgradeneeded = (e) => {
+            const db = e.target.result;
+            if (!db.objectStoreNames.contains(STORE_NAME)) {
+                db.createObjectStore(STORE_NAME, { keyPath: "id" });
+            }
+        };
+        request.onsuccess = (e) => {
+            dbLocal = e.target.result;
+            resolve(dbLocal);
+        };
+        request.onerror = () => { resolve(null); };
+    });
+}
+
+function guardarArchivoEnDB(id, blobData) {
+    if (!dbLocal) return;
+    const tx = dbLocal.transaction(STORE_NAME, "readwrite");
+    const store = tx.objectStore(STORE_NAME);
+    store.put({ id: id, blob: blobData });
+}
+
+function obtenerArchivoDeDB(id) {
+    return new Promise((resolve) => {
+        if (!dbLocal) { resolve(null); return; }
+        const tx = dbLocal.transaction(STORE_NAME, "readonly");
+        const store = tx.objectStore(STORE_NAME);
+        const req = store.get(id);
+        req.onsuccess = () => { resolve(req.result ? req.result.blob : null); };
+        req.onerror = () => { resolve(null); };
+    });
+}
+
 function obtenerBaseDatos() {
-    const guardado = localStorage.getItem('efectos_ar_db');
+    const guardado = localStorage.getItem('efectos_ar_db_v2');
     if (guardado) {
-        try { const parsed = JSON.parse(guardado); return parsed.length > 0 ? parsed : MULTIMEDIA_DEFAULT; } 
+        try { 
+            const parsed = JSON.parse(guardado); 
+            return parsed.length > 0 ? parsed : MULTIMEDIA_DEFAULT; 
+        } 
         catch(e) { return MULTIMEDIA_DEFAULT; }
     }
     return MULTIMEDIA_DEFAULT;
 }
 
-function guardarBaseDatos(db) { localStorage.setItem('efectos_ar_db', JSON.stringify(db)); }
+function guardarBaseDatos(db) { localStorage.setItem('efectos_ar_db_v2', JSON.stringify(db)); }
 let listaMultimedia = obtenerBaseDatos();
 
 const videoCamara = document.getElementById('video-camara');
@@ -758,7 +795,7 @@ function actualizarListaCheckboxes() {
         const checkbox = document.createElement('input');
         checkbox.type = 'checkbox';
         checkbox.value = index;
-        checkbox.dataset.archivo = item.archivo;
+        checkbox.dataset.idarchivo = item.id || item.archivo;
         checkbox.dataset.tipo = item.tipo;
         
         const span = document.createElement('span');
@@ -792,7 +829,7 @@ document.addEventListener('click', (e) => {
 
 selectorVideoWrapper.addEventListener('click', (e) => e.stopPropagation());
 
-btnAbrirSeleccionados.addEventListener('click', (e) => {
+btnAbrirSeleccionados.addEventListener('click', async (e) => {
     e.stopPropagation();
     forzarDesbloqueoAudio();
     const checks = contenedorListaCheckboxes.querySelectorAll('input[type="checkbox"]:checked');
@@ -800,9 +837,22 @@ btnAbrirSeleccionados.addEventListener('click', (e) => {
         alert("Selecciona al menos una casilla de la lista.");
         return;
     }
-    checks.forEach(chk => {
-        addChromaLayerExtra(chk.dataset.archivo, chk.dataset.tipo);
-    });
+    for (let chk of checks) {
+        let idArchivo = chk.dataset.idarchivo;
+        let tipo = chk.dataset.tipo;
+        let urlFinal = idArchivo;
+
+        if (idArchivo.startsWith('db_')) {
+            let blobRecuperado = await obtenerArchivoDeDB(idArchivo);
+            if (blobRecuperado) {
+                urlFinal = URL.createObjectURL(blobRecuperado);
+            } else {
+                alert("El archivo guardado ya no está disponible en la memoria del navegador. Por favor vuélvelo a abrir.");
+                continue;
+            }
+        }
+        addChromaLayerExtra(urlFinal, tipo);
+    }
     selectorVideoWrapper.style.display = 'none';
 });
 
@@ -860,7 +910,7 @@ btnBorrarItem.addEventListener('click', (e) => {
     }
 });
 
-inputArchivoOculto.addEventListener('change', (e) => {
+inputArchivoOculto.addEventListener('change', async (e) => {
     const archivo = e.target.files[0];
     if (!archivo) return;
     const nombreArchivo = archivo.name;
@@ -873,7 +923,10 @@ inputArchivoOculto.addEventListener('change', (e) => {
         let descripcionCustom = prompt("Escribe el nombre descriptivo para este acceso rápido en la lista:", nombreArchivo);
         if (!descripcionCustom || descripcionCustom.trim() === "") descripcionCustom = nombreArchivo;
 
-        listaMultimedia.push({ nombre: descripcionCustom, archivo: urlLocal, tipo: tipoDetectado });
+        let idUnico = 'db_' + Date.now() + '_' + Math.random().toString(36).substring(2, 7);
+        guardarArchivoEnDB(idUnico, archivo);
+
+        listaMultimedia.push({ nombre: descripcionCustom, archivo: urlLocal, id: idUnico, tipo: tipoDetectado });
         guardarBaseDatos(listaMultimedia);
         actualizarListaCheckboxes();
     }
@@ -1304,8 +1357,9 @@ opcionesColor.forEach(opcion => {
     });
 });
 
-function verificarAccesoSuperusuario(e) {
+async function verificarAccesoSuperusuario(e) {
     if (e) { e.stopPropagation(); e.preventDefault(); }
+    await inicializarIndexedDB();
     pantallaInicio.style.display = 'none';
     panelControles.style.display = 'flex';
     document.getElementById('panel-controles-izq').style.display = 'flex';
@@ -1396,6 +1450,7 @@ btnCambiarCamara.addEventListener('click', async () => {
 
 async function lanzarAppDespuesDeInicio() {
     try {
+        await inicializarIndexedDB();
         await detectarDispositivosCamara();
         await iniciarCamara();
         actualizarListaCheckboxes();
