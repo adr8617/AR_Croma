@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no, viewport-fit=cover">
-<title>Chroma Cam FX - Edición Oro Pericial v3</title>
+<title>Chroma Cam FX - Edición Oro Pericial v4</title>
 <link rel="manifest" href="manifest.json">
 
 <!-- Librerías de Segmentación por IA (Google MediaPipe - Licencia Apache 2.0) -->
@@ -340,7 +340,7 @@ body::before {
 }
 .opcion-color { width: 28px; height: 28px; border-radius: 50%; cursor: pointer; border: 2px solid #fff; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: bold; color: #fff; }
 
-/* NUEVO DISEÑO ELEGANTE DE SENSIBILIDAD CON BARRITAS PROGRESIVAS */
+/* NUEVO DISEÑO CON SÍMBOLOS MENOS (-) Y MÁS (+) */
 #panel-sensibilidad {
     position: fixed;
     bottom: 20px; left: 50%;
@@ -364,22 +364,14 @@ body::before {
     gap: 6px;
 }
 
-.escala-barritas {
-    display: flex;
-    align-items: flex-end;
-    gap: 2px;
-    height: 12px;
+.simbolo-indicador {
+    font-size: 14px;
+    font-weight: bold;
+    color: #ffc107;
+    user-select: none;
+    width: 14px;
+    text-align: center;
 }
-.escala-barritas span {
-    display: inline-block;
-    background-color: #ffc107;
-    width: 2px;
-    border-radius: 1px;
-}
-.escala-barritas span:nth-child(1) { height: 4px; }
-.escala-barritas span:nth-child(2) { height: 7px; }
-.escala-barritas span:nth-child(3) { height: 10px; }
-.escala-barritas span:nth-child(4) { height: 13px; }
 
 #panel-sensibilidad input[type=range] { 
     width: 110px; 
@@ -429,7 +421,7 @@ body::before {
 <body>
 <div id="pantalla-inicio">
     <h2 style="color: #fff; margin-bottom: 5px;">Chroma Cam FX</h2>
-    <p style="color: #fde047; font-size: 13px; margin-top: 0; font-weight: bold;">Chroma Studio FX - Edición Oro Pericial v3</p>
+    <p style="color: #fde047; font-size: 13px; margin-top: 0; font-weight: bold;">Chroma Studio FX - Edición Oro Pericial v4</p>
     <input type="email" id="input-email-usuario" class="input-login" placeholder="correo@gmail.com" value="adr8617@gmail.com">
     <button id="btn-iniciar" type="button" onclick="verificarAccesoSuperusuario(event)">TOCA AQUÍ PARA INICIAR</button>
     <p id="mensaje-error"></p>
@@ -517,17 +509,13 @@ body::before {
         <div class="opcion-color" data-color="transparente" style="background-color: #333; border: 2px dashed #fff;" title="Sin Croma">🚫</div>
     </div>
 
-    <!-- Panel de Sensibilidad con Indicador Progresivo de Menor a Mayor -->
+    <!-- Panel de Sensibilidad con Símbolos Menos (-) y Más (+) -->
     <div id="panel-sensibilidad" class="control-ocultable">
         <label id="label-sensibilidad" for="toleranceRange">Sensibilidad:</label>
         <div class="contenedor-slider-escala">
-            <div class="escala-barritas" title="Menor sensibilidad">
-                <span></span><span></span><span></span><span></span>
-            </div>
+            <span class="simbolo-indicador" title="Disminuir sensibilidad">-</span>
             <input type="range" id="toleranceRange" min="0.5" max="2.2" step="0.05" value="1.0">
-            <div class="escala-barritas" title="Mayor sensibilidad" style="transform: scaleX(-1);">
-                <span></span><span></span><span></span><span></span>
-            </div>
+            <span class="simbolo-indicador" title="Aumentar sensibilidad">+</span>
         </div>
     </div>
 
@@ -597,7 +585,6 @@ function obtenerDispositivoId() {
 
 const MULTIMEDIA_DEFAULT = [{ nombre: "Efecto: Espíritu Espectral", archivo: "espiritu_espectral.mp4", tipo: "video" }];
 
-// Sistema de base de datos persistente con IndexedDB para evitar caducidad de archivos al reiniciar
 const DB_NAME = "ChromaCamDB";
 const STORE_NAME = "archivosMultimedia";
 let dbLocal = null;
