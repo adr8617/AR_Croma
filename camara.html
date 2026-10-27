@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no, viewport-fit=cover">
-<title>Chroma Cam FX - Edición Naranja Pericial</title>
+<title>Chroma Cam FX - Edición Naranja v7</title>
 <link rel="manifest" href="manifest.json">
 
 <!-- Librerías de Segmentación por IA (Google MediaPipe - Licencia Apache 2.0) -->
@@ -183,8 +183,10 @@ body::before {
 }
 #btn-camara-ia::after { content: "📷"; font-size: 12px; }
 
+/* BOTÓN TOGGLE INTERFAZ (OJITO / CHANGUITO) */
 #btn-toggle-interfaz::after { content: "👁️"; font-size: 13px; }
-#btn-toggle-interfaz.oculto::after { content: "🙈"; font-size: 13px; }
+#btn-toggle-interfaz.oculto::after { content: "⚙️"; font-size: 13px; }
+
 #btn-ayuda::after { content: "❓"; font-size: 13px; }
 #btn-terminos::after { content: "📄"; font-size: 13px; }
 
@@ -421,7 +423,7 @@ body::before {
 <body>
 <div id="pantalla-inicio">
     <h2 style="color: #fff; margin-bottom: 5px;">Chroma Cam FX</h2>
-    <p style="color: #fdba74; font-size: 13px; margin-top: 0; font-weight: bold;">Chroma Studio FX - Edición Naranja Pericial</p>
+    <p style="color: #fdba74; font-size: 13px; margin-top: 0; font-weight: bold;">Chroma Studio FX - Edición Naranja v7</p>
     <input type="email" id="input-email-usuario" class="input-login" placeholder="correo@gmail.com" value="adr8617@gmail.com">
     <button id="btn-iniciar" type="button" onclick="verificarAccesoSuperusuario(event)">TOCA AQUÍ PARA INICIAR</button>
     <p id="mensaje-error"></p>
@@ -460,19 +462,19 @@ body::before {
 <div id="contenedor-principal">
     <div id="aviso-premium">⚠️ Función bloqueada en modo básico.</div>
 
-    <!-- Controles izquierdos fijos: Menú de efectos y Botón Grabar -->
+    <!-- Controles izquierdos fijos: Menú de efectos, Botón Grabar y Botón Ocultar/Changuito -->
     <div id="panel-controles-izq">
         <div id="btn-menu-circular" class="btn-flotante control-ocultable" data-control="item"></div>
         <div id="btn-grabar" title="Grabar Video"></div>
+        <div id="btn-toggle-interfaz" class="btn-flotante" title="Ocultar/Mostrar Controles"></div>
     </div>
 
-    <!-- Panel superior deslizable acotado -->
+    <!-- Panel superior deslizable acotado (Ocultable por el ojito) -->
     <div id="panel-controles">
         <div id="btn-camara-ia" class="btn-flotante control-ocultable" title="Croma IA Cámara" data-control="item"></div>
         <div id="btn-mover-efecto" class="btn-flotante control-ocultable" title="Mover y Escalar" data-control="item"></div>
         <div id="btn-cambiar-camara" class="btn-flotante control-ocultable" title="Cambiar Cámara" data-control="item"></div>
         <div id="btn-centrar-imagen" class="btn-flotante control-ocultable" title="Centrar Imagen"></div>
-        <div id="btn-toggle-interfaz" class="btn-flotante" title="Ocultar/Mostrar Controles"></div>
         <div id="btn-ayuda" class="btn-flotante control-ocultable" title="Ayuda"></div>
         <div id="btn-terminos" class="btn-flotante control-ocultable" title="Términos"></div>
     </div>
@@ -625,7 +627,7 @@ function obtenerArchivoDeDB(id) {
 }
 
 function obtenerBaseDatos() {
-    const guardado = localStorage.getItem('efectos_ar_db_v6');
+    const guardado = localStorage.getItem('efectos_ar_db_v7');
     if (guardado) {
         try { 
             const parsed = JSON.parse(guardado); 
@@ -636,7 +638,7 @@ function obtenerBaseDatos() {
     return MULTIMEDIA_DEFAULT;
 }
 
-function guardarBaseDatos(db) { localStorage.setItem('efectos_ar_db_v6', JSON.stringify(db)); }
+function guardarBaseDatos(db) { localStorage.setItem('efectos_ar_db_v7', JSON.stringify(db)); }
 let listaMultimedia = obtenerBaseDatos();
 
 const videoCamara = document.getElementById('video-camara');
@@ -769,14 +771,12 @@ btnCerrarTerminos.addEventListener('click', () => { modalTerminos.style.display 
 btnAyuda.addEventListener('click', (e) => { e.stopPropagation(); modalAyuda.style.display = 'flex'; });
 btnCerrarAyuda.addEventListener('click', () => { modalAyuda.style.display = 'none'; });
 
-// LÓGICA DEL OJITO: Oculta los controles y deja accesibles el botón grabar y el menú circular (⚙️)
+// LÓGICA DEL OJITO / CHANGUITO: Oculta los controles y deja fijo únicamente el botón de grabar
 btnToggleInterfaz.addEventListener('click', (e) => {
     e.stopPropagation();
     interfazOculta = !interfazOculta;
     controlesOcultables.forEach(el => { 
-        if (el.id !== 'btn-menu-circular') {
-            el.style.display = interfazOculta ? 'none' : 'flex'; 
-        }
+        el.style.display = interfazOculta ? 'none' : 'flex'; 
     });
     btnToggleInterfaz.classList.toggle('oculto', interfazOculta);
     btnColor.style.display = interfazOculta ? 'none' : 'flex';
