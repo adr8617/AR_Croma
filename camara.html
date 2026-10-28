@@ -538,7 +538,18 @@ body::before {
 </div>
 
 <script>
-const SUPER_USUARIOS = ["adr8617@gmail.com", "la.burbuj@gmail.com"];
+const SUPER_USUARIOS = [
+    "adr8617@gmail.com",
+    "la.burbuj@gmail.com",
+    "soporte.chromacam@gmail.com",
+    "hibayona@gmail.com",
+    "alvalararturo@gmail.com",
+    "lulucastilloa@gmail.com",
+    "danieru204@gmail.com",
+    "antoniojaimesyaguaru@gmail.com",
+    "enrique.ornelas82@gmail.com",
+    "crsconcentrador@gmail.com"
+];
 let esSuperUsuario = false;
 let audioContextGlobal = null;
 let masterDestinationNode = null; 
@@ -727,7 +738,6 @@ function inicializarIA() {
     selfieSegmentation.onResults(onResultadosIA);
 }
 
-// CÁMARA PRINCIPAL: Recorte por IA con fondo sólido de color
 function onResultadosIA(results) {
     if (!modoCamaraIA) return;
     canvasCamaraIA.width = videoCamara.videoWidth || 1280;
@@ -776,10 +786,6 @@ btnCerrarTerminos.addEventListener('click', () => { modalTerminos.style.display 
 btnAyuda.addEventListener('click', (e) => { e.stopPropagation(); modalAyuda.style.display = 'flex'; });
 btnCerrarAyuda.addEventListener('click', () => { modalAyuda.style.display = 'none'; });
 
-/* LÓGICA DEL OJITO / CHANGUITO:
-   - Oculta el panel superior, el selector de croma y la sensibilidad.
-   - Deja visibles permanentemente los botones de la izquierda (engranaje, grabar y ojito/changuito).
-*/
 btnToggleInterfaz.addEventListener('click', (e) => {
     e.stopPropagation();
     interfazOculta = !interfazOculta;
@@ -1038,7 +1044,6 @@ function selectLayer(layer) {
     activeLayer = layer;
 }
 
-// CAPAS FLOTANTES: Sensibilidad y croma por tolerancia en imágenes y videos añadidos
 function addChromaLayerExtra(sourceUrl, tipo) {
     forzarDesbloqueoAudio();
     layerCounter++;
