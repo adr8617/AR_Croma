@@ -429,7 +429,8 @@ body::before {
 <div id="pantalla-inicio">
     <h2 style="color: #fff; margin-bottom: 5px;">Chroma Cam FX</h2>
     <p style="color: #fca5a5; font-size: 13px; margin-top: 0; font-weight: bold;">Chroma Studio FX - Edición Roja Holográfica</p>
-    <input type="email" id="input-email-usuario" class="input-login" placeholder="correo@gmail.com" value="adr8617@gmail.com">
+    <!-- Campo de correo limpio y sin valor predeterminado fijo -->
+    <input type="email" id="input-email-usuario" class="input-login" placeholder="correo@gmail.com">
     <button id="btn-iniciar" type="button" onclick="verificarAccesoSuperusuario(event)">TOCA AQUÍ PARA INICIAR</button>
     <p id="mensaje-error"></p>
 </div>
@@ -1382,6 +1383,15 @@ opcionesColor.forEach(opcion => {
 
 async function verificarAccesoSuperusuario(e) {
     if (e) { e.stopPropagation(); e.preventDefault(); }
+    
+    const emailIngresado = inputEmailUsuario.value.trim().toLowerCase();
+    
+    if (!emailIngresado) {
+        mensajeError.innerText = "Por favor ingresa tu correo electrónico.";
+        return;
+    }
+    
+    mensajeError.innerText = "";
     await inicializarIndexedDB();
     pantallaInicio.style.display = 'none';
     panelControles.style.display = 'flex';
@@ -1393,7 +1403,6 @@ async function verificarAccesoSuperusuario(e) {
     btnColor.className = "croma-verde";
     btnColor.innerHTML = '';
 
-    const emailIngresado = inputEmailUsuario.value.trim().toLowerCase();
     if (SUPER_USUARIOS.includes(emailIngresado)) {
         const deviceIdActual = obtenerDispositivoId();
         const dispositivosAutorizadosKey = `auth_devs_${emailIngresado}`;
@@ -1418,6 +1427,7 @@ async function verificarAccesoSuperusuario(e) {
             };
         }
     } else {
+        // Usuario estándar / modo de prueba (permitido ingresar con funciones limitadas)
         esSuperUsuario = false;
         lanzarAppDespuesDeInicio();
     }
