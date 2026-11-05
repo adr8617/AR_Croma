@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no, viewport-fit=cover">
-<title>Chroma Cam FX - Edición Amarillo Studio</title>
+<title>Chroma Cam FX - Edición Negro y Destello Amarillo</title>
 <link rel="manifest" href="manifest.json">
 
 <!-- Librerías de Segmentación por IA (Google MediaPipe - Licencia Apache 2.0) -->
@@ -31,7 +31,7 @@ html, body {
     overscroll-behavior: none;
 }
 
-/* Indicador visual color AMARILLO al cargar */
+/* Indicador visual con destello AMARILLO al cargar */
 body::before {
     content: "";
     position: fixed;
@@ -42,9 +42,9 @@ body::before {
     animation: desvanecerBordeAmarillo 2.5s forwards;
 }
 @keyframes desvanecerBordeAmarillo {
-    0% { opacity: 1; }
-    70% { opacity: 1; }
-    100% { opacity: 0; }
+    0% { opacity: 1; box-shadow: inset 0 0 20px #eab308; }
+    70% { opacity: 1; box-shadow: inset 0 0 10px #eab308; }
+    100% { opacity: 0; box-shadow: inset 0 0 0px transparent; }
 }
 
 #contenedor-principal { 
@@ -58,12 +58,12 @@ body::before {
     align-items: center; 
 }
 
-/* CAMBIO 1: Pantalla de inicio en tono AMARILLO */
+/* Pantalla de inicio en NEGRO con DESTELLO AMARILLO animado alrededor */
 #pantalla-inicio { 
     position: fixed; 
     top: 0; left: 0; 
     width: 100vw; height: 100vh; 
-    background-color: #d97706; 
+    background-color: #000000; 
     z-index: 999999; 
     display: flex; 
     flex-direction: column; 
@@ -72,11 +72,25 @@ body::before {
     padding: 20px; 
     box-sizing: border-box; 
     gap: 15px; 
+    box-shadow: inset 0 0 80px rgba(234, 179, 8, 0.6);
+    animation: pulsoDestelloAmarillo 3s infinite alternate ease-in-out;
+}
+
+@keyframes pulsoDestelloAmarillo {
+    0% {
+        box-shadow: inset 0 0 30px rgba(234, 179, 8, 0.3), 0 0 15px rgba(234, 179, 8, 0.2);
+    }
+    50% {
+        box-shadow: inset 0 0 90px rgba(234, 179, 8, 0.8), 0 0 35px rgba(234, 179, 8, 0.6);
+    }
+    100% {
+        box-shadow: inset 0 0 30px rgba(234, 179, 8, 0.3), 0 0 15px rgba(234, 179, 8, 0.2);
+    }
 }
 
 #btn-iniciar { 
-    background-color: #b45309; 
-    color: #fff; 
+    background-color: #eab308; 
+    color: #000; 
     font-weight: bold; 
     font-size: 16px; 
     border: none;
@@ -87,7 +101,7 @@ body::before {
     min-width: 280px;
     height: 54px;
     cursor: pointer; 
-    box-shadow: 0 4px 15px rgba(245,158,11,0.5); 
+    box-shadow: 0 0 20px rgba(234, 179, 8, 0.6); 
     display: flex;
     justify-content: center;
     align-items: center;
@@ -99,7 +113,7 @@ body::before {
     padding: 14px; 
     font-size: 16px; 
     border-radius: 10px; 
-    border: 1px solid #78350f; 
+    border: 1px solid #eab308; 
     background: #111; 
     color: #fff; 
     width: 280px; 
@@ -121,7 +135,7 @@ body::before {
 #modal-terminos, #modal-ayuda { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 10000; display: none; justify-content: center; align-items: center; padding: 20px; box-sizing: border-box; }
 #contenido-modal, #contenido-ayuda { background: #1c1c1c; color: #fff; padding: 25px; border-radius: 12px; max-width: 520px; width: 100%; max-height: 85vh; overflow-y: auto; font-size: 13px; line-height: 1.5; border: 1px solid #444; }
 #contenido-ayuda h3 { margin-top: 0; color: #eab308; font-size: 18px; border-bottom: 1px solid #333; padding-bottom: 8px; }
-.btn-cerrar-modal { background: #b45309; color: #fff; border: none; padding: 8px 16px; border-radius: 6px; margin-top: 15px; cursor: pointer; font-weight: bold; float: right; }
+.btn-cerrar-modal { background: #eab308; color: #000; border: none; padding: 8px 16px; border-radius: 6px; margin-top: 15px; cursor: pointer; font-weight: bold; float: right; }
 
 .caja-usuario-logueado {
     background: rgba(234, 179, 8, 0.1);
@@ -291,8 +305,8 @@ body::before {
 
 #btn-abrir-archivo-solo {
     flex: 1;
-    background: #b45309;
-    color: #fff;
+    background: #eab308;
+    color: #000;
     border: none;
     padding: 10px;
     border-radius: 8px;
@@ -324,10 +338,10 @@ body::before {
 
 .btn-accion-menu { color: white; border: none; padding: 10px; border-radius: 8px; font-size: 13px; cursor: pointer; text-align: center; font-weight: bold; width: 100%; }
 #btn-abrir-seleccionados { background: #28a745; }
-#btn-descargar-demo { background: #b45309; }
+#btn-descargar-demo { background: #eab308; color: #000; }
 #btn-borrar-item { background: #6c2222; }
 
-#aviso-premium { position: absolute; bottom: 80px; left: 50%; transform: translateX(-50%); background: rgba(180, 83, 9, 0.95); color: white; padding: 12px 24px; border-radius: 8px; font-size: 13px; z-index: 19999; display: none; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.6); }
+#aviso-premium { position: absolute; bottom: 80px; left: 50%; transform: translateX(-50%); background: rgba(234, 179, 8, 0.95); color: #000; font-weight: bold; padding: 12px 24px; border-radius: 8px; font-size: 13px; z-index: 19999; display: none; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.6); }
 
 #btn-color { 
     position: absolute !important; 
@@ -479,7 +493,7 @@ body::before {
 <body>
 <div id="pantalla-inicio">
     <h2 style="color: #fff; margin-bottom: 5px;">Chroma Cam FX</h2>
-    <p style="color: #fef08a; font-size: 13px; margin-top: 0; font-weight: bold;">Chroma Studio FX - Edición Amarillo Studio</p>
+    <p style="color: #eab308; font-size: 13px; margin-top: 0; font-weight: bold;">Chroma Studio FX - Edición Destello Amarillo</p>
     <input type="email" id="input-email-usuario" class="input-login" placeholder="correo@gmail.com">
     <button id="btn-iniciar" type="button" onclick="verificarAccesoSuperusuario(event)">TOCA AQUÍ PARA INICIAR</button>
     <p id="mensaje-error"></p>
@@ -1083,7 +1097,8 @@ canvas.addEventListener('touchmove', (e) => {
             if (activeLayer) {
                 if (!esSuperUsuario) { mostrarAviso("función zoom deshabilitada"); return; }
                 let nuevaEscala = parseFloat(activeLayer.dataset.scale) * factor;
-                if (nuevaEscala >= 0.3 && nuevaEscala <= 4.0) {
+                // AJUSTE SOLICITADO: Mínimo 0.05 (5%) en vez de 0.3 (30%)
+                if (nuevaEscala >= 0.05 && nuevaEscala <= 4.0) {
                     activeLayer.dataset.scale = nuevaEscala;
                     const baseW = parseFloat(activeLayer.dataset.baseWidth);
                     activeLayer.style.width = (baseW * nuevaEscala) + 'px';
@@ -1344,7 +1359,8 @@ function makeInteractableLayer(element) {
         if (e.touches && e.touches.length === 2 && initialPinchDistance) {
             e.preventDefault();
             const currentDistance = calcularDistanciaTactil(e.touches[0], e.touches[1]);
-            let newScale = Math.min(Math.max(0.3, initialScale * (currentDistance / initialPinchDistance)), 4.0);
+            // AJUSTE SOLICITADO: Mínimo 0.05 (5%) en vez de 0.3 (30%)
+            let newScale = Math.min(Math.max(0.05, initialScale * (currentDistance / initialPinchDistance)), 4.0);
             element.dataset.scale = newScale;
             element.style.width = (parseFloat(element.dataset.baseWidth) * newScale) + 'px';
         } else if (isDraggingLayer) {
@@ -1366,7 +1382,7 @@ function mostrarNotificacionFlotante(texto) {
     if (!notif) {
         notif = document.createElement('div');
         notif.id = 'notif-guardado-exitoso';
-        notif.style.cssText = "position:fixed; top:20px; left:50%; transform:translateX(-50%); background:#b45309; color:#fff; padding:12px 24px; border-radius:10px; z-index:999999; font-weight:bold; box-shadow:0 4px 15px rgba(0,0,0,0.5); font-size:14px; text-align:center;";
+        notif.style.cssText = "position:fixed; top:20px; left:50%; transform:translateX(-50%); background:#eab308; color:#000; padding:12px 24px; border-radius:10px; z-index:999999; font-weight:bold; box-shadow:0 4px 15px rgba(0,0,0,0.5); font-size:14px; text-align:center;";
         document.body.appendChild(notif);
     }
     notif.innerText = texto;
@@ -1374,7 +1390,6 @@ function mostrarNotificacionFlotante(texto) {
     setTimeout(() => { notif.style.display = 'none'; }, 3500);
 }
 
-/* CAMBIO 2 Y 3: Grabador de Video Dinámico con dimensiones reales en vivo */
 btnGrabar.addEventListener('click', () => {
     forzarDesbloqueoAudio();
     if (!estaGrabando) { 
@@ -1445,7 +1460,7 @@ btnGrabar.addEventListener('click', () => {
             const a = document.createElement('a');
             a.style.display = 'none';
             a.href = urlBlob;
-            a.download = `ChromaCam_AmarilloHolograma_${Date.now()}.webm`;
+            a.download = `ChromaCam_NegroDestello_${Date.now()}.webm`;
             document.body.appendChild(a);
             a.click();
             setTimeout(() => { 
