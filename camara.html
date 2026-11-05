@@ -118,7 +118,8 @@ body::before {
 #btn-rechazar-dispositivo { background: #dc3545; color: white; }
 
 #modal-terminos, #modal-ayuda { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 10000; display: none; justify-content: center; align-items: center; padding: 20px; box-sizing: border-box; }
-#contenido-modal, #contenido-ayuda { background: #1c1c1c; color: #fff; padding: 25px; border-radius: 12px; max-width: 500px; width: 100%; max-height: 85vh; overflow-y: auto; font-size: 13px; line-height: 1.5; border: 1px solid #444; }
+#contenido-modal, #contenido-ayuda { background: #1c1c1c; color: #fff; padding: 25px; border-radius: 12px; max-width: 520px; width: 100%; max-height: 85vh; overflow-y: auto; font-size: 13px; line-height: 1.5; border: 1px solid #444; }
+#contenido-ayuda h3 { margin-top: 0; color: #06b6d4; font-size: 18px; border-bottom: 1px solid #333; padding-bottom: 8px; }
 .btn-cerrar-modal { background: #0891b2; color: #fff; border: none; padding: 8px 16px; border-radius: 6px; margin-top: 15px; cursor: pointer; font-weight: bold; float: right; }
 
 .caja-usuario-logueado {
@@ -131,6 +132,16 @@ body::before {
 }
 .caja-usuario-logueado strong {
     color: #06b6d4;
+}
+
+.seccion-ayuda-titulo {
+    color: #06b6d4;
+    font-weight: bold;
+    margin-top: 15px;
+    margin-bottom: 5px;
+    font-size: 14px;
+    border-bottom: 1px dashed #333;
+    padding-bottom: 3px;
 }
 
 #panel-controles-izq {
@@ -178,8 +189,6 @@ body::before {
 .btn-flotante:active { background-color: rgba(0, 0, 0, 0.9) !important; }
 
 #btn-menu-circular::after { content: "⚙️"; font-size: 13px; }
-#btn-mover-efecto::after { content: "✋"; font-size: 13px; }
-#btn-mover-efecto.activo { background-color: #0891b2 !important; border-color: #fff !important; color: #fff !important; }
 #btn-cambiar-camara::after { content: "🔄"; font-size: 13px; }
 #btn-centrar-imagen::after { content: "🎯"; font-size: 13px; }
 
@@ -432,7 +441,6 @@ body::before {
 }
 .chroma-layer-extra.selected .btn-close-layer { display: block; }
 
-/* CONTROLES FLOTANTES DE VOLUMEN POR CAPA (CON TIMER DE DESVANECIMIENTO) */
 .controles-volumen-capa {
     display: none;
     position: absolute;
@@ -487,19 +495,39 @@ body::before {
 
 <div id="modal-ayuda">
     <div id="contenido-ayuda">
-        <h3>📖 Manual de Ayuda y Funcionalidades</h3>
+        <h3>📖 Manual de Ayuda y Guía de Controles</h3>
         
         <div class="caja-usuario-logueado">
             👤 Usuario Activo: <strong id="texto-usuario-activo">No iniciado</strong>
         </div>
 
-        <p>Guía rápida Chroma Cam FX:</p>
-        <ul>
-            <li><strong>⚙️ Menú de Efectos:</strong> Selecciona múltiples casillas y ábrelos simultáneamente.</li>
-            <li><strong>📂 Abrir y casilla Add:</strong> Guarda archivos permanentemente en la base de datos local.</li>
-            <li><strong>🎨 Botón Croma:</strong> Cambia instantáneamente de color (Verde, Azul, Blanco, Negro o Sin Croma).</li>
-            <li><strong>🔊 Control de Audio:</strong> Selecciona una capa para ajustar o mutear el volumen de su video.</li>
+        <div class="seccion-ayuda-titulo">⚙️ Menú de Efectos (Engranaje)</div>
+        <ul style="padding-left: 18px; margin-top: 5px; margin-bottom: 12px;">
+            <li><strong>Lista de Selecciones:</strong> Muestra casillas de verificación para marcar múltiples imágenes o videos de tu galería guardada.</li>
+            <li><strong>✅ OK, seleccionado(s):</strong> Proyecta e inserta simultáneamente en pantalla todas las capas marcadas en la lista.</li>
+            <li><strong>📂 Abrir Archivo:</strong> Abre el explorador local de tu dispositivo para cargar una imagen (PNG, JPG, GIF) o video (MP4) propio.</li>
+            <li><strong>☑️ Add to list (Checkbox):</strong> Al abrir un archivo local estando activo, lo guarda permanentemente en el almacenamiento interno para que no se pierda al cerrar el navegador.</li>
+            <li><strong>📥 Descargar Demo GitHub:</strong> Descarga y vincula de forma automática los efectos interactivos de demostración del servidor.</li>
+            <li><strong>🗑️ Borrar seleccionados de la lista:</strong> Elimina de manera permanente de la memoria interna los elementos que tengas marcados con casilla.</li>
         </ul>
+
+        <div class="seccion-ayuda-titulo">🛠️ Botones Principales e Interfaz de Control</div>
+        <ul style="padding-left: 18px; margin-top: 5px; margin-bottom: 10px;">
+            <li><strong>📷 Croma IA Cámara (Botón Tricolor):</strong> Activa el recorte por Inteligencia Artificial (Google MediaPipe) en la cámara principal de fondo. Recorta tu silueta humana en tiempo real y pinta el fondo de tu habitación con el color seleccionado para transparentarlo.</li>
+            <li><strong>🎨 Selector de Croma (Botón Superior Derecho):</strong> Selecciona el color de filtro a transparentar en la app:
+                <ul>
+                    <li><span style="color:#00ff00;">Verde</span> / <span style="color:#5555ff;">Azul</span> / <span style="color:#aaa;">Blanco</span> / <span style="color:#777;">Negro</span>: Transparenta ese tono en los videos/GIFs superpuestos y establece el color de fondo para el recorte de la Cámara IA.</li>
+                    <li><strong>🚫 Sin Croma:</strong> Muestra la imagen o video original en su estado nativo sin transparentar nada. Si la cámara IA está encendida, muestra tu fondo real sin aplicar recorte.</li>
+                </ul>
+            </li>
+            <li><strong>🎚️ Barra de Sensibilidad (- / +):</strong> Ajusta la tolerancia del recorte de color para transparentar sombras o velos sin recortar los personajes.</li>
+            <li><strong>🔄 Cambiar Cámara:</strong> Alterna entre la cámara frontal (selfie) y la cámara trasera o cámaras USB externas.</li>
+            <li><strong>🎯 Centrar Imagen:</strong> Restablece la posición y la escala de la capa activa al centro de la pantalla si se desfasó o perdió.</li>
+            <li><strong>👁️ / 🐒 Ocultar/Mostrar Controles (Ojito / Changuito):</strong> Oculta la barra de botones para tomas o grabaciones limpias. El botón permanece accesible para restaurar la interfaz.</li>
+            <li><strong>🔴 / ⏹️ Grabar Video:</strong> Inicia la grabación combinada (cámara, capas superpuestas y audio unificado) directamente en formato WebM. Presiona el botón cuadrado (⏹️) para detener y descargar el archivo.</li>
+            <li><strong>📄 Términos y Privacidad:</strong> Información sobre el procesamiento 100% privado y local sin envío de flujo de video a servidores externos.</li>
+        </ul>
+
         <button id="btn-cerrar-ayuda" class="btn-cerrar-modal">Cerrar Ayuda</button>
     </div>
 </div>
@@ -523,7 +551,6 @@ body::before {
 
     <div id="panel-controles">
         <div id="btn-camara-ia" class="btn-flotante control-ocultable" title="Croma IA Cámara"></div>
-        <div id="btn-mover-efecto" class="btn-flotante control-ocultable" title="Mover y Escalar"></div>
         <div id="btn-cambiar-camara" class="btn-flotante control-ocultable" title="Cambiar Cámara"></div>
         <div id="btn-centrar-imagen" class="btn-flotante control-ocultable" title="Centrar Imagen"></div>
         <div id="btn-ayuda" class="btn-flotante control-ocultable" title="Ayuda"></div>
@@ -735,7 +762,6 @@ const btnBorrarItem = document.getElementById('btn-borrar-item');
 const inputArchivoOculto = document.getElementById('input-archivo-oculto');
 
 const btnCamaraIA = document.getElementById('btn-camara-ia');
-const btnMoverEfecto = document.getElementById('btn-mover-efecto');
 const btnCentrarImagen = document.getElementById('btn-centrar-imagen');
 const btnTerminos = document.getElementById('btn-terminos');
 const modalTerminos = document.getElementById('modal-terminos');
@@ -760,7 +786,6 @@ const panelSensibilidad = document.getElementById('panel-sensibilidad');
 let colorFiltro = 'verde'; 
 let modoCamaraIA = false;
 let selfieSegmentation = null;
-let modoMoverActivo = false;
 let distanciaInicialPellizco = 0;
 let layerCounter = 0;
 let activeLayer = null;
@@ -1005,13 +1030,6 @@ inputArchivoOculto.addEventListener('change', async (e) => {
     inputArchivoOculto.value = "";
 });
 
-btnMoverEfecto.addEventListener('click', (e) => {
-    e.stopPropagation();
-    if (!esSuperUsuario) { mostrarAviso(); return; }
-    modoMoverActivo = !modoMoverActivo;
-    btnMoverEfecto.classList.toggle('activo', modoMoverActivo);
-});
-
 btnCentrarImagen.addEventListener('click', (e) => {
     e.stopPropagation();
     const target = activeLayer || document.querySelector('.chroma-layer-extra');
@@ -1100,7 +1118,6 @@ function selectLayer(layer) {
     layer.classList.add('selected');
     activeLayer = layer;
     
-    // Mostrar control de volumen dinámico y programar temporizador para desvanecer tras X segundos (3.5 seg)
     const ctrlVol = layer.querySelector('.controles-volumen-capa');
     if (ctrlVol) {
         ctrlVol.classList.add('visible');
@@ -1197,7 +1214,6 @@ function addChromaLayerExtra(sourceUrl, tipo) {
         vExtra.crossOrigin = 'anonymous';
         videoElementRef = vExtra;
 
-        // VINCULACIÓN DE AUDIO DIRECTA Y GARANTIZADA PARA ARCHIVOS LOCALES Y DE RED
         if (!audioContextGlobal) {
             audioContextGlobal = new (window.AudioContext || window.webkitAudioContext)();
             masterDestinationNode = audioContextGlobal.createMediaStreamDestination();
@@ -1213,7 +1229,6 @@ function addChromaLayerExtra(sourceUrl, tipo) {
             console.warn("MediaElementAudioSourceNode ya enlazado en este objeto de video:", err);
         }
 
-        // CONTROLES DE VOLUMEN FLOTANTES CON TEMPORIZADOR DE OCULTAMIENTO
         const divVolumen = document.createElement('div');
         divVolumen.className = 'controles-volumen-capa visible';
 
