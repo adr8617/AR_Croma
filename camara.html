@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no, viewport-fit=cover">
-<title>Chroma Cam FX - Edición Azul Cielo Holográfica</title>
+<title>Chroma Cam FX - Edición Azul Verde</title>
 <link rel="manifest" href="manifest.json">
 
 <!-- Librerías de Segmentación por IA (Google MediaPipe - Licencia Apache 2.0) -->
@@ -31,17 +31,17 @@ html, body {
     overscroll-behavior: none;
 }
 
-/* Indicador visual color AZUL CIELO al cargar */
+/* Indicador visual color AZUL VERDE al cargar */
 body::before {
     content: "";
     position: fixed;
     top: 0; left: 0; right: 0; bottom: 0;
-    border: 6px solid #38bdf8;
+    border: 6px solid #06b6d4;
     z-index: 9999999;
     pointer-events: none;
-    animation: desvanecerBordeAzul 2.5s forwards;
+    animation: desvanecerBordeAzulVerde 2.5s forwards;
 }
-@keyframes desvanecerBordeAzul {
+@keyframes desvanecerBordeAzulVerde {
     0% { opacity: 1; }
     70% { opacity: 1; }
     100% { opacity: 0; }
@@ -62,7 +62,7 @@ body::before {
     position: fixed; 
     top: 0; left: 0; 
     width: 100vw; height: 100vh; 
-    background-color: #171717; 
+    background-color: #111827; 
     z-index: 999999; 
     display: flex; 
     flex-direction: column; 
@@ -74,7 +74,7 @@ body::before {
 }
 
 #btn-iniciar { 
-    background-color: #0284c7; 
+    background-color: #0891b2; 
     color: #fff; 
     font-weight: bold; 
     font-size: 16px; 
@@ -86,7 +86,7 @@ body::before {
     min-width: 280px;
     height: 54px;
     cursor: pointer; 
-    box-shadow: 0 4px 15px rgba(56,189,248,0.4); 
+    box-shadow: 0 4px 15px rgba(6,182,212,0.4); 
     display: flex;
     justify-content: center;
     align-items: center;
@@ -108,30 +108,30 @@ body::before {
     z-index: 1000000;
 }
 
-#mensaje-error { color: #bae6fd; text-align: center; max-width: 80%; font-size: 14px; font-weight: bold; background: rgba(0,0,0,0.6); padding: 5px; border-radius: 4px; }
+#mensaje-error { color: #67e8f9; text-align: center; max-width: 80%; font-size: 14px; font-weight: bold; background: rgba(0,0,0,0.6); padding: 5px; border-radius: 4px; }
 
 #modal-2fa { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.9); z-index: 20000; display: none; justify-content: center; align-items: center; padding: 20px; box-sizing: border-box; }
-#contenido-2fa { background: #1c1c1c; color: #fff; padding: 25px; border-radius: 12px; max-width: 400px; width: 100%; text-align: center; border: 1px solid #38bdf8; }
-#contenido-2fa h3 { color: #38bdf8; margin-top: 0; }
+#contenido-2fa { background: #1c1c1c; color: #fff; padding: 25px; border-radius: 12px; max-width: 400px; width: 100%; text-align: center; border: 1px solid #06b6d4; }
+#contenido-2fa h3 { color: #06b6d4; margin-top: 0; }
 .btn-2fa { padding: 10px 20px; border-radius: 6px; border: none; font-weight: bold; cursor: pointer; margin: 10px 5px; }
 #btn-aprobar-dispositivo { background: #28a745; color: white; }
 #btn-rechazar-dispositivo { background: #dc3545; color: white; }
 
 #modal-terminos, #modal-ayuda { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 10000; display: none; justify-content: center; align-items: center; padding: 20px; box-sizing: border-box; }
 #contenido-modal, #contenido-ayuda { background: #1c1c1c; color: #fff; padding: 25px; border-radius: 12px; max-width: 500px; width: 100%; max-height: 85vh; overflow-y: auto; font-size: 13px; line-height: 1.5; border: 1px solid #444; }
-.btn-cerrar-modal { background: #0284c7; color: #fff; border: none; padding: 8px 16px; border-radius: 6px; margin-top: 15px; cursor: pointer; font-weight: bold; float: right; }
+.btn-cerrar-modal { background: #0891b2; color: #fff; border: none; padding: 8px 16px; border-radius: 6px; margin-top: 15px; cursor: pointer; font-weight: bold; float: right; }
 
 /* Sección destacada para mostrar el usuario logueado dentro del modal de ayuda */
 .caja-usuario-logueado {
-    background: rgba(56, 189, 248, 0.1);
-    border: 1px solid #38bdf8;
+    background: rgba(6, 182, 212, 0.1);
+    border: 1px solid #06b6d4;
     padding: 10px;
     border-radius: 8px;
     margin-bottom: 15px;
     text-align: center;
 }
 .caja-usuario-logueado strong {
-    color: #38bdf8;
+    color: #06b6d4;
 }
 
 /* Panel izquierdo: Engranaje, Botón Grabar y Botón Ojo/Changuito (fijos y accesibles) */
@@ -181,19 +181,19 @@ body::before {
 
 #btn-menu-circular::after { content: "⚙️"; font-size: 13px; }
 #btn-mover-efecto::after { content: "✋"; font-size: 13px; }
-#btn-mover-efecto.activo { background-color: #0284c7 !important; border-color: #fff !important; color: #fff !important; }
+#btn-mover-efecto.activo { background-color: #0891b2 !important; border-color: #fff !important; color: #fff !important; }
 #btn-cambiar-camara::after { content: "🔄"; font-size: 13px; }
 #btn-centrar-imagen::after { content: "🎯"; font-size: 13px; }
 
 #btn-camara-ia { 
-    background: linear-gradient(135deg, #38bdf8 0%, #0369a1 50%, #111111 100%) !important; 
+    background: linear-gradient(135deg, #06b6d4 0%, #0891b2 50%, #111111 100%) !important; 
     border: 1.5px solid #ffffff !important; 
     opacity: 0.6;
 }
 #btn-camara-ia.activo { 
     opacity: 1; 
-    box-shadow: 0 0 10px #38bdf8;
-    border-color: #38bdf8 !important;
+    box-shadow: 0 0 10px #06b6d4;
+    border-color: #06b6d4 !important;
 }
 #btn-camara-ia::after { content: "📷"; font-size: 12px; }
 
@@ -245,7 +245,7 @@ body::before {
     flex-direction: column; 
     gap: 12px; 
     z-index: 50000; 
-    border: 2px solid #38bdf8;
+    border: 2px solid #06b6d4;
 }
 
 #contenedor-lista-checkboxes {
@@ -271,7 +271,7 @@ body::before {
     border-radius: 4px;
 }
 .item-checkbox-label:hover { background: #222; }
-.item-checkbox-label input { accent-color: #38bdf8; width: 16px; height: 16px; cursor: pointer; }
+.item-checkbox-label input { accent-color: #06b6d4; width: 16px; height: 16px; cursor: pointer; }
 
 #input-archivo-oculto { display: none; }
 
@@ -284,7 +284,7 @@ body::before {
 
 #btn-abrir-archivo-solo {
     flex: 1;
-    background: #0284c7;
+    background: #0891b2;
     color: #fff;
     border: none;
     padding: 10px;
@@ -309,7 +309,7 @@ body::before {
     white-space: nowrap;
 }
 .contenedor-checkbox-add input {
-    accent-color: #38bdf8;
+    accent-color: #06b6d4;
     width: 15px;
     height: 15px;
     cursor: pointer;
@@ -317,12 +317,12 @@ body::before {
 
 .btn-accion-menu { color: white; border: none; padding: 10px; border-radius: 8px; font-size: 13px; cursor: pointer; text-align: center; font-weight: bold; width: 100%; }
 #btn-abrir-seleccionados { background: #28a745; }
-#btn-descargar-demo { background: #0284c7; }
+#btn-descargar-demo { background: #0891b2; }
 #btn-borrar-item { background: #6c2222; }
 
-#aviso-premium { position: absolute; bottom: 80px; left: 50%; transform: translateX(-50%); background: rgba(3, 105, 161, 0.95); color: white; padding: 12px 24px; border-radius: 8px; font-size: 13px; z-index: 19999; display: none; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.6); }
+#aviso-premium { position: absolute; bottom: 80px; left: 50%; transform: translateX(-50%); background: rgba(8, 145, 178, 0.95); color: white; padding: 12px 24px; border-radius: 8px; font-size: 13px; z-index: 19999; display: none; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.6); }
 
-/* CLASES DE ALTA ESPECIFICIDAD PARA EL BOTÓN DE CROMA SUPERIOR DERECHO */
+/* BOTÓN DE CROMA SUPERIOR DERECHO */
 #btn-color { 
     position: absolute !important; 
     top: 6px !important; right: 6px !important; 
@@ -360,7 +360,7 @@ body::before {
 }
 .opcion-color { width: 28px; height: 28px; border-radius: 50%; cursor: pointer; border: 2px solid #fff; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: bold; color: #fff; }
 
-/* PANEL DE SENSIBILIDAD EN AZUL CIELO */
+/* PANEL DE SENSIBILIDAD EN AZUL VERDE */
 #panel-sensibilidad {
     position: fixed;
     bottom: 20px; left: 50%;
@@ -374,9 +374,9 @@ body::before {
     align-items: center;
     gap: 8px;
     box-shadow: 0 4px 15px rgba(0,0,0,0.7);
-    border: 1px solid rgba(56,189,248,0.5);
+    border: 1px solid rgba(6,182,212,0.5);
 }
-#panel-sensibilidad label { font-size: 11px; white-space: nowrap; font-weight: bold; color: #38bdf8; }
+#panel-sensibilidad label { font-size: 11px; white-space: nowrap; font-weight: bold; color: #06b6d4; }
 
 .contenedor-slider-escala {
     display: flex;
@@ -387,7 +387,7 @@ body::before {
 .simbolo-indicador {
     font-size: 14px;
     font-weight: bold;
-    color: #38bdf8;
+    color: #06b6d4;
     user-select: none;
     width: 14px;
     text-align: center;
@@ -395,7 +395,7 @@ body::before {
 
 #panel-sensibilidad input[type=range] { 
     width: 110px; 
-    accent-color: #38bdf8; 
+    accent-color: #06b6d4; 
     cursor: pointer;
 }
 
@@ -417,7 +417,7 @@ body::before {
     border: 2px transparent dashed;
     width: 380px;
 }
-.chroma-layer-extra.selected { border-color: #38bdf8; }
+.chroma-layer-extra.selected { border-color: #06b6d4; }
 .chroma-layer-extra canvas, .chroma-layer-extra video { display: block; width: 100%; height: auto; }
 
 .btn-close-layer {
@@ -441,8 +441,7 @@ body::before {
 <body>
 <div id="pantalla-inicio">
     <h2 style="color: #fff; margin-bottom: 5px;">Chroma Cam FX</h2>
-    <p style="color: #38bdf8; font-size: 13px; margin-top: 0; font-weight: bold;">Chroma Studio FX - Edición Azul Cielo Holográfica</p>
-    <!-- Campo de correo limpio y sin valor predeterminado fijo -->
+    <p style="color: #06b6d4; font-size: 13px; margin-top: 0; font-weight: bold;">Chroma Studio FX - Edición Azul Verde</p>
     <input type="email" id="input-email-usuario" class="input-login" placeholder="correo@gmail.com">
     <button id="btn-iniciar" type="button" onclick="verificarAccesoSuperusuario(event)">TOCA AQUÍ PARA INICIAR</button>
     <p id="mensaje-error"></p>
@@ -461,7 +460,6 @@ body::before {
     <div id="contenido-ayuda">
         <h3>📖 Manual de Ayuda y Funcionalidades</h3>
         
-        <!-- Elemento dinámico para mostrar el usuario logueado al presionar el signo de interrogación -->
         <div class="caja-usuario-logueado">
             👤 Usuario Activo: <strong id="texto-usuario-activo">No iniciado</strong>
         </div>
@@ -487,14 +485,12 @@ body::before {
 <div id="contenedor-principal">
     <div id="aviso-premium">⚠️ Función bloqueada en modo básico.</div>
 
-    <!-- Controles izquierdos fijos: Engranaje, Botón Grabar y Botón Ojo/Changuito (permanecen visibles) -->
     <div id="panel-controles-izq">
         <div id="btn-menu-circular" class="btn-flotante control-inseparable" title="Menú de Efectos"></div>
         <div id="btn-grabar" title="Grabar Video"></div>
         <div id="btn-toggle-interfaz" class="btn-flotante control-inseparable" title="Ocultar/Mostrar Controles"></div>
     </div>
 
-    <!-- Panel superior deslizable acotado (Se oculta al presionar el ojito) -->
     <div id="panel-controles">
         <div id="btn-camara-ia" class="btn-flotante control-ocultable" title="Croma IA Cámara"></div>
         <div id="btn-mover-efecto" class="btn-flotante control-ocultable" title="Mover y Escalar"></div>
@@ -504,14 +500,12 @@ body::before {
         <div id="btn-terminos" class="btn-flotante control-ocultable" title="Términos"></div>
     </div>
 
-    <!-- Menú Modal con Selector de Casillas Múltiples y Opción Dividida de Abrir con Add -->
     <div id="selector-video-wrapper">
-        <h4 style="color: #38bdf8; margin: 0 0 5px 0; text-align: center; font-size: 15px;">📁 Selector de Efectos</h4>
+        <h4 style="color: #06b6d4; margin: 0 0 5px 0; text-align: center; font-size: 15px;">📁 Selector de Efectos</h4>
         <div id="contenedor-lista-checkboxes"></div>
         
         <button id="btn-abrir-seleccionados" class="btn-accion-menu">✅ OK, seleccionado(s)</button>
         
-        <!-- Fila dividida: Botón Abrir y Checkbox Add -->
         <div class="contenedor-fila-abrir">
             <button id="btn-abrir-archivo-solo">📂 Abrir Archivo</button>
             <label class="contenedor-checkbox-add">
@@ -523,10 +517,8 @@ body::before {
         <button id="btn-borrar-item" class="btn-accion-menu">🗑️ Borrar seleccionados de la lista</button>
     </div>
 
-    <!-- Input oculto para manejo de archivos -->
     <input type="file" id="input-archivo-oculto" accept="video/mp4,image/gif,image/webp,image/*">
 
-    <!-- Botón de Croma Superior -->
     <div id="btn-color" class="croma-verde control-ocultable" title="Color de Croma"></div>
     <div id="menu-colores">
         <div class="opcion-color" data-color="verde" style="background-color: #00ff00;" title="Verde"></div>
@@ -536,7 +528,6 @@ body::before {
         <div class="opcion-color" data-color="transparente" style="background-color: #333; border: 2px dashed #fff;" title="Sin Croma">🚫</div>
     </div>
 
-    <!-- Panel de Sensibilidad con Símbolos Menos (-) y Más (+) -->
     <div id="panel-sensibilidad" class="control-ocultable">
         <label id="label-sensibilidad" for="toleranceRange">Sensibilidad:</label>
         <div class="contenedor-slider-escala">
@@ -811,7 +802,6 @@ btnCamaraIA.addEventListener('click', (e) => {
 btnTerminos.addEventListener('click', (e) => { e.stopPropagation(); modalTerminos.style.display = 'flex'; });
 btnCerrarTerminos.addEventListener('click', () => { modalTerminos.style.display = 'none'; });
 
-// Al presionar el botón de interrogación (Ayuda), actualizamos el correo logueado en pantalla
 btnAyuda.addEventListener('click', (e) => { 
     e.stopPropagation(); 
     textoUsuarioActivo.innerText = correoActualUsuario ? correoActualUsuario : "Modo Básico / Sin Correo";
@@ -1162,6 +1152,7 @@ function addChromaLayerExtra(sourceUrl, tipo) {
         vExtra.playsInline = true;
         videoElementRef = vExtra;
 
+        // VINCULACIÓN DIRECTA AL MOTOR AUDIO CONTEXT PARA ARCHIVOS LOCALES Y REMOTOS
         if (audioContextGlobal) {
             try {
                 audioSourceNodeRef = audioContextGlobal.createMediaElementSource(vExtra);
@@ -1170,7 +1161,7 @@ function addChromaLayerExtra(sourceUrl, tipo) {
                     audioSourceNodeRef.connect(masterDestinationNode); 
                 }
             } catch (err) {
-                console.warn("Audio source node ya conectado:", err);
+                console.warn("Audio node ya inicializado en esta capa:", err);
             }
         }
 
@@ -1276,7 +1267,7 @@ function mostrarNotificacionFlotante(texto) {
     if (!notif) {
         notif = document.createElement('div');
         notif.id = 'notif-guardado-exitoso';
-        notif.style.cssText = "position:fixed; top:20px; left:50%; transform:translateX(-50%); background:#0284c7; color:#fff; padding:12px 24px; border-radius:10px; z-index:999999; font-weight:bold; box-shadow:0 4px 15px rgba(0,0,0,0.5); font-size:14px; text-align:center;";
+        notif.style.cssText = "position:fixed; top:20px; left:50%; transform:translateX(-50%); background:#0891b2; color:#fff; padding:12px 24px; border-radius:10px; z-index:999999; font-weight:bold; box-shadow:0 4px 15px rgba(0,0,0,0.5); font-size:14px; text-align:center;";
         document.body.appendChild(notif);
     }
     notif.innerText = texto;
@@ -1351,7 +1342,7 @@ btnGrabar.addEventListener('click', () => {
             const a = document.createElement('a');
             a.style.display = 'none';
             a.href = urlBlob;
-            a.download = `ChromaCam_AzulCieloHolograma_${Date.now()}.webm`;
+            a.download = `ChromaCam_AzulVerdeHolograma_${Date.now()}.webm`;
             document.body.appendChild(a);
             a.click();
             setTimeout(() => { 
@@ -1418,7 +1409,6 @@ async function verificarAccesoSuperusuario(e) {
         return;
     }
     
-    // Guardamos el correo ingresado en la variable global para mostrarlo en el botón de interrogación
     correoActualUsuario = emailIngresado;
 
     mensajeError.innerText = "";
@@ -1457,7 +1447,6 @@ async function verificarAccesoSuperusuario(e) {
             };
         }
     } else {
-        // Usuario estándar / modo de prueba (permitido ingresar con funciones limitadas)
         esSuperUsuario = false;
         lanzarAppDespuesDeInicio();
     }
