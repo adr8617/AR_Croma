@@ -121,7 +121,6 @@ body::before {
 #contenido-modal, #contenido-ayuda { background: #1c1c1c; color: #fff; padding: 25px; border-radius: 12px; max-width: 500px; width: 100%; max-height: 85vh; overflow-y: auto; font-size: 13px; line-height: 1.5; border: 1px solid #444; }
 .btn-cerrar-modal { background: #0891b2; color: #fff; border: none; padding: 8px 16px; border-radius: 6px; margin-top: 15px; cursor: pointer; font-weight: bold; float: right; }
 
-/* Sección destacada para mostrar el usuario logueado dentro del modal de ayuda */
 .caja-usuario-logueado {
     background: rgba(6, 182, 212, 0.1);
     border: 1px solid #06b6d4;
@@ -134,7 +133,6 @@ body::before {
     color: #06b6d4;
 }
 
-/* Panel izquierdo: Engranaje, Botón Grabar y Botón Ojo/Changuito (fijos y accesibles) */
 #panel-controles-izq {
     position: absolute;
     top: 6px; left: 6px;
@@ -197,7 +195,6 @@ body::before {
 }
 #btn-camara-ia::after { content: "📷"; font-size: 12px; }
 
-/* BOTÓN TOGGLE INTERFAZ (OJITO 👁️ / CHANGUITO 🐒) */
 #btn-toggle-interfaz::after { content: "👁️"; font-size: 13px; }
 #btn-toggle-interfaz.oculto::after { content: "🐒"; font-size: 13px; }
 #btn-toggle-interfaz {
@@ -322,7 +319,6 @@ body::before {
 
 #aviso-premium { position: absolute; bottom: 80px; left: 50%; transform: translateX(-50%); background: rgba(8, 145, 178, 0.95); color: white; padding: 12px 24px; border-radius: 8px; font-size: 13px; z-index: 19999; display: none; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.6); }
 
-/* BOTÓN DE CROMA SUPERIOR DERECHO */
 #btn-color { 
     position: absolute !important; 
     top: 6px !important; right: 6px !important; 
@@ -360,7 +356,6 @@ body::before {
 }
 .opcion-color { width: 28px; height: 28px; border-radius: 50%; cursor: pointer; border: 2px solid #fff; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: bold; color: #fff; }
 
-/* PANEL DE SENSIBILIDAD EN AZUL VERDE */
 #panel-sensibilidad {
     position: fixed;
     bottom: 20px; left: 50%;
@@ -436,6 +431,40 @@ body::before {
     z-index: 25;
 }
 .chroma-layer-extra.selected .btn-close-layer { display: block; }
+
+/* CONTROLES FLOTANTES DE VOLUMEN POR CAPA (CON TIMER DE DESVANECIMIENTO) */
+.controles-volumen-capa {
+    display: none;
+    position: absolute;
+    bottom: -38px; left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.85);
+    padding: 4px 10px;
+    border-radius: 12px;
+    border: 1px solid #06b6d4;
+    z-index: 30;
+    align-items: center;
+    gap: 6px;
+    transition: opacity 0.4s ease;
+    opacity: 0;
+}
+.chroma-layer-extra.selected .controles-volumen-capa.visible {
+    display: flex;
+    opacity: 1;
+}
+.btn-mute-capa {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 13px;
+    cursor: pointer;
+    padding: 0;
+}
+.slider-volumen-capa {
+    width: 70px;
+    accent-color: #06b6d4;
+    cursor: pointer;
+}
 </style>
 </head>
 <body>
@@ -469,6 +498,7 @@ body::before {
             <li><strong>⚙️ Menú de Efectos:</strong> Selecciona múltiples casillas y ábrelos simultáneamente.</li>
             <li><strong>📂 Abrir y casilla Add:</strong> Guarda archivos permanentemente en la base de datos local.</li>
             <li><strong>🎨 Botón Croma:</strong> Cambia instantáneamente de color (Verde, Azul, Blanco, Negro o Sin Croma).</li>
+            <li><strong>🔊 Control de Audio:</strong> Selecciona una capa para ajustar o mutear el volumen de su video.</li>
         </ul>
         <button id="btn-cerrar-ayuda" class="btn-cerrar-modal">Cerrar Ayuda</button>
     </div>
@@ -600,7 +630,7 @@ function forzarDesbloqueoAudio() {
     document.querySelectorAll('video').forEach(v => {
         if (v.id !== 'video-camara') {
             v.muted = false;
-            v.volume = 1.0;
+            v.volume = v.volume || 1.0;
             v.play().catch(() => {});
         }
     });
@@ -1057,7 +1087,11 @@ toleranceRange.addEventListener('input', function() {
 });
 
 function deselectAllLayers() {
-    document.querySelectorAll('.chroma-layer-extra').forEach(l => l.classList.remove('selected'));
+    document.querySelectorAll('.chroma-layer-extra').forEach(l => {
+        l.classList.remove('selected');
+        const ctrlVol = l.querySelector('.controles-volumen-capa');
+        if (ctrlVol) ctrlVol.classList.remove('visible');
+    });
     activeLayer = null;
 }
 
@@ -1065,6 +1099,16 @@ function selectLayer(layer) {
     deselectAllLayers();
     layer.classList.add('selected');
     activeLayer = layer;
+    
+    // Mostrar control de volumen dinámico y programar temporizador para desvanecer tras X segundos (3.5 seg)
+    const ctrlVol = layer.querySelector('.controles-volumen-capa');
+    if (ctrlVol) {
+        ctrlVol.classList.add('visible');
+        if (layer.volumeTimer) clearTimeout(layer.volumeTimer);
+        layer.volumeTimer = setTimeout(() => {
+            ctrlVol.classList.remove('visible');
+        }, 3500);
+    }
 }
 
 function addChromaLayerExtra(sourceUrl, tipo) {
@@ -1150,20 +1194,59 @@ function addChromaLayerExtra(sourceUrl, tipo) {
         vExtra.muted = false;
         vExtra.volume = 1.0;
         vExtra.playsInline = true;
+        vExtra.crossOrigin = 'anonymous';
         videoElementRef = vExtra;
 
-        // VINCULACIÓN DIRECTA AL MOTOR AUDIO CONTEXT PARA ARCHIVOS LOCALES Y REMOTOS
-        if (audioContextGlobal) {
-            try {
-                audioSourceNodeRef = audioContextGlobal.createMediaElementSource(vExtra);
-                audioSourceNodeRef.connect(audioContextGlobal.destination); 
-                if (masterDestinationNode) {
-                    audioSourceNodeRef.connect(masterDestinationNode); 
-                }
-            } catch (err) {
-                console.warn("Audio node ya inicializado en esta capa:", err);
-            }
+        // VINCULACIÓN DE AUDIO DIRECTA Y GARANTIZADA PARA ARCHIVOS LOCALES Y DE RED
+        if (!audioContextGlobal) {
+            audioContextGlobal = new (window.AudioContext || window.webkitAudioContext)();
+            masterDestinationNode = audioContextGlobal.createMediaStreamDestination();
         }
+
+        try {
+            audioSourceNodeRef = audioContextGlobal.createMediaElementSource(vExtra);
+            audioSourceNodeRef.connect(audioContextGlobal.destination); 
+            if (masterDestinationNode) {
+                audioSourceNodeRef.connect(masterDestinationNode); 
+            }
+        } catch (err) {
+            console.warn("MediaElementAudioSourceNode ya enlazado en este objeto de video:", err);
+        }
+
+        // CONTROLES DE VOLUMEN FLOTANTES CON TEMPORIZADOR DE OCULTAMIENTO
+        const divVolumen = document.createElement('div');
+        divVolumen.className = 'controles-volumen-capa visible';
+
+        const btnMute = document.createElement('button');
+        btnMute.className = 'btn-mute-capa';
+        btnMute.innerText = '🔊';
+        btnMute.onclick = function(e) {
+            e.stopPropagation();
+            vExtra.muted = !vExtra.muted;
+            btnMute.innerText = vExtra.muted ? '🔇' : '🔊';
+            selectLayer(layerDiv);
+        };
+
+        const sliderVol = document.createElement('input');
+        sliderVol.type = 'range';
+        sliderVol.className = 'slider-volumen-capa';
+        sliderVol.min = '0';
+        sliderVol.max = '1';
+        sliderVol.step = '0.05';
+        sliderVol.value = '1';
+        sliderVol.oninput = function(e) {
+            e.stopPropagation();
+            vExtra.volume = parseFloat(sliderVol.value);
+            if (vExtra.volume > 0 && vExtra.muted) {
+                vExtra.muted = false;
+                btnMute.innerText = '🔊';
+            }
+            selectLayer(layerDiv);
+        };
+
+        divVolumen.appendChild(btnMute);
+        divVolumen.appendChild(sliderVol);
+        layerDiv.appendChild(divVolumen);
 
         vExtra.play().catch(() => {
             vExtra.muted = true;
