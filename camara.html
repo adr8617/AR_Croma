@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no, viewport-fit=cover">
-<title>Chroma Cam FX - Edición Azul Verde</title>
+<title>Chroma Cam FX - Edición Amarillo Studio</title>
 <link rel="manifest" href="manifest.json">
 
 <!-- Librerías de Segmentación por IA (Google MediaPipe - Licencia Apache 2.0) -->
@@ -31,17 +31,17 @@ html, body {
     overscroll-behavior: none;
 }
 
-/* Indicador visual color AZUL VERDE al cargar */
+/* Indicador visual color AMARILLO al cargar */
 body::before {
     content: "";
     position: fixed;
     top: 0; left: 0; right: 0; bottom: 0;
-    border: 6px solid #06b6d4;
+    border: 6px solid #eab308;
     z-index: 9999999;
     pointer-events: none;
-    animation: desvanecerBordeAzulVerde 2.5s forwards;
+    animation: desvanecerBordeAmarillo 2.5s forwards;
 }
-@keyframes desvanecerBordeAzulVerde {
+@keyframes desvanecerBordeAmarillo {
     0% { opacity: 1; }
     70% { opacity: 1; }
     100% { opacity: 0; }
@@ -58,11 +58,12 @@ body::before {
     align-items: center; 
 }
 
+/* CAMBIO 1: Pantalla de inicio en tono AMARILLO */
 #pantalla-inicio { 
     position: fixed; 
     top: 0; left: 0; 
     width: 100vw; height: 100vh; 
-    background-color: #111827; 
+    background-color: #d97706; 
     z-index: 999999; 
     display: flex; 
     flex-direction: column; 
@@ -74,7 +75,7 @@ body::before {
 }
 
 #btn-iniciar { 
-    background-color: #0891b2; 
+    background-color: #b45309; 
     color: #fff; 
     font-weight: bold; 
     font-size: 16px; 
@@ -86,7 +87,7 @@ body::before {
     min-width: 280px;
     height: 54px;
     cursor: pointer; 
-    box-shadow: 0 4px 15px rgba(6,182,212,0.4); 
+    box-shadow: 0 4px 15px rgba(245,158,11,0.5); 
     display: flex;
     justify-content: center;
     align-items: center;
@@ -98,7 +99,7 @@ body::before {
     padding: 14px; 
     font-size: 16px; 
     border-radius: 10px; 
-    border: 1px solid #555; 
+    border: 1px solid #78350f; 
     background: #111; 
     color: #fff; 
     width: 280px; 
@@ -108,34 +109,34 @@ body::before {
     z-index: 1000000;
 }
 
-#mensaje-error { color: #67e8f9; text-align: center; max-width: 80%; font-size: 14px; font-weight: bold; background: rgba(0,0,0,0.6); padding: 5px; border-radius: 4px; }
+#mensaje-error { color: #fef08a; text-align: center; max-width: 80%; font-size: 14px; font-weight: bold; background: rgba(0,0,0,0.6); padding: 5px; border-radius: 4px; }
 
 #modal-2fa { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.9); z-index: 20000; display: none; justify-content: center; align-items: center; padding: 20px; box-sizing: border-box; }
-#contenido-2fa { background: #1c1c1c; color: #fff; padding: 25px; border-radius: 12px; max-width: 400px; width: 100%; text-align: center; border: 1px solid #06b6d4; }
-#contenido-2fa h3 { color: #06b6d4; margin-top: 0; }
+#contenido-2fa { background: #1c1c1c; color: #fff; padding: 25px; border-radius: 12px; max-width: 400px; width: 100%; text-align: center; border: 1px solid #eab308; }
+#contenido-2fa h3 { color: #eab308; margin-top: 0; }
 .btn-2fa { padding: 10px 20px; border-radius: 6px; border: none; font-weight: bold; cursor: pointer; margin: 10px 5px; }
 #btn-aprobar-dispositivo { background: #28a745; color: white; }
 #btn-rechazar-dispositivo { background: #dc3545; color: white; }
 
 #modal-terminos, #modal-ayuda { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 10000; display: none; justify-content: center; align-items: center; padding: 20px; box-sizing: border-box; }
 #contenido-modal, #contenido-ayuda { background: #1c1c1c; color: #fff; padding: 25px; border-radius: 12px; max-width: 520px; width: 100%; max-height: 85vh; overflow-y: auto; font-size: 13px; line-height: 1.5; border: 1px solid #444; }
-#contenido-ayuda h3 { margin-top: 0; color: #06b6d4; font-size: 18px; border-bottom: 1px solid #333; padding-bottom: 8px; }
-.btn-cerrar-modal { background: #0891b2; color: #fff; border: none; padding: 8px 16px; border-radius: 6px; margin-top: 15px; cursor: pointer; font-weight: bold; float: right; }
+#contenido-ayuda h3 { margin-top: 0; color: #eab308; font-size: 18px; border-bottom: 1px solid #333; padding-bottom: 8px; }
+.btn-cerrar-modal { background: #b45309; color: #fff; border: none; padding: 8px 16px; border-radius: 6px; margin-top: 15px; cursor: pointer; font-weight: bold; float: right; }
 
 .caja-usuario-logueado {
-    background: rgba(6, 182, 212, 0.1);
-    border: 1px solid #06b6d4;
+    background: rgba(234, 179, 8, 0.1);
+    border: 1px solid #eab308;
     padding: 10px;
     border-radius: 8px;
     margin-bottom: 15px;
     text-align: center;
 }
 .caja-usuario-logueado strong {
-    color: #06b6d4;
+    color: #eab308;
 }
 
 .seccion-ayuda-titulo {
-    color: #06b6d4;
+    color: #eab308;
     font-weight: bold;
     margin-top: 15px;
     margin-bottom: 5px;
@@ -193,14 +194,14 @@ body::before {
 #btn-centrar-imagen::after { content: "🎯"; font-size: 13px; }
 
 #btn-camara-ia { 
-    background: linear-gradient(135deg, #06b6d4 0%, #0891b2 50%, #111111 100%) !important; 
+    background: linear-gradient(135deg, #eab308 0%, #ca8a04 50%, #111111 100%) !important; 
     border: 1.5px solid #ffffff !important; 
     opacity: 0.6;
 }
 #btn-camara-ia.activo { 
     opacity: 1; 
-    box-shadow: 0 0 10px #06b6d4;
-    border-color: #06b6d4 !important;
+    box-shadow: 0 0 10px #eab308;
+    border-color: #eab308 !important;
 }
 #btn-camara-ia::after { content: "📷"; font-size: 12px; }
 
@@ -251,7 +252,7 @@ body::before {
     flex-direction: column; 
     gap: 12px; 
     z-index: 50000; 
-    border: 2px solid #06b6d4;
+    border: 2px solid #eab308;
 }
 
 #contenedor-lista-checkboxes {
@@ -277,7 +278,7 @@ body::before {
     border-radius: 4px;
 }
 .item-checkbox-label:hover { background: #222; }
-.item-checkbox-label input { accent-color: #06b6d4; width: 16px; height: 16px; cursor: pointer; }
+.item-checkbox-label input { accent-color: #eab308; width: 16px; height: 16px; cursor: pointer; }
 
 #input-archivo-oculto { display: none; }
 
@@ -290,7 +291,7 @@ body::before {
 
 #btn-abrir-archivo-solo {
     flex: 1;
-    background: #0891b2;
+    background: #b45309;
     color: #fff;
     border: none;
     padding: 10px;
@@ -315,7 +316,7 @@ body::before {
     white-space: nowrap;
 }
 .contenedor-checkbox-add input {
-    accent-color: #06b6d4;
+    accent-color: #eab308;
     width: 15px;
     height: 15px;
     cursor: pointer;
@@ -323,10 +324,10 @@ body::before {
 
 .btn-accion-menu { color: white; border: none; padding: 10px; border-radius: 8px; font-size: 13px; cursor: pointer; text-align: center; font-weight: bold; width: 100%; }
 #btn-abrir-seleccionados { background: #28a745; }
-#btn-descargar-demo { background: #0891b2; }
+#btn-descargar-demo { background: #b45309; }
 #btn-borrar-item { background: #6c2222; }
 
-#aviso-premium { position: absolute; bottom: 80px; left: 50%; transform: translateX(-50%); background: rgba(8, 145, 178, 0.95); color: white; padding: 12px 24px; border-radius: 8px; font-size: 13px; z-index: 19999; display: none; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.6); }
+#aviso-premium { position: absolute; bottom: 80px; left: 50%; transform: translateX(-50%); background: rgba(180, 83, 9, 0.95); color: white; padding: 12px 24px; border-radius: 8px; font-size: 13px; z-index: 19999; display: none; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.6); }
 
 #btn-color { 
     position: absolute !important; 
@@ -378,9 +379,9 @@ body::before {
     align-items: center;
     gap: 8px;
     box-shadow: 0 4px 15px rgba(0,0,0,0.7);
-    border: 1px solid rgba(6,182,212,0.5);
+    border: 1px solid rgba(234,179,8,0.5);
 }
-#panel-sensibilidad label { font-size: 11px; white-space: nowrap; font-weight: bold; color: #06b6d4; }
+#panel-sensibilidad label { font-size: 11px; white-space: nowrap; font-weight: bold; color: #eab308; }
 
 .contenedor-slider-escala {
     display: flex;
@@ -391,7 +392,7 @@ body::before {
 .simbolo-indicador {
     font-size: 14px;
     font-weight: bold;
-    color: #06b6d4;
+    color: #eab308;
     user-select: none;
     width: 14px;
     text-align: center;
@@ -399,7 +400,7 @@ body::before {
 
 #panel-sensibilidad input[type=range] { 
     width: 110px; 
-    accent-color: #06b6d4; 
+    accent-color: #eab308; 
     cursor: pointer;
 }
 
@@ -421,7 +422,7 @@ body::before {
     border: 2px transparent dashed;
     width: 380px;
 }
-.chroma-layer-extra.selected { border-color: #06b6d4; }
+.chroma-layer-extra.selected { border-color: #eab308; }
 .chroma-layer-extra canvas, .chroma-layer-extra video { display: block; width: 100%; height: auto; }
 
 .btn-close-layer {
@@ -449,7 +450,7 @@ body::before {
     background: rgba(0, 0, 0, 0.85);
     padding: 4px 10px;
     border-radius: 12px;
-    border: 1px solid #06b6d4;
+    border: 1px solid #eab308;
     z-index: 30;
     align-items: center;
     gap: 6px;
@@ -470,7 +471,7 @@ body::before {
 }
 .slider-volumen-capa {
     width: 70px;
-    accent-color: #06b6d4;
+    accent-color: #eab308;
     cursor: pointer;
 }
 </style>
@@ -478,7 +479,7 @@ body::before {
 <body>
 <div id="pantalla-inicio">
     <h2 style="color: #fff; margin-bottom: 5px;">Chroma Cam FX</h2>
-    <p style="color: #06b6d4; font-size: 13px; margin-top: 0; font-weight: bold;">Chroma Studio FX - Edición Azul Verde</p>
+    <p style="color: #fef08a; font-size: 13px; margin-top: 0; font-weight: bold;">Chroma Studio FX - Edición Amarillo Studio</p>
     <input type="email" id="input-email-usuario" class="input-login" placeholder="correo@gmail.com">
     <button id="btn-iniciar" type="button" onclick="verificarAccesoSuperusuario(event)">TOCA AQUÍ PARA INICIAR</button>
     <p id="mensaje-error"></p>
@@ -558,7 +559,7 @@ body::before {
     </div>
 
     <div id="selector-video-wrapper">
-        <h4 style="color: #06b6d4; margin: 0 0 5px 0; text-align: center; font-size: 15px;">📁 Selector de Efectos</h4>
+        <h4 style="color: #eab308; margin: 0 0 5px 0; text-align: center; font-size: 15px;">📁 Selector de Efectos</h4>
         <div id="contenedor-lista-checkboxes"></div>
         
         <button id="btn-abrir-seleccionados" class="btn-accion-menu">✅ OK, seleccionado(s)</button>
@@ -1365,7 +1366,7 @@ function mostrarNotificacionFlotante(texto) {
     if (!notif) {
         notif = document.createElement('div');
         notif.id = 'notif-guardado-exitoso';
-        notif.style.cssText = "position:fixed; top:20px; left:50%; transform:translateX(-50%); background:#0891b2; color:#fff; padding:12px 24px; border-radius:10px; z-index:999999; font-weight:bold; box-shadow:0 4px 15px rgba(0,0,0,0.5); font-size:14px; text-align:center;";
+        notif.style.cssText = "position:fixed; top:20px; left:50%; transform:translateX(-50%); background:#b45309; color:#fff; padding:12px 24px; border-radius:10px; z-index:999999; font-weight:bold; box-shadow:0 4px 15px rgba(0,0,0,0.5); font-size:14px; text-align:center;";
         document.body.appendChild(notif);
     }
     notif.innerText = texto;
@@ -1373,6 +1374,7 @@ function mostrarNotificacionFlotante(texto) {
     setTimeout(() => { notif.style.display = 'none'; }, 3500);
 }
 
+/* CAMBIO 2 Y 3: Grabador de Video Dinámico con dimensiones reales en vivo */
 btnGrabar.addEventListener('click', () => {
     forzarDesbloqueoAudio();
     if (!estaGrabando) { 
@@ -1396,11 +1398,14 @@ btnGrabar.addEventListener('click', () => {
             document.querySelectorAll('.chroma-layer-extra').forEach(layer => {
                 const c = layer.querySelector('canvas');
                 if (c) {
-                    const escala = parseFloat(layer.dataset.scale || 1.0);
-                    const baseW = parseFloat(layer.dataset.baseWidth || 380);
-                    const renderW = baseW * escala * escalaX;
-                    const renderH = (c.height / c.width) * renderW;
-                    ctxGrabacion.drawImage(c, layer.offsetLeft * escalaX, layer.offsetTop * escalaY, renderW, renderH);
+                    const anchoPantallaActual = layer.offsetWidth;
+                    const altoPantallaActual = layer.offsetHeight;
+                    const posXCanvas = layer.offsetLeft * escalaX;
+                    const posYCanvas = layer.offsetTop * escalaY;
+                    const renderW = anchoPantallaActual * escalaX;
+                    const renderH = altoPantallaActual * escalaY;
+
+                    ctxGrabacion.drawImage(c, posXCanvas, posYCanvas, renderW, renderH);
                 }
             });
             requestAnimationFrame(dibujarFrameParaGrabacion);
@@ -1440,7 +1445,7 @@ btnGrabar.addEventListener('click', () => {
             const a = document.createElement('a');
             a.style.display = 'none';
             a.href = urlBlob;
-            a.download = `ChromaCam_AzulVerdeHolograma_${Date.now()}.webm`;
+            a.download = `ChromaCam_AmarilloHolograma_${Date.now()}.webm`;
             document.body.appendChild(a);
             a.click();
             setTimeout(() => { 
