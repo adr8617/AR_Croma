@@ -169,7 +169,7 @@ body::before {
 }
 
 #panel-controles { 
-    position: absolute; 
+    position: absolute;
     top: 6px; left: 120px; right: 46px; 
     z-index: 15000; 
     display: flex; 
@@ -1097,7 +1097,6 @@ canvas.addEventListener('touchmove', (e) => {
             if (activeLayer) {
                 if (!esSuperUsuario) { mostrarAviso("función zoom deshabilitada"); return; }
                 let nuevaEscala = parseFloat(activeLayer.dataset.scale) * factor;
-                // AJUSTE SOLICITADO: Mínimo 0.05 (5%) en vez de 0.3 (30%)
                 if (nuevaEscala >= 0.05 && nuevaEscala <= 4.0) {
                     activeLayer.dataset.scale = nuevaEscala;
                     const baseW = parseFloat(activeLayer.dataset.baseWidth);
@@ -1144,6 +1143,29 @@ function selectLayer(layer) {
     }
 }
 
+function aplicarFiltroCromaCanvas(ctx, width, height) {
+    if (colorFiltro === 'transparente') return;
+
+    const tolerance = parseFloat(toleranceRange.value);
+    const imgData = ctx.getImageData(0, 0, width, height);
+    const data = imgData.data;
+    for (let i = 0; i < data.length; i += 4) {
+        const r = data[i], g = data[i + 1], b = data[i + 2];
+        if (colorFiltro === 'verde') {
+            if (g > 60 && g > r * (1.8 - (tolerance * 0.4)) && g > b * (1.8 - (tolerance * 0.4))) data[i + 3] = 0;
+        } else if (colorFiltro === 'azul') {
+            if (b > 60 && b > r * (1.8 - (tolerance * 0.4)) && b > g * (1.8 - (tolerance * 0.4))) data[i + 3] = 0;
+        } else if (colorFiltro === 'blanco') {
+            const umbralBlanco = Math.floor(230 - (tolerance * 40));
+            if (r > umbralBlanco && g > umbralBlanco && b > umbralBlanco) data[i + 3] = 0;
+        } else if (colorFiltro === 'negro') {
+            const umbralNegro = Math.floor(50 * tolerance);
+            if (r < umbralNegro && g < umbralNegro && b < umbralNegro) data[i + 3] = 0;
+        }
+    }
+    ctx.putImageData(imgData, 0, 0);
+}
+
 function addChromaLayerExtra(sourceUrl, tipo) {
     forzarDesbloqueoAudio();
     layerCounter++;
@@ -1185,7 +1207,7 @@ function addChromaLayerExtra(sourceUrl, tipo) {
         if (activeLayer === layerDiv) activeLayer = null;
     };
 
-    if (tipo === 'imagen' || tipo === 'gif') {
+    if (tipo === 'imagen') {
         const img = new Image();
         img.crossOrigin = 'Anonymous';
         img.src = sourceUrl;
@@ -1194,31 +1216,103 @@ function addChromaLayerExtra(sourceUrl, tipo) {
             canvasExtra.width = img.width || 450;
             canvasExtra.height = img.height || 450;
             ctxExtra.drawImage(img, 0, 0, canvasExtra.width, canvasExtra.height);
-            
-            if (colorFiltro === 'transparente') return;
-
-            const tolerance = parseFloat(toleranceRange.value);
-            const imgData = ctxExtra.getImageData(0, 0, canvasExtra.width, canvasExtra.height);
-            const data = imgData.data;
-            for (let i = 0; i < data.length; i += 4) {
-                const r = data[i], g = data[i + 1], b = data[i + 2];
-                if (colorFiltro === 'verde') {
-                    if (g > 60 && g > r * (1.8 - (tolerance * 0.4)) && g > b * (1.8 - (tolerance * 0.4))) data[i + 3] = 0;
-                } else if (colorFiltro === 'azul') {
-                    if (b > 60 && b > r * (1.8 - (tolerance * 0.4)) && b > g * (1.8 - (tolerance * 0.4))) data[i + 3] = 0;
-                } else if (colorFiltro === 'blanco') {
-                    const umbralBlanco = Math.floor(230 - (tolerance * 40));
-                    if (r > umbralBlanco && g > umbralBlanco && b > umbralBlanco) data[i + 3] = 0;
-                } else if (colorFiltro === 'negro') {
-                    const umbralNegro = Math.floor(50 * tolerance);
-                    if (r < umbralNegro && g < umbralNegro && b < umbralNegro) data[i + 3] = 0;
-                }
-            }
-            ctxExtra.putImageData(imgData, 0, 0);
+            aplicarFiltroCromaCanvas(ctxExtra, canvasExtra.width, canvasExtra.height);
         };
         img.onload = () => layerDiv.reprocessChroma();
         layerDiv.appendChild(closeBtn);
         layerDiv.appendChild(canvasExtra);
+
+    } else if (tipo === 'gif') {
+        let animacionActiva = true;
+        let frameIndex = 0;
+        let imageDecoder = null;
+
+        async function iniciarDecodificadorGif() {
+            try {
+                const response = await fetch(sourceUrl);
+                if ('ImageDecoder' in window) {
+                    imageDecoder = new ImageDecoder({ data: response.body, type: 'image/gif' });
+                    await imageDecoder.tracks.ready;
+                    renderizarFrameGif();
+                } else {
+                    renderizarGifFallbackDOM(sourceUrl);
+                }
+            } catch (err) {
+                renderizarGifFallbackDOM(sourceUrl);
+            }
+        }
+
+        async function renderizarFrameGif() {
+            if (!animacionActiva || !document.contains(layerDiv)) return;
+            try {
+                const result = await imageDecoder.decode({ frameIndex });
+                const frame = result.image;
+
+                canvasExtra.width = frame.displayWidth || 450;
+                canvasExtra.height = frame.displayHeight || 450;
+                ctxExtra.clearRect(0, 0, canvasExtra.width, canvasExtra.height);
+                ctxExtra.drawImage(frame, 0, 0, canvasExtra.width, canvasExtra.height);
+
+                aplicarFiltroCromaCanvas(ctxExtra, canvasExtra.width, canvasExtra.height);
+
+                const delayMs = (frame.duration ? frame.duration / 1000 : 100) || 100;
+                frame.close();
+
+                const totalFrames = imageDecoder.tracks.selectedTrack.frameCount;
+                frameIndex = (frameIndex + 1) % totalFrames;
+
+                setTimeout(() => {
+                    if (animacionActiva) requestAnimationFrame(renderizarFrameGif);
+                }, delayMs);
+            } catch (err) {
+                frameIndex = 0;
+                if (animacionActiva) requestAnimationFrame(renderizarFrameGif);
+            }
+        }
+
+        function renderizarGifFallbackDOM(url) {
+            const img = new Image();
+            img.crossOrigin = 'Anonymous';
+            img.src = url;
+            img.style.cssText = 'position:fixed; width:1px; height:1px; opacity:0.01; pointer-events:none; z-index:-1;';
+            document.body.appendChild(img);
+
+            function loopFallback() {
+                if (!animacionActiva || !document.contains(layerDiv)) {
+                    img.remove();
+                    return;
+                }
+                if (img.complete && img.naturalWidth > 0) {
+                    canvasExtra.width = img.naturalWidth;
+                    canvasExtra.height = img.naturalHeight;
+                    ctxExtra.clearRect(0, 0, canvasExtra.width, canvasExtra.height);
+                    ctxExtra.drawImage(img, 0, 0, canvasExtra.width, canvasExtra.height);
+                    aplicarFiltroCromaCanvas(ctxExtra, canvasExtra.width, canvasExtra.height);
+                }
+                if (animacionActiva) requestAnimationFrame(loopFallback);
+            }
+            img.onload = loopFallback;
+        }
+
+        layerDiv.reprocessChroma = function() {
+            if (!imageDecoder && !document.getElementById('fallback-img-' + layerCounter)) {
+            }
+        };
+
+        iniciarDecodificadorGif();
+
+        const originalClose = closeBtn.onclick;
+        closeBtn.onclick = function(e) {
+            animacionActiva = false;
+            if (imageDecoder) {
+                try { imageDecoder.close(); } catch(e) {}
+            }
+            if (typeof originalClose === 'function') originalClose.call(this, e);
+        };
+
+        layerDiv.appendChild(closeBtn);
+        layerDiv.appendChild(canvasExtra);
+
     } else {
         const vExtra = document.createElement('video');
         vExtra.src = sourceUrl;
@@ -1230,19 +1324,19 @@ function addChromaLayerExtra(sourceUrl, tipo) {
         vExtra.crossOrigin = 'anonymous';
         videoElementRef = vExtra;
 
-        if (!audioContextGlobal) {
-            audioContextGlobal = new (window.AudioContext || window.webkitAudioContext)();
-            masterDestinationNode = audioContextGlobal.createMediaStreamDestination();
-        }
-
-        try {
-            audioSourceNodeRef = audioContextGlobal.createMediaElementSource(vExtra);
-            audioSourceNodeRef.connect(audioContextGlobal.destination); 
-            if (masterDestinationNode) {
-                audioSourceNodeRef.connect(masterDestinationNode); 
+        layered_audio_init: {
+            if (!audioContextGlobal) {
+                audioContextGlobal = new (window.AudioContext || window.webkitAudioContext)();
+                masterDestinationNode = audioContextGlobal.createMediaStreamDestination();
             }
-        } catch (err) {
-            console.warn("MediaElementAudioSourceNode ya enlazado en este objeto de video:", err);
+
+            try {
+                audioSourceNodeRef = audioContextGlobal.createMediaElementSource(vExtra);
+                audioSourceNodeRef.connect(audioContextGlobal.destination); 
+                if (masterDestinationNode) {
+                    audioSourceNodeRef.connect(masterDestinationNode); 
+                }
+            } catch (err) {}
         }
 
         const divVolumen = document.createElement('div');
@@ -1291,27 +1385,7 @@ function addChromaLayerExtra(sourceUrl, tipo) {
                 canvasExtra.width = vExtra.videoWidth || 450;
                 canvasExtra.height = vExtra.videoHeight || 450;
                 ctxExtra.drawImage(vExtra, 0, 0, canvasExtra.width, canvasExtra.height);
-                
-                if (colorFiltro !== 'transparente') {
-                    const tolerance = parseFloat(toleranceRange.value);
-                    const imgData = ctxExtra.getImageData(0, 0, canvasExtra.width, canvasExtra.height);
-                    const data = imgData.data;
-                    for (let i = 0; i < data.length; i += 4) {
-                        const r = data[i], g = data[i + 1], b = data[i + 2];
-                        if (colorFiltro === 'verde') {
-                            if (g > 60 && g > r * (1.8 - (tolerance * 0.4)) && g > b * (1.8 - (tolerance * 0.4))) data[i + 3] = 0;
-                        } else if (colorFiltro === 'azul') {
-                            if (b > 60 && b > r * (1.8 - (tolerance * 0.4)) && b > g * (1.8 - (tolerance * 0.4))) data[i + 3] = 0;
-                        } else if (colorFiltro === 'blanco') {
-                            const umbralBlanco = Math.floor(230 - (tolerance * 40));
-                            if (r > umbralBlanco && g > umbralBlanco && b > umbralBlanco) data[i + 3] = 0;
-                        } else if (colorFiltro === 'negro') {
-                            const umbralNegro = Math.floor(50 * tolerance);
-                            if (r < umbralNegro && g < umbralNegro && b < umbralNegro) data[i + 3] = 0;
-                        }
-                    }
-                    ctxExtra.putImageData(imgData, 0, 0);
-                }
+                aplicarFiltroCromaCanvas(ctxExtra, canvasExtra.width, canvasExtra.height);
             }
             requestAnimationFrame(processVideoFrame);
         }
@@ -1359,7 +1433,6 @@ function makeInteractableLayer(element) {
         if (e.touches && e.touches.length === 2 && initialPinchDistance) {
             e.preventDefault();
             const currentDistance = calcularDistanciaTactil(e.touches[0], e.touches[1]);
-            // AJUSTE SOLICITADO: Mínimo 0.05 (5%) en vez de 0.3 (30%)
             let newScale = Math.min(Math.max(0.05, initialScale * (currentDistance / initialPinchDistance)), 4.0);
             element.dataset.scale = newScale;
             element.style.width = (parseFloat(element.dataset.baseWidth) * newScale) + 'px';
@@ -1446,7 +1519,7 @@ btnGrabar.addEventListener('click', () => {
                     tracksCombinados.push(masterDestinationNode.stream.getAudioTracks()[0]);
                 }
             }
-        } catch (err) { console.warn("Aviso de audio en grabación holográfica:", err); }
+        } catch (err) {}
 
         const streamFinal = new MediaStream(tracksCombinados);
         try { mediaRecorder = new MediaRecorder(streamFinal, { mimeType: 'video/webm; codecs=vp9,opus' }); } 
@@ -1605,7 +1678,7 @@ async function detectarDispositivosCamara() {
     try {
         const dispositivos = await navigator.mediaDevices.enumerateDevices();
         listaCamaras = dispositivos.filter(d => d.kind === 'videoinput');
-    } catch (e) { console.error("Error al listar cámaras:", e); }
+    } catch (e) {}
 }
 
 btnCambiarCamara.addEventListener('click', async () => {
@@ -1627,7 +1700,7 @@ async function lanzarAppDespuesDeInicio() {
         if (esSuperUsuario && capaEfectoContainer.children.length <= 1) {
             addChromaLayerExtra(listaMultimedia[0].archivo, listaMultimedia[0].tipo);
         }
-    } catch (err) { console.error(err); }
+    } catch (err) {}
 }
 </script>
 </body>
